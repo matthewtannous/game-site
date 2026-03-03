@@ -1,12 +1,12 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-
 import methodOverride from 'method-override';
 
 import { healthCheck } from './config/db.js';
 import { errorHandler } from './middlewares/errorHandler.js'
 
+import { userRoutes } from './routes/userRoutes.js';
 dotenv.config();
 
 export const app = express();
@@ -29,5 +29,7 @@ app.get('/health', async (req, res) => {
 app.get("/", async (req, res) => {
     res.status(200).send("OKKKKKK");
 })
+
+app.use('/api/users', userRoutes);
 
 app.use(errorHandler)
