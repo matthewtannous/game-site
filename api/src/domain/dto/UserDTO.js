@@ -3,11 +3,9 @@
  */
 
 export class UserDTO {
-    constructor({ id = null, username, email, firstName, lastName, createdAt }) {
+    constructor({ id = null, username, email, createdAt }) {
         this.id = id;
         this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.email = email;
         this.createdAt = createdAt;
     }

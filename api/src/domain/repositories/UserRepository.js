@@ -15,16 +15,15 @@ export class UserRepository {
      * @param {User} param0
      * @returns User
      */
-    async create({ username, firstName, lastName, email, password }) {
-        const sql = `INSERT INTO users (username, email, first_name, last_name, password)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING id, username, email, first_name, last_name, created_at;
-        `;
+    async create({ username, email, password }) {
+        const sql = `INSERT INTO users (username, email, password)
+                VALUES ($1, $2, $3)
+                RETURNING id, username, email, created_at;
+                `;
 
         // password = await bcrypt.hash(password, saltRounds);
         const { rows } = await pool.query(sql,
-            [username, email, firstName, lastName,
-                await bcrypt.hash(password, saltRounds)]);
+            [username, email, await bcrypt.hash(password, saltRounds)]);
         return new User(rows[0]);
     }
 
@@ -34,16 +33,15 @@ export class UserRepository {
      * @param {User} param1
      * @returns User if id and param1 arguments are valid, null otherwise
      */
-    async update(id, { username, firstName, lastName, email, password }) {
-        const sql = `UPDATE users SET username = $1, email = $2, 
-            first_name = $3, last_name = $4, password = $5 WHERE id = $6
-            RETURNING id, username, email, first_name, last_name, created_at;
-        `;
+    async update(id, { username, email, password }) {
+        const sql = `UPDATE users SET username = $1, email = $2, password = $3
+                WHERE id = $4
+                RETURNING id, username, email, created_at;
+                `;
 
         // password = await bcrypt.hash(password, saltRounds);
         const { rows } = await pool.query(sql,
-            [username, email, firstName, lastName,
-                await bcrypt.hash(password, saltRounds), id]);
+            [username, email, await bcrypt.hash(password, saltRounds), id]);
         return rows[0] ? new User(rows[0]) : null;
     }
 
@@ -55,8 +53,8 @@ export class UserRepository {
      */
     async updateEmail(id, email) {
         const sql = `UPDATE users SET email = $1 WHERE id = $2
-        RETURNING id, username, first_name, last_name, email, created_at;
-        `;
+                RETURNING id, username, email, created_at;
+                `;
 
         const { rows } = await pool.query(sql, [email, id]);
         return rows[0] ? new User(rows[0]) : null;
@@ -71,7 +69,7 @@ export class UserRepository {
      */
     async updatePassword(id, password) {
         const sql = `UPDATE users SET password = $1 WHERE id = $2
-        RETURNING id, username, first_name, last_name, email, created_at;
+                RETURNING id, username, email, created_at;
         `;
 
         const { rows } = await pool.query(sql, [await bcrypt.hash(password, saltRounds), id]);
@@ -83,8 +81,8 @@ export class UserRepository {
      * @returns List<User>
      */
     async findAll() {
-        const sql = `SELECT id, email, username, first_name, last_name, created_at
-        FROM users ORDER BY id DESC;`;
+        const sql = `SELECT id, email, username, created_at
+                FROM users ORDER BY id DESC;`;
 
         // let rows = await pool.query(sql);
         // rows = rows.rows;
@@ -98,8 +96,8 @@ export class UserRepository {
      * @returns User if id is valid, null otherwise
      */
     async findById(id) {
-        const sql = `SELECT id, username, email, first_name, last_name, created_at
-        FROM users WHERE id = $1;`
+        const sql = `SELECT id, username, email, created_at
+                FROM users WHERE id = $1;`
 
         const { rows } = await pool.query(sql, [id]);
         return rows[0] ? new User(rows[0]) : null;
@@ -111,8 +109,8 @@ export class UserRepository {
      * @returns User if username is valid, null otherwise
      */
     async findByUsername(username) {
-        const sql = `SELECT id, username, email, first_name, last_name, created_at
-        FROM users WHERE username = LOWER($1);`
+        const sql = `SELECT id, username, email, created_at
+                FROM users WHERE username = LOWER($1);`
 
         const { rows } = await pool.query(sql, [username]);
         return rows[0] ? new User(rows[0]) : null;
@@ -124,8 +122,8 @@ export class UserRepository {
      * @returns User if username is valid, null otherwise
      */
     async findByUsernameGettingPassword(username) {
-        const sql = `SELECT id, username, first_name, last_name, email, password, created_at
-        FROM users WHERE username = LOWER($1);`;
+        const sql = `SELECT id, username, email, password, created_at
+                FROM users WHERE username = LOWER($1);`;
 
         const { rows } = await pool.query(sql, [username]);
         return rows[0] ? new User(rows[0]) : null;
@@ -137,8 +135,8 @@ export class UserRepository {
      * @returns User if username is valid, null otherwise
      */
     async findByIdGettingPassword(id) {
-        const sql = `SELECT id, username, first_name, last_name, email, password, created_at
-        FROM users WHERE id = $1;`;
+        const sql = `SELECT id, username, email, password, created_at
+                FROM users WHERE id = $1;`;
 
         const { rows } = await pool.query(sql, [id]);
         return rows[0] ? new User(rows[0]) : null;
@@ -150,7 +148,8 @@ export class UserRepository {
      * @returns int
      */
     async delete(id) {
-        const { rowCount } = await pool.query(`DELETE FROM users WHERE id = $1;`, [id]);
+        const sql = `DELETE FROM users WHERE id = $1;`;
+        const { rowCount } = await pool.query(sql, [id]);
         return rowCount > 0;
     }
 }

@@ -7,6 +7,8 @@ import { healthCheck } from './config/db.js';
 import { errorHandler } from './middlewares/errorHandler.js'
 
 import { userRoutes } from './routes/userRoutes.js';
+import { authRoutes } from './routes/authRoutes.js';
+
 dotenv.config();
 
 export const app = express();
@@ -32,4 +34,6 @@ app.get("/", async (req, res) => {
 
 app.use('/api/users', userRoutes);
 
-app.use(errorHandler)
+app.use('/auth', authRoutes);
+
+app.use(errorHandler);

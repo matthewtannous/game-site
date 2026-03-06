@@ -13,8 +13,6 @@ CREATE TABLE public.users
     id serial NOT NULL,
     username text NOT NULL,
     email text NOT NULL,
-    first_name text NOT NULL,
-    last_name text NOT NULL,
     password text NOT NULL,
     created_at date NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id),
@@ -34,11 +32,10 @@ CREATE TRIGGER lowercase_username_on_insert BEFORE INSERT OR UPDATE ON users
 
 
 -- Insert data
-INSERT INTO public.users (id, username, email, first_name, last_name, password, created_at) VALUES
-    (1, 'matthew', 'matthewtan@mail.com', 'Matthew', 'Tannous', 'mat123', '2026-01-16'),
-    (2, 'test', 'mail@mail.mail', 'fi', 'la', 'password', '2026-02-4'),
-    (3, 'ghost', 'mailtest@hotmail.com', 'John', 'Smith', 'john333', '2026-02-11');
-
+INSERT INTO public.users (id, username, email, password, created_at) VALUES
+    (1, 'matthew', 'matthewtan@mail.com', 'matthew', '2026-01-16'),
+    (2, 'test', 'mail@mail.mail', 'test', '2026-02-4'),
+    (3, 'ghost', 'mailtest@hotmail.com','ghost', '2026-02-11');
 
 
 -- Create games table

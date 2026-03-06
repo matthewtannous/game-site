@@ -6,8 +6,6 @@ export const idParam = [param('id')
 
 export const upsertUser = [
     body('username').isString().isLength({ min: 1, max: 255 }).withMessage('Username must be a string between 1-255 characters'),
-    body('firstName').isString().isLength({ min: 1, max: 255 }).withMessage('First name must be a string between 1-255 characters'),
-    body('lastName').isString().isLength({ min: 1, max: 255 }).withMessage('Last name must be a string between 1-255 characters'),
     body('email').isEmail().withMessage('Invalid email address'),
     body('password').isStrongPassword().withMessage('Weak password'),
 ];
