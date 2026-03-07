@@ -4,9 +4,18 @@ import About from '../pages/About';
 import Login from '../features/auth/pages/Login';
 import Register from '../features/auth/pages/Register';
 
+import LocalPlay from '../pages/LocalPlay';
+import LocalTicTacToe from '../features/tic-tac-toe/pages/Local';
+import LocalConnect4 from '../features/connect_4/pages/Local'
+
 export const routes = [
     { path: "/", element: Home },
     { path: "/about", element: About },
+
+    { path: "/local", element: LocalPlay },
+    { path: "/local/tic-tac-toe", element: LocalTicTacToe },
+    { path: "/local/connect-4", element: LocalConnect4 },
+
 ];
 
 export const authRoutes = [

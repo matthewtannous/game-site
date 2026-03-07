@@ -10,7 +10,8 @@ import { AuthContext } from '../../context/AuthContext';
 
 const links = [
     { to: '/', label: 'Home' },
-    { to: '/about', label: 'About' }
+    { to: '/about', label: 'About' },
+    { to: '/local', label: 'Local' }
 ];
 
 const NavBar = () => {

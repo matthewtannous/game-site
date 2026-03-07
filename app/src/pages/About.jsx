@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 
-const About = () => {
+export default function About() {
     const { user } = useContext(AuthContext);
     return (
         <>
@@ -14,5 +14,3 @@ const About = () => {
         </>
     )
 }
-
-export default About;
