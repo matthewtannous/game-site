@@ -6,8 +6,9 @@ import methodOverride from 'method-override';
 import { healthCheck } from './config/db.js';
 import { errorHandler } from './middlewares/errorHandler.js'
 
-import { userRoutes } from './routes/userRoutes.js';
 import { authRoutes } from './routes/authRoutes.js';
+import { userRoutes } from './routes/userRoutes.js';
+import { challengeRoutes } from './routes/challengeRoutes.js';
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.get("/", async (req, res) => {
 })
 
 app.use('/api/users', userRoutes);
+app.use('/api/challenges', challengeRoutes);
 
 app.use('/auth', authRoutes);
 

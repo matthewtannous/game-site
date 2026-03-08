@@ -49,8 +49,8 @@ CREATE TABLE public.games
 
 -- Insert data
 INSERT INTO public.games (id, name) VALUES
-    (1, 'Tic-tac-toe'),
-    (2, 'Connect 4');
+    (1, 'tic-tac-toe'),
+    (2, 'connect 4');
 
 
 -- Create challenges table
