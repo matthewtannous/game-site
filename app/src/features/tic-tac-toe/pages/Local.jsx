@@ -1,10 +1,18 @@
 import { useState } from 'react';
-import { Button, Typography, ButtonGroup, List, ListItem, Grid, Box } from '@mui/material';
+import { Typography, ButtonGroup, Grid, Box } from '@mui/material';
 
 import Square from '../components/Square.jsx';
 import { calculateWinner } from '../../../utils/tic-tac-toe.js';
+import ResetButton from '../../../components/ui/ResetButton.jsx';
 
-function Board({ xIsNext, squares, onPlay }) {
+
+export default function Board() {
+    // Array(9).fill(null) creates an array with 9 elements and fills it with null
+    const [squares, setSquares] = useState(Array(9).fill(null));
+
+    // To determine turns
+    const [xIsNext, setXIsNext] = useState(true);
+
     function handleClick(index) {
         // return early if position already has a value or if the game is over
         if (squares[index] || calculateWinner(squares))
@@ -17,7 +25,13 @@ function Board({ xIsNext, squares, onPlay }) {
         else
             newSquares[index] = 'O';
 
-        onPlay(newSquares);
+        setSquares(newSquares);
+        setXIsNext(!xIsNext); // inverse to alternate turns
+    }
+
+    function reset() {
+        setSquares(Array(9).fill(null));
+        setXIsNext(true);
     }
 
     // Display text about the game status (reruns everytime the component is updated)
@@ -28,6 +42,7 @@ function Board({ xIsNext, squares, onPlay }) {
     else
         status = "Next player: " + (xIsNext ? 'X' : 'O');
 
+    // Create board
     const rows = [];
     for (let row = 0; row < 3; row++) {
         const cols = [];
@@ -57,66 +72,25 @@ function Board({ xIsNext, squares, onPlay }) {
     }
 
     return (
-        <Box>
-            <Typography
-                variant='h6'
-                sx={{
-                    marginBottom: '15px'
-                }}
-            >
-                {status}
-            </Typography>
-            {rows}
-        </Box>
-    );
-}
-
-export default function Game() {
-    const [history, setHistory] = useState([Array(9).fill(null)]); // array of arrays
-    const [currentMove, setCurrentMove] = useState(0);
-
-    const currentSquares = history[currentMove] // current board
-
-    const xIsNext = currentMove % 2 === 0;
-
-    function handlePlay(newSquares) {
-        const nextHistory = [...history.slice(0, currentMove + 1), newSquares];
-        setHistory(nextHistory);
-        setCurrentMove(nextHistory.length - 1);
-    }
-
-    function jumpTo(nextMove) {
-        setCurrentMove(nextMove);
-    }
-
-    const moves = history.map((squares, move) => {
-        let description;
-        if (move > 0)
-            description = "Go to move #" + move;
-        else
-            description = "Go to game start";
-
-        return (
-            <ListItem key={move} sx={{ marginBottom: '-8px' }}>
-                <Button
-                    variant='contained'
-                    onClick={() => jumpTo(move)}
-                    size='small'
+        <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+        >
+            <Box>
+                <Typography
+                    variant='h6'
+                    sx={{
+                        marginBottom: '15px'
+                    }}
                 >
-                    {description}
-                </Button>
-            </ListItem>
-        )
-    });
-
-    return (
-        <Grid container>
-            <Board
-                xIsNext={xIsNext}
-                squares={currentSquares}
-                onPlay={handlePlay}
+                    {status}
+                </Typography>
+                {rows}
+            </Box>
+            <ResetButton
+                onClick={reset}
             />
-            <List sx={{ marginTop: '30px' }}>{moves}</List>
         </Grid>
-    )
+    );
 }

@@ -10,8 +10,8 @@ import { AuthContext } from '../../context/AuthContext';
 
 const links = [
     { to: '/', label: 'Home' },
+    { to: '/local', label: 'Local' },
     { to: '/about', label: 'About' },
-    { to: '/local', label: 'Local' }
 ];
 
 const NavBar = () => {
@@ -25,7 +25,7 @@ const NavBar = () => {
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', flexGrow: 1 }}>
                     {/* If client is not null, display these links */}
-                    {user && links.map((link) => (
+                    {user ? links.map((link) => (
                         <Button
                             key={link.to}
                             color="inherit"
@@ -35,7 +35,11 @@ const NavBar = () => {
                         >
                             {link.label}
                         </Button>
-                    ))}
+                    )) :
+                        <Button color="inherit" component={NavLink} to="/local"
+                            sx={{ '&.active': { textDecoration: 'underline' } }}>
+                            Local
+                        </Button>}
                 </Box>
 
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>

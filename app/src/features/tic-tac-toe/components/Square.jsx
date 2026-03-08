@@ -10,8 +10,6 @@ export default function Square({ value, onSquareClick }) {
             float: 'left',
             fontSize: '50px',
             lineHeight: '40px',
-            // marginRight: '-1px'
-            // marginTop: '5px'
             padding: 0,
             textAlign: 'center',
             color: (value === 'X' ? 'blue' : 'red')

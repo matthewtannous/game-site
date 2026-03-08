@@ -1,23 +1,45 @@
 import { useState } from 'react';
-import { Button, Typography, ButtonGroup, List, ListItem, Grid, Box } from '@mui/material';
+import { Typography, ButtonGroup, Box, Grid } from '@mui/material';
 
 import Square from '../components/Square.jsx';
-import { calculateWinner } from '../../../utils/tic-tac-toe.js';
+import { calculateWinner } from '../../../utils/connect_4.js';
+import PlaceButton from '../components/PlaceButton.jsx';
+import ResetButton from '../../../components/ui/ResetButton.jsx'
 
-function Board({ xIsNext, squares, onPlay }) {
-    function handleClick(index) {
-        // return early if position already has a value or if the game is over
-        if (squares[index] || calculateWinner(squares))
+const rowCount = 6;
+const columnCount = 7;
+
+export default function Board() {
+    // Array(9).fill(null) creates an array with 9 elements and fills it with null
+    const [squares, setSquares] = useState(Array(42).fill(null));
+
+    // To determine turns
+    const [blueIsNext, setBlueIsNext] = useState(true);
+
+    function onButtonClick(index) { // index is column (between 0 and 6)
+        if (calculateWinner(squares))
             return;
 
-        // Array should be copied, not directly updated
-        const newSquares = squares.slice(); // slice copies the array
-        if (xIsNext)
-            newSquares[index] = 'X';
-        else
-            newSquares[index] = 'O';
+        while (squares[index] && index < 42)
+            index += 7;
 
-        onPlay(newSquares);
+        if (index >= 42)
+            return;
+
+        const newSquares = squares.slice();
+
+        if (blueIsNext)
+            newSquares[index] = 'Blue';
+        else
+            newSquares[index] = 'Red';
+
+        setSquares(newSquares);
+        setBlueIsNext(!blueIsNext);
+    }
+
+    function reset() {
+        setSquares(Array(42).fill(null));
+        setBlueIsNext(true);
     }
 
     // Display text about the game status (reruns everytime the component is updated)
@@ -26,20 +48,19 @@ function Board({ xIsNext, squares, onPlay }) {
     if (winner)
         status = "Winner: " + winner;
     else
-        status = "Next player: " + (xIsNext ? 'X' : 'O');
+        status = "Next player: " + (blueIsNext ? 'Blue' : 'Red');
 
     const rows = [];
-    for (let row = 0; row < 3; row++) {
+    for (let row = rowCount - 1; row >= 0; row--) {
         const cols = [];
 
-        for (let col = 0; col < 3; col++) {
-            const i = row * 3 + col;
+        for (let col = 0; col < columnCount; col++) {
+            const i = row * 7 + col;
 
             cols.push(
                 <Square
                     key={i}
                     value={squares[i]}
-                    onSquareClick={() => handleClick(i)}
                 />
             );
         }
@@ -56,67 +77,38 @@ function Board({ xIsNext, squares, onPlay }) {
         )
     }
 
-    return (
-        <Box>
-            <Typography
-                variant='h6'
-                sx={{
-                    marginBottom: '15px'
-                }}
-            >
-                {status}
-            </Typography>
-            {rows}
-        </Box>
-    );
-}
-
-export default function Game() {
-    const [history, setHistory] = useState([Array(9).fill(null)]); // array of arrays
-    const [currentMove, setCurrentMove] = useState(0);
-
-    const currentSquares = history[currentMove] // current board
-
-    const xIsNext = currentMove % 2 === 0;
-
-    function handlePlay(newSquares) {
-        const nextHistory = [...history.slice(0, currentMove + 1), newSquares];
-        setHistory(nextHistory);
-        setCurrentMove(nextHistory.length - 1);
-    }
-
-    function jumpTo(nextMove) {
-        setCurrentMove(nextMove);
-    }
-
-    const moves = history.map((squares, move) => {
-        let description;
-        if (move > 0)
-            description = "Go to move #" + move;
-        else
-            description = "Go to game start";
-
-        return (
-            <ListItem key={move} sx={{ marginBottom: '-8px' }}>
-                <Button
-                    variant='contained'
-                    onClick={() => jumpTo(move)}
-                    size='small'
-                >
-                    {description}
-                </Button>
-            </ListItem>
+    const placeButtons = [];
+    for (let i = 0; i < 7; i++) {
+        placeButtons.push(
+            <PlaceButton
+                key={i}
+                onSquareClick={() => onButtonClick(i)} />
         )
-    });
+    }
 
     return (
-        <Grid container>
-            <Board
-                xIsNext={xIsNext}
-                squares={currentSquares}
-                onPlay={handlePlay}
+        <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+        >
+            <Box>
+                <Typography
+                    variant='h6'
+                    sx={{
+                        marginBottom: '15px'
+                    }}
+                >
+                    {status}
+                </Typography>
+                {rows}
+                {placeButtons}
+            </Box>
+
+            <ResetButton
+                onClick={reset}
             />
-            <List sx={{ marginTop: '30px' }}>{moves}</List>
         </Grid>
-    )
+
+    );
 }
