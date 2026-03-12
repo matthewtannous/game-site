@@ -6,11 +6,17 @@ import Register from '../features/auth/pages/Register';
 
 import LocalPlay from '../pages/LocalPlay';
 import LocalTicTacToe from '../features/tic-tac-toe/pages/Local';
-import LocalConnect4 from '../features/connect_4/pages/Local'
+import LocalConnect4 from '../features/connect_4/pages/Local';
+
+import ChallengeList from '../features/challenges/pages/ChallengeList';
+import ChallengeForm from '../features/challenges/pages/ChallengeForm';
 
 export const loggedInRoutes = [
     { path: "/", element: Home },
     { path: "/about", element: About },
+
+    { path: "/challenges", element: ChallengeList },
+    { path: "/challenges/new", element: ChallengeForm },
 ];
 
 export const authRoutes = [

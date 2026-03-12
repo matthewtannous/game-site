@@ -11,6 +11,7 @@ import { AuthContext } from '../../context/AuthContext';
 const links = [
     { to: '/', label: 'Home' },
     { to: '/local', label: 'Local' },
+    { to: '/challenges', label: 'Challenges' },
     { to: '/about', label: 'About' },
 ];
 
