@@ -2,29 +2,86 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 
+import { RegisterDTO } from './dto/register.dto';
+import { SignInDTO } from './dto/signin.dto';
+
+import { Response } from 'express';
+
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async signIn(
-    username: string,
-    pass: string,
-  ): Promise<{ access_token: string }> {
-    const user = await this.usersService.findOneByUsername(username);
+    signInDto: SignInDTO,
+    res: Response,
+  ):
+    // Promise<{ access_token: string }> 
+    Promise<any> {
+    const user = await this.usersService.findOneByUsername(signInDto.username);
 
     // change for bcrypt
-    if (user?.password !== pass) {
+    if (user?.password !== signInDto.password) {
       throw new UnauthorizedException();
     }
 
-    // Generate a JWT and return it
-    const payload = { sub: user.id, username: user.username };
 
-    return {
-      access_token: await this.jwtService.signAsync(payload),
+    // Generate a JWT and return it
+    const payload = {
+      sub: user.id,
+      username: user.username,
+      email: user.email,
+      createdAt: user.createdAt,
     };
+
+    const token = await this.jwtService.signAsync(payload);
+
+    res.cookie('access_token', token, {
+      httpOnly: true,
+      secure: false, // for development
+      sameSite: 'lax',
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    });
+
+    // return {
+    //   access_token: token,
+    // };
+
+    const { password, ...noPassUser } = user;
+    return noPassUser;
+  }
+
+  async register(
+    registerDTO: RegisterDTO,
+    res: Response,
+  ):
+    // Promise<{ access_token: string }> 
+    Promise<any> {
+    const user = await this.usersService.create(registerDTO);
+    // Generate a JWT and return it
+    const payload = {
+      sub: user.id,
+      username: user.username,
+      email: user.email,
+      createdAt: user.createdAt,
+    };
+
+    const token = await this.jwtService.signAsync(payload);
+
+    res.cookie('access_token', token, {
+      httpOnly: true,
+      secure: false, // for development
+      sameSite: 'lax',
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    });
+
+    // return {
+    //   access_token: token,
+    // };
+
+    const { password, ...noPassUser } = user;
+    return noPassUser;
   }
 }

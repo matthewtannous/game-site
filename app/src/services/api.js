@@ -11,7 +11,8 @@ const BASE_URL = import.meta.env.VITE_API_URL
 export const api = async (endpoint, options = {}) => {
     const res = await fetch(
         `${BASE_URL}${endpoint}`, {
-        ...options
+        credentials: "include",
+        ...options,
     },
     );
 
@@ -19,6 +20,7 @@ export const api = async (endpoint, options = {}) => {
     //     return;
 
     if (!res.ok) {
+        console.log(res);
         throw new Error("Api Error");
     }
     if (endpoint.startsWith("/auth"))

@@ -1,14 +1,18 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
-  Request,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
+
+import { SignInDTO } from './dto/signin.dto';
+import { RegisterDTO } from './dto/register.dto';
+
+import express from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -17,18 +21,30 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  signIn(
+    @Body() signInDto: SignInDTO,
+    @Res({ passthrough: true }) res: express.Response
+  ) {
+    return this.authService.signIn(signInDto, res);
   }
 
   @Public()
   @Post('register')
-  register(@Body() signInDto: Record<string, any>) {
-    return {test: 'Te'}; // works???
+  register(
+    @Body() registerDto: RegisterDTO,
+    @Res({ passthrough: true }) res: express.Response
+  ) {
+    return this.authService.register(registerDto, res);
   }
 
-  @Get('profile')
-  getProfile(@Request() req: any) {
-    return req.user;
+  @Post('logout')
+  logout(@Res({ passthrough: true }) res: express.Response) {
+    res.clearCookie('access_token');
+    return { message: 'LOGGED OUT' };
   }
+
+  // @Get('test')
+  // getProfile(@Request() req: any) {
+  //   return req.user;
+  // }
 }
