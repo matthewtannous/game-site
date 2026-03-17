@@ -33,8 +33,8 @@ app.get("/", async (req, res) => {
     res.status(200).send("OKKKKKK");
 })
 
-app.use('/api/users', userRoutes);
-app.use('/api/challenges', challengeRoutes);
+app.use('/users', userRoutes);
+app.use('/challenges', challengeRoutes);
 
 app.use('/auth', authRoutes);
 
