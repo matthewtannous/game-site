@@ -9,15 +9,19 @@ import { User } from './users/entities/user.entity';
 import { Challenge } from './challenges/entities/challenge.entity';
 import { AuthModule } from './auth/auth.module';
 
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'game_site',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       entities: [User, Challenge],
       autoLoadEntities: true,
     }),
@@ -28,4 +32,4 @@ import { AuthModule } from './auth/auth.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
