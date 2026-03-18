@@ -7,6 +7,12 @@ import { SignInDTO } from './dto/signin.dto';
 
 import { Response } from 'express';
 
+import dotenv from 'dotenv';
+
+import bcrypt from 'bcryptjs';
+
+dotenv.config();
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -22,11 +28,19 @@ export class AuthService {
     Promise<any> {
     const user = await this.usersService.findOneByUsername(signInDto.username);
 
-    // change for bcrypt
-    if (user?.password !== signInDto.password) {
-      throw new UnauthorizedException();
+    if (!user) {
+      throw new Error("User not found");
     }
 
+
+    // change for bcrypt
+    // if (user?.password !== signInDto.password) {
+    //   throw new UnauthorizedException();
+    // }
+
+    if (!bcrypt.compareSync(signInDto.password, user.password)) {
+      throw new Error("Invalid Password");
+    }
 
     // Generate a JWT and return it
     const payload = {
@@ -42,7 +56,7 @@ export class AuthService {
       httpOnly: true,
       secure: false, // for development
       sameSite: 'lax',
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      maxAge: Number(process.env.JWT_EXPIRES_IN), // 1 day
     });
 
     // return {
@@ -74,7 +88,7 @@ export class AuthService {
       httpOnly: true,
       secure: false, // for development
       sameSite: 'lax',
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      maxAge: Number(process.env.JWT_EXPIRES_IN), // 1 day
     });
 
     // return {

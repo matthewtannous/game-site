@@ -7,14 +7,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 
+import bcrypt from 'bcryptjs';
+
+const SALT_ROUNDS = 10;
+
+
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {}
+  ) { }
 
   create(createUserDto: CreateUserDto): Promise<User> {
+    createUserDto.password = bcrypt.hashSync(createUserDto.password, SALT_ROUNDS);
     return this.usersRepository.save(createUserDto);
   }
 
