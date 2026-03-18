@@ -16,14 +16,14 @@ import express from 'express';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(
     @Body() signInDto: SignInDTO,
-    @Res({ passthrough: true }) res: express.Response
+    @Res({ passthrough: true }) res: express.Response,
   ) {
     return this.authService.signIn(signInDto, res);
   }
@@ -32,7 +32,7 @@ export class AuthController {
   @Post('register')
   register(
     @Body() registerDto: RegisterDTO,
-    @Res({ passthrough: true }) res: express.Response
+    @Res({ passthrough: true }) res: express.Response,
   ) {
     return this.authService.register(registerDto, res);
   }

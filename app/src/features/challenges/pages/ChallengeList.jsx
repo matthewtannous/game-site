@@ -30,7 +30,7 @@ export default function ChallengeList() {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center">ID</TableCell>
+                        {/* <TableCell align="center">ID</TableCell> */}
                         <TableCell align="center">Sender</TableCell>
                         <TableCell align="center">Receiver</TableCell>
                         <TableCell align="center">Game Type</TableCell>
@@ -42,12 +42,11 @@ export default function ChallengeList() {
                 <TableBody>
                     {challenges.map((challenge) => (
                         <TableRow key={challenge.id}>
-                            <TableCell align="center">{challenge.id}</TableCell>
-                            <TableCell align="center">{challenge.senderId}</TableCell>
-                            <TableCell align="center">{challenge.receiverId}</TableCell>
-                            <TableCell align="center">{challenge.gameType}</TableCell>
+                            {/* <TableCell align="center">{challenge.id}</TableCell> */}
+                            <TableCell align="center">{challenge.senderName}</TableCell>
+                            <TableCell align="center">{challenge.receiverName}</TableCell>
+                            <TableCell align="center">{challenge.gameName}</TableCell>
                             <TableCell align="center">{challenge.createdAt}</TableCell>
-
                             <TableCell align="center">
                                 <Stack direction="row" spacing={1}>
                                     <Button component={Link} to={`/challenges/${challenge.id}/accept`} variant="outlined" size="small">

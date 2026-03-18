@@ -1,7 +1,8 @@
 import { api } from "../../../services/api";
 
 export function getChallenges() {
-    return api("/challenges");
+    // return api("/challenges");
+    return api("/challenges/detailed");
 }
 
 export function getChallenge(id) {
@@ -20,4 +21,12 @@ export function deleteChallenge(id) {
     api(`/challenges/${id}`, {
         method: "DELETE",
     });
+}
+
+export function getSentChallenges(id) {
+    return api(`/challenges/sent/${id}`);
+}
+
+export function getReceivedChallenges(id) {
+    return api(`/challenges/received/${id}`);
 }

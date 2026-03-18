@@ -18,20 +18,18 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async signIn(
     signInDto: SignInDTO,
     res: Response,
-  ):
-    // Promise<{ access_token: string }> 
-    Promise<any> {
+  ): // Promise<{ access_token: string }>
+  Promise<any> {
     const user = await this.usersService.findOneByUsername(signInDto.username);
 
     if (!user) {
-      throw new Error("User not found");
+      throw new Error('User not found');
     }
-
 
     // change for bcrypt
     // if (user?.password !== signInDto.password) {
@@ -39,7 +37,7 @@ export class AuthService {
     // }
 
     if (!bcrypt.compareSync(signInDto.password, user.password)) {
-      throw new Error("Invalid Password");
+      throw new Error('Invalid Password');
     }
 
     // Generate a JWT and return it
@@ -70,9 +68,8 @@ export class AuthService {
   async register(
     registerDTO: RegisterDTO,
     res: Response,
-  ):
-    // Promise<{ access_token: string }> 
-    Promise<any> {
+  ): // Promise<{ access_token: string }>
+  Promise<any> {
     const user = await this.usersService.create(registerDTO);
     // Generate a JWT and return it
     const payload = {
