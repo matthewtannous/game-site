@@ -88,3 +88,37 @@ CREATE TABLE public.challenges
 INSERT INTO public.challenges (id, sender_id, receiver_id, game_type, created_at) VALUES
     (1, 1, 2, 2, '2026-02-11 18:04:59.564489+02'),
     (2, 2, 1, 1, '2026-02-11 18:05:45.818191+02');
+
+
+-- Create ongoing games tables
+CREATE TABLE public.ongoing
+(
+    id serial NOT NULL,
+    player1_id integer NOT NULL,
+    player2_id integer NOT NULL,
+    game_type integer NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT unique_game UNIQUE (player1_id, player2_id, game_type),
+    CONSTRAINT player1 FOREIGN KEY (player1_id)
+        REFERENCES public.users (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID,
+    CONSTRAINT player2 FOREIGN KEY (player2_id)
+        REFERENCES public.users (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID,
+    CONSTRAINT game FOREIGN KEY (game_type)
+        REFERENCES public.games (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID,
+    CONSTRAINT same_player CHECK (player1_id <> player2_id) NOT VALID
+);
+
+-- Insert data
+INSERT INTO public.ongoing (id, player1_id, player2_id, game_type) VALUES
+    (1, 1, 2, 2),
+    (2, 3, 1, 1),
+    (3, 2, 1, 1);

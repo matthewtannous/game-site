@@ -14,7 +14,7 @@ import { UpdateChallengeDto } from './dto/update-challenge.dto';
 
 @Controller('challenges')
 export class ChallengesController {
-  constructor(private readonly challengesService: ChallengesService) { }
+  constructor(private readonly challengesService: ChallengesService) {}
 
   @Post()
   create(@Body() createChallengeDto: CreateChallengeDto) {
@@ -26,7 +26,6 @@ export class ChallengesController {
     return this.challengesService.findAll();
   }
 
-  // TODO
   @Get('detailed')
   findAllDetailed() {
     return this.challengesService.findAllDetailed();
