@@ -1,66 +1,57 @@
-import { Button, Paper, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { getChallenges, deleteChallenge } from "../services/challenges.service";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+
+import ChallengesTable from "../components/ChallengesTable";
+
+import { getReceivedChallenges, getSentChallenges, deleteChallenge } from "../services/challenges.service";
 export default function ChallengeList() {
-    const [challenges, setChallenges] = useState([]);
+    const { user } = useContext(AuthContext);
+
+    const [receivedChallenges, setReceivedChallenges] = useState([]);
+    const [sentChallenges, setSentChallenges] = useState([]);
+
+    async function loadChallenges() {
+        // setReceivedChallenges(await getChallenges());
+        setReceivedChallenges(await getReceivedChallenges(user.id));
+        setSentChallenges(await getSentChallenges(user.id));
+    }
 
     useEffect(() => {
         loadChallenges();
     }, []);
 
-    async function loadChallenges() {
-        setChallenges(await getChallenges());
-    }
 
     async function remove(id) {
         deleteChallenge(id);
         loadChallenges();
     }
+
+    async function accept(id) {
+
+    }
     return (
         <Paper>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-                <Typography variant="h5">Challenges</Typography>
-                <Button component={Link} to="/challenges/new" variant="contained">
-                    Challenge someone!
-                </Button>
-            </Stack>
+            <Button component={Link} to="/challenges/new" variant="contained">
+                Challenge someone!
+            </Button>
 
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        {/* <TableCell align="center">ID</TableCell> */}
-                        <TableCell align="center">Sender</TableCell>
-                        <TableCell align="center">Receiver</TableCell>
-                        <TableCell align="center">Game Type</TableCell>
-                        <TableCell align="center">Sent At</TableCell>
-                        <TableCell width={2} align="center">Actions</TableCell>
-                    </TableRow>
-                </TableHead>
+            <ChallengesTable
+                sent={false}
+                challenges={receivedChallenges}
+                onAccept={accept}
+                onDecline={remove}
+            />
 
-                <TableBody>
-                    {challenges.map((challenge) => (
-                        <TableRow key={challenge.id}>
-                            {/* <TableCell align="center">{challenge.id}</TableCell> */}
-                            <TableCell align="center">{challenge.senderName}</TableCell>
-                            <TableCell align="center">{challenge.receiverName}</TableCell>
-                            <TableCell align="center">{challenge.gameName}</TableCell>
-                            <TableCell align="center">{challenge.createdAt}</TableCell>
-                            <TableCell align="center">
-                                <Stack direction="row" spacing={1}>
-                                    <Button component={Link} to={`/challenges/${challenge.id}/accept`} variant="outlined" size="small">
-                                        Accept
-                                    </Button>
-                                    <Button onClick={() => remove(challenge.id)} variant="contained" color="error" size="small">
-                                        Decline
-                                    </Button>
-                                </Stack>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+            <ChallengesTable
+                sent={true}
+                challenges={sentChallenges}
+                onAccept={accept}
+                onDecline={remove}
+            />
         </Paper>
     )
 }

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 
 import { Link as RouterLink } from 'react-router-dom';
-import { Alert, Button, Link, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Button, Box, Link, Paper, Stack, TextField, Typography } from '@mui/material';
 
 import { login } from "../services/auth.service";
 import { AuthContext } from "../../../context/AuthContext";
@@ -31,43 +31,45 @@ export default function Login() {
     }
 
     return (
-        <Paper sx={{ p: 3, maxWidth: 480 }}>
-            <Typography variant="h5" sx={{ mb: 2 }}>
-                Login
-            </Typography>
-
-            <Stack component="form" spacing={2} onSubmit={handleFormSubmit}>
-                <TextField
-                    label="Username"
-                    name="username"
-                    value={form.username}
-                    onChange={handleFormChange}
-                    required
-                    fullWidth
-                />
-                <TextField
-                    label="Password"
-                    name="password"
-                    type="password"
-                    value={form.password}
-                    onChange={handleFormChange}
-                    required
-                    fullWidth
-                />
-
-                {error && <Alert severity="error">{error}</Alert>}
-
-                <Button type="submit" variant="contained">
+        <Box display="flex" justifyContent="center" alignItems="center">
+            <Paper sx={{ p: 3, width: 500 }}>
+                <Typography variant="h5" sx={{ mb: 2 }}>
                     Login
-                </Button>
-
-                <Typography variant="body2">
-                    Don't have an account?{' '}
-                    <Link component={RouterLink} to="/register">
-                        Register
-                    </Link>
                 </Typography>
-            </Stack>
-        </Paper>
+
+                <Stack component="form" spacing={2} onSubmit={handleFormSubmit}>
+                    <TextField
+                        label="Username"
+                        name="username"
+                        value={form.username}
+                        onChange={handleFormChange}
+                        required
+                        fullWidth
+                    />
+                    <TextField
+                        label="Password"
+                        name="password"
+                        type="password"
+                        value={form.password}
+                        onChange={handleFormChange}
+                        required
+                        fullWidth
+                    />
+
+                    {error && <Alert severity="error">{error}</Alert>}
+
+                    <Button type="submit" variant="contained">
+                        Login
+                    </Button>
+
+                    <Typography variant="body2">
+                        Don't have an account?{' '}
+                        <Link component={RouterLink} to="/register">
+                            Register
+                        </Link>
+                    </Typography>
+                </Stack>
+            </Paper>
+        </Box>
     );
 }

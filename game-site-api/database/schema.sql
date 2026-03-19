@@ -87,7 +87,8 @@ CREATE TABLE public.challenges
 -- Insert data
 INSERT INTO public.challenges (id, sender_id, receiver_id, game_type, created_at) VALUES
     (1, 1, 2, 2, '2026-02-11 18:04:59.564489+02'),
-    (2, 2, 1, 1, '2026-02-11 18:05:45.818191+02');
+    (2, 3, 2, 2, '2026-02-11 18:04:59.564489+02'),
+    (3, 2, 1, 1, '2026-02-11 18:05:45.818191+02');
 
 
 -- Create ongoing games tables

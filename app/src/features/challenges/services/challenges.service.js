@@ -30,3 +30,7 @@ export function getSentChallenges(id) {
 export function getReceivedChallenges(id) {
     return api(`/challenges/received/${id}`);
 }
+
+export function acceptChallenge(id) {
+    
+}
