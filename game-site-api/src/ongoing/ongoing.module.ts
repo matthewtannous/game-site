@@ -9,5 +9,7 @@ import { Ongoing } from './entities/ongoing.entity';
   imports: [TypeOrmModule.forFeature([Ongoing])],
   controllers: [OngoingController],
   providers: [OngoingService],
+
+  exports: [OngoingService],
 })
 export class OngoingModule {}

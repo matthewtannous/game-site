@@ -14,7 +14,7 @@ import { UpdateChallengeDto } from './dto/update-challenge.dto';
 
 @Controller('challenges')
 export class ChallengesController {
-  constructor(private readonly challengesService: ChallengesService) {}
+  constructor(private readonly challengesService: ChallengesService) { }
 
   @Post()
   create(@Body() createChallengeDto: CreateChallengeDto) {
@@ -43,6 +43,11 @@ export class ChallengesController {
     return this.challengesService.findAllSent(id);
   }
 
+  @Post('accept/:id')
+  accept(@Param('id', ParseIntPipe) id: number) {
+    return this.challengesService.accept(id);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.challengesService.findOne(id);
@@ -60,4 +65,5 @@ export class ChallengesController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.challengesService.remove(id);
   }
+
 }

@@ -92,6 +92,7 @@ INSERT INTO public.challenges (id, sender_id, receiver_id, game_type, created_at
 
 
 -- Create ongoing games tables
+-- NOTE: we allow many games of the same type between the same players, but NOT for challenges
 CREATE TABLE public.ongoing
 (
     id serial NOT NULL,
@@ -99,7 +100,7 @@ CREATE TABLE public.ongoing
     player2_id integer NOT NULL,
     game_type integer NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT unique_game UNIQUE (player1_id, player2_id, game_type),
+    -- CONSTRAINT unique_game UNIQUE (player1_id, player2_id, game_type),
     CONSTRAINT player1 FOREIGN KEY (player1_id)
         REFERENCES public.users (id) MATCH SIMPLE
         ON UPDATE CASCADE

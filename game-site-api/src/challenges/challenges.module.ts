@@ -6,9 +6,13 @@ import { ChallengesController } from './challenges.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Challenge } from './entities/challenge.entity';
 
+import { OngoingModule } from '../ongoing/ongoing.module';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([Challenge])],
+  imports: [
+    OngoingModule,
+    TypeOrmModule.forFeature([Challenge]),],
   controllers: [ChallengesController],
   providers: [ChallengesService],
 })
-export class ChallengesModule {}
+export class ChallengesModule { }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { DetailedChallengeDto } from './dto/detailed-challenge.dto';
@@ -8,12 +8,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Challenge } from './entities/challenge.entity';
 
+import { OngoingService } from '../ongoing/ongoing.service';
+
 @Injectable()
 export class ChallengesService {
   constructor(
     @InjectRepository(Challenge)
     private challengesRepository: Repository<Challenge>,
-  ) {}
+    private ongoingService: OngoingService,
+  ) { }
 
   create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
     return this.challengesRepository.save(createChallengeDto);
@@ -104,5 +107,27 @@ export class ChallengesService {
     );
 
     return result as DetailedChallengeDto[];
+  }
+
+  async accept(id: number) {
+    // save challenge
+    const challenge = await this.challengesRepository.findOneBy({ id: id });
+    if (!challenge) {
+      throw new HttpException("Not found", HttpStatus.NOT_FOUND);
+    }
+    // convert challenge to ongoing
+    const ongoing = {
+      player1Id: challenge.senderId,
+      player2Id: challenge.receiverId,
+      gameType: challenge.gameType,
+    };
+
+    // Remove challenge from challenges repository
+    this.challengesRepository.delete(id);
+
+    // Add challenge to ongoing games repository
+    this.ongoingService.create(ongoing);
+
+    return ongoing; // ??
   }
 }
