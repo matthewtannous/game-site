@@ -2,14 +2,13 @@ import { Button, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { useContext } from "react";
-import { AuthContext } from "../../../context/AuthContext";
+import { useAuth } from "../../../store/hooks/useAuth";
 
 import ChallengesTable from "../components/ChallengesTable";
 
 import { getReceivedChallenges, getSentChallenges, deleteChallenge } from "../services/challenges.service";
 export default function ChallengeList() {
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
 
     const [receivedChallenges, setReceivedChallenges] = useState([]);
     const [sentChallenges, setSentChallenges] = useState([]);

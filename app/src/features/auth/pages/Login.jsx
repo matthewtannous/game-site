@@ -4,7 +4,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Alert, Button, Box, Link, Paper, Stack, TextField, Typography } from '@mui/material';
 
 import { login } from "../services/auth.service";
-import { AuthContext } from "../../../context/AuthContext";
+
+import { useAuth } from "../../../store/hooks/useAuth";
 
 export default function Login() {
     const [form, setForm] = useState({
@@ -12,7 +13,7 @@ export default function Login() {
         password: '',
     });
     const [error, setError] = useState(null);
-    const { signIn } = useContext(AuthContext);
+    const { signIn } = useAuth();
 
     function handleFormChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });

@@ -5,8 +5,7 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
-import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuth } from '../../store/hooks/useAuth';
 
 const links = [
     { to: '/', label: 'Home' },
@@ -16,7 +15,7 @@ const links = [
 ];
 
 const NavBar = () => {
-    const { user, signOut } = useContext(AuthContext);
+    const { user, signOut } = useAuth();
 
     return (
         <AppBar position="static" sx={{ mb: 3 }}>

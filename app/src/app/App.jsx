@@ -3,11 +3,10 @@ import { Container } from '@mui/material';
 import Layout from '../components/layout/Layout';
 import { loggedInRoutes, authRoutes, alwaysAvailableRoutes } from './routes';
 
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../store/hooks/useAuth';
 
 function App() {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>

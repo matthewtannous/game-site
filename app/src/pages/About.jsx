@@ -1,9 +1,7 @@
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-
+import { useAuth } from "../store/hooks/useAuth";
 
 export default function About() {
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     return (
         <>
             <h3>ABOUT YOUUUU</h3>
