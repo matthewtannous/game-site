@@ -20,7 +20,6 @@ export const api = async (endpoint, options = {}) => {
     //     return;
 
     if (!res.ok) {
-        console.log(res);
         throw new Error("Api Error");
     }
     if (endpoint.startsWith("/auth"))

@@ -65,5 +65,4 @@ export class ChallengesController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.challengesService.remove(id);
   }
-
 }

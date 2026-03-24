@@ -10,7 +10,7 @@ export function getChallenge(id) {
 }
 
 export function saveChallenge(data, id) {
-    api(id ? `/challenges/${id}` : "/departments", {
+    api(id ? `/challenges/${id}` : "/challenges", {
         method: id ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -32,5 +32,9 @@ export function getReceivedChallenges(id) {
 }
 
 export function acceptChallenge(id) {
-    
+    api(`/challenges/accept/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
 }

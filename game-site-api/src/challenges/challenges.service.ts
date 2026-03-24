@@ -34,8 +34,8 @@ export class ChallengesService {
     return this.challengesRepository.update(id, updateChallengeDto);
   }
 
-  async remove(id: number) {
-    await this.challengesRepository.delete(id);
+  remove(id: number) {
+    this.challengesRepository.delete(id);
   }
 
   async findAllDetailed() {
