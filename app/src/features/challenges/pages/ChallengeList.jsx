@@ -6,7 +6,7 @@ import { useAuth } from "../../../store/hooks/useAuth";
 
 import ChallengesTable from "../components/ChallengesTable";
 
-import { getReceivedChallenges, getSentChallenges, deleteChallenge } from "../services/challenges.service";
+import { getReceivedChallenges, getSentChallenges, deleteChallenge, acceptChallenge } from "../services/challenges.service";
 
 export default function ChallengeList() {
     const { user } = useAuth();
@@ -31,7 +31,8 @@ export default function ChallengeList() {
     }
 
     async function accept(id) {
-
+        acceptChallenge(id);
+        loadChallenges();
     }
     return (
         <Paper>

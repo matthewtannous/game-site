@@ -37,6 +37,7 @@ INSERT INTO public.users (id, username, email, password, created_at) VALUES
     (2, 'test', 'mail@mail.mail', '$2b$10$0claXhDTxeWOq9PqkJ7TXuSCe1BRtuhbqJG5mSqBg2T7vt9jZ1A4u', '2026-02-4'),
     (3, 'ghost', 'mailtest@hotmail.com','$2b$10$VXNBqiTPdDuxT/mDowwf9eYQVYFIQR3En2XX1KW2DeGNeahCE0xiu', '2026-02-11');
 
+ALTER SEQUENCE users_id_seq RESTART WITH 4; -- For TypeORM
 
 -- Create games table
 CREATE TABLE public.games
@@ -90,6 +91,7 @@ INSERT INTO public.challenges (id, sender_id, receiver_id, game_type, created_at
     (2, 3, 2, 2, '2026-02-11 18:04:59.564489+02'),
     (3, 2, 1, 1, '2026-02-11 18:05:45.818191+02');
 
+ALTER SEQUENCE challenges_id_seq RESTART WITH 4; -- For TypeORM
 
 -- Create ongoing games tables
 -- NOTE: we allow many games of the same type between the same players, but NOT for challenges
@@ -124,3 +126,5 @@ INSERT INTO public.ongoing (id, player1_id, player2_id, game_type) VALUES
     (1, 1, 2, 2),
     (2, 3, 1, 1),
     (3, 2, 1, 1);
+
+ALTER SEQUENCE ongoing_id_seq RESTART WITH 4; -- For TypeORM

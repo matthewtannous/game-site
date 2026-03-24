@@ -55,6 +55,9 @@ export class UsersService {
       select: selectedColumns,
       where: {
         id: Not(id),
+      },
+      order: {
+        username: "ASC",
       }
     });
   }
