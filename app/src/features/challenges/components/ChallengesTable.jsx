@@ -1,17 +1,18 @@
-import { Button, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Button, ButtonGroup, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { formatDate } from 'date-fns';
 
 export default function ChallengesTable({ sent, challenges, onAccept, onDecline }) {
 
     return (
         <>
-            <Typography variant="h5" marginBottom={3} marginTop={3}>{sent ? "Sent" : "Received"} Challenges</Typography>
+            <Typography variant="h5" marginBottom={3} marginTop={3} align="center">{sent ? "Sent" : "Received"} Challenges</Typography>
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center">{sent ? "Receiver" : "Sender"}</TableCell>
-                        <TableCell align="center">Game Type</TableCell>
-                        <TableCell align="center">Sent At</TableCell>
-                        <TableCell width={2} align="center">Actions</TableCell>
+                        <TableCell align="center" width={200}>{sent ? "Receiver" : "Sender"}</TableCell>
+                        <TableCell align="center" width={200}>Game Type</TableCell>
+                        <TableCell align="center" width={300}>Sent At</TableCell>
+                        <TableCell align="center" width={200} colSpan={2}>Actions</TableCell>
                     </TableRow>
                 </TableHead>
 
@@ -20,13 +21,15 @@ export default function ChallengesTable({ sent, challenges, onAccept, onDecline 
                         <TableRow key={challenge.id}>
                             <TableCell align="center">{sent ? challenge.receiverName : challenge.senderName}</TableCell>
                             <TableCell align="center">{challenge.gameName}</TableCell>
-                            <TableCell align="center">{challenge.createdAt}</TableCell>
+                            <TableCell align="center">{formatDate(challenge.createdAt, "eeee d, u 'at' h:m aaaa")}</TableCell>
                             <TableCell align="center">
-                                <Stack direction="row" spacing={1}>
+                                {/* <Stack direction="row" spacing={1}>
                                     {sent ?
-                                        <Button onClick={() => onDecline(challenge.id)} variant="contained" color="error" size="small">
-                                            Remove
-                                        </Button>
+                                        <>
+                                            <Button onClick={() => onDecline(challenge.id)} variant="contained" color="error" size="small">
+                                                Remove
+                                            </Button>
+                                        </>
                                         :
                                         <>
                                             <Button onClick={() => onAccept(challenge.id)} variant="outlined" size="small">
@@ -37,8 +40,21 @@ export default function ChallengesTable({ sent, challenges, onAccept, onDecline 
                                             </Button>
                                         </>
                                     }
-
-                                </Stack>
+                                </Stack> */}
+                                {sent ?
+                                    <Button onClick={() => onDecline(challenge.id)} variant="contained" color="error" size="small">
+                                        Remove
+                                    </Button>
+                                    :
+                                    <ButtonGroup size="small" >
+                                        <Button onClick={() => onAccept(challenge.id)} variant="outlined">
+                                            Accept
+                                        </Button>
+                                        <Button onClick={() => onDecline(challenge.id)} variant="contained" color="error">
+                                            Decline
+                                        </Button>
+                                    </ ButtonGroup>
+                                }
                             </TableCell>
                         </TableRow>
                     ))}
