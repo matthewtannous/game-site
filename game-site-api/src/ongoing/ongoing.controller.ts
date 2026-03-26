@@ -14,7 +14,7 @@ import { UpdateOngoingDto } from './dto/update-ongoing.dto';
 
 @Controller('ongoing')
 export class OngoingController {
-  constructor(private readonly ongoingService: OngoingService) {}
+  constructor(private readonly ongoingService: OngoingService) { }
 
   @Post()
   create(@Body() createOngoingDto: CreateOngoingDto) {
@@ -53,6 +53,4 @@ export class OngoingController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.ongoingService.remove(id);
   }
-
-  
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { BasicUserDto } from './dto/basic-user.dto';
@@ -26,12 +26,16 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) { }
 
-  create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     createUserDto.password = bcrypt.hashSync(
       createUserDto.password,
       SALT_ROUNDS,
     );
-    return this.usersRepository.save(createUserDto);
+    try {
+      return await this.usersRepository.save(createUserDto);
+    } catch {
+      throw new HttpException('Usernmame already exists', HttpStatus.NOT_ACCEPTABLE);
+    }
   }
 
   findAll(): Promise<BasicUserDto[]> {
@@ -66,8 +70,8 @@ export class UsersService {
     return this.usersRepository.update(id, updateUserDto);
   }
 
-  async remove(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+  remove(id: number) {
+    return this.usersRepository.delete(id);
   }
 
   // Other operations (for auth, must return all data)

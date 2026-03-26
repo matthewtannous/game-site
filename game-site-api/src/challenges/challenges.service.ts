@@ -18,8 +18,12 @@ export class ChallengesService {
     private ongoingService: OngoingService,
   ) { }
 
-  create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
-    return this.challengesRepository.save(createChallengeDto);
+  async create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
+    try {
+      return await this.challengesRepository.save(createChallengeDto);
+    } catch {
+      throw new HttpException('Challenge already exists', HttpStatus.NOT_ACCEPTABLE);
+    }
   }
 
   findAll(): Promise<Challenge[]> {
@@ -35,7 +39,7 @@ export class ChallengesService {
   }
 
   remove(id: number) {
-    this.challengesRepository.delete(id);
+    return this.challengesRepository.delete(id);
   }
 
   async findAllDetailed() {
