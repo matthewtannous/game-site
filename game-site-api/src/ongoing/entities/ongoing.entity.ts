@@ -13,4 +13,10 @@ export class Ongoing {
 
   @Column({ name: 'game_type' })
   gameType: number;
+
+  @Column('simple-array')
+  moves: number[];
+
+  @Column({ name: 'last_move_played_at' })
+  lastMovePlayedAt: Date;
 }

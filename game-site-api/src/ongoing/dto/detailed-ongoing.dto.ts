@@ -1,4 +1,6 @@
 export class DetailedOngoingDto {
+  id: number;
+
   player1Id: number;
   player1Name: string;
 
@@ -6,5 +8,8 @@ export class DetailedOngoingDto {
   player2Name: string;
 
   gameType: number;
-  // gameName: string;
+  gameName: string;
+
+  moves: number[];
+  lastMovePlayedAt: Date;
 }

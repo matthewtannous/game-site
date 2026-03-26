@@ -9,16 +9,16 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { OngoingService } from './ongoing.service';
-import { CreateOngoingDto } from './dto/create-ongoing.dto';
-import { UpdateOngoingDto } from './dto/update-ongoing.dto';
+import { BasicOngoingDto } from './dto/basic-ongoing.dto';
+import { MoveDto } from './dto/move.dto';
 
 @Controller('ongoing')
 export class OngoingController {
   constructor(private readonly ongoingService: OngoingService) {}
 
   @Post()
-  create(@Body() createOngoingDto: CreateOngoingDto) {
-    return this.ongoingService.create(createOngoingDto);
+  create(@Body() basicOngoingDto: BasicOngoingDto) {
+    return this.ongoingService.create(basicOngoingDto);
   }
 
   @Get()
@@ -44,13 +44,18 @@ export class OngoingController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateOngoingDto: UpdateOngoingDto,
+    @Body() basicOngoingDto: BasicOngoingDto,
   ) {
-    return this.ongoingService.update(id, updateOngoingDto);
+    return this.ongoingService.update(id, basicOngoingDto);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.ongoingService.remove(id);
+  }
+
+  @Post('play')
+  addMove(@Body() moveDto: MoveDto) {
+    return this.ongoingService.addMove(moveDto);
   }
 }

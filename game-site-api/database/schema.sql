@@ -97,12 +97,13 @@ ALTER SEQUENCE challenges_id_seq RESTART WITH 4; -- For TypeORM
 -- NOTE: we allow many games of the same type between the same players, but NOT for challenges
 CREATE TABLE public.ongoing
 (
-    id serial NOT NULL,
+    id bigserial NOT NULL,
     player1_id integer NOT NULL,
     player2_id integer NOT NULL,
     game_type integer NOT NULL,
+    moves integer[] NOT NULL DEFAULT array[]::integer[],
+    last_move_played_at timestamp with time zone NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id),
-    -- CONSTRAINT unique_game UNIQUE (player1_id, player2_id, game_type),
     CONSTRAINT player1 FOREIGN KEY (player1_id)
         REFERENCES public.users (id) MATCH SIMPLE
         ON UPDATE CASCADE
@@ -126,5 +127,24 @@ INSERT INTO public.ongoing (id, player1_id, player2_id, game_type) VALUES
     (1, 1, 2, 2),
     (2, 3, 1, 1),
     (3, 2, 1, 1);
+
+
+-- Automatically set last move date to now when a new move happens
+CREATE OR REPLACE FUNCTION update_last_move_timestamp()
+RETURNS trigger AS $$
+BEGIN
+    -- Only update if moves actually changed
+    IF NEW.moves IS DISTINCT FROM OLD.moves THEN
+        NEW.last_move_played_at := NOW();
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_update_last_move
+BEFORE UPDATE ON public.ongoing
+FOR EACH ROW
+EXECUTE FUNCTION update_last_move_timestamp();
+
 
 ALTER SEQUENCE ongoing_id_seq RESTART WITH 4; -- For TypeORM
