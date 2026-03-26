@@ -9,10 +9,8 @@ import { Challenge } from './entities/challenge.entity';
 import { OngoingModule } from '../ongoing/ongoing.module';
 
 @Module({
-  imports: [
-    OngoingModule,
-    TypeOrmModule.forFeature([Challenge]),],
+  imports: [OngoingModule, TypeOrmModule.forFeature([Challenge])],
   controllers: [ChallengesController],
   providers: [ChallengesService],
 })
-export class ChallengesModule { }
+export class ChallengesModule {}

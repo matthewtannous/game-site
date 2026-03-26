@@ -16,13 +16,16 @@ export class ChallengesService {
     @InjectRepository(Challenge)
     private challengesRepository: Repository<Challenge>,
     private ongoingService: OngoingService,
-  ) { }
+  ) {}
 
   async create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
     try {
       return await this.challengesRepository.save(createChallengeDto);
     } catch {
-      throw new HttpException('Challenge already exists', HttpStatus.NOT_ACCEPTABLE);
+      throw new HttpException(
+        'Challenge already exists',
+        HttpStatus.NOT_ACCEPTABLE,
+      );
     }
   }
 
@@ -117,7 +120,7 @@ export class ChallengesService {
     // save challenge
     const challenge = await this.challengesRepository.findOneBy({ id: id });
     if (!challenge) {
-      throw new HttpException("Not found", HttpStatus.NOT_FOUND);
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     // convert challenge to ongoing
     const ongoing = {

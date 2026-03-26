@@ -12,7 +12,7 @@ export class OngoingService {
   constructor(
     @InjectRepository(Ongoing)
     private ongoingRepository: Repository<Ongoing>,
-  ) { }
+  ) {}
 
   create(createOngoingDto: CreateOngoingDto) {
     return this.ongoingRepository.save(createOngoingDto);
@@ -54,7 +54,8 @@ export class OngoingService {
   }
 
   async findAllOneUser(id: number) {
-    const result = await this.ongoingRepository.query(`
+    const result = await this.ongoingRepository.query(
+      `
         SELECT
           o.id               AS "id",
           o.player1_id       AS "player1Id",
@@ -68,7 +69,9 @@ export class OngoingService {
         JOIN users r ON r.id = o.player2_id
         JOIN games g ON g.id = o.game_type
         WHERE o.player1_id = $1 OR o.player2_id = $1;
-      `, [id]);
+      `,
+      [id],
+    );
 
     return result as DetailedOngoingDto[];
   }

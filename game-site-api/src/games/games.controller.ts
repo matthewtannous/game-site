@@ -1,10 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  Put,
+} from '@nestjs/common';
 import { GamesService } from './games.service';
 import { GameDto } from './dto/game.dto';
 
 @Controller('games')
 export class GamesController {
-  constructor(private readonly gamesService: GamesService) { }
+  constructor(private readonly gamesService: GamesService) {}
 
   @Post()
   create(@Body() gameDto: GameDto) {
@@ -22,10 +32,7 @@ export class GamesController {
   }
 
   @Put(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() gameDto: GameDto
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() gameDto: GameDto) {
     return this.gamesService.update(id, gameDto);
   }
 

@@ -1,6 +1,6 @@
 export class BasicUserDto {
-    id: number;
-    username: string;
-    email: string;
-    createdAt: Date;
+  id: number;
+  username: string;
+  email: string;
+  createdAt: Date;
 }

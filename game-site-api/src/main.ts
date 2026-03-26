@@ -3,10 +3,13 @@ import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
+import { HttpExceptionFilter } from './middlewares/http-exception.filter';
+
 dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.use(cookieParser()); // cookies available as req.cookies
   app.enableCors({
     origin: process.env.CORS_ORIGIN,

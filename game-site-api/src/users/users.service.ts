@@ -24,7 +24,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) { }
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     createUserDto.password = bcrypt.hashSync(
@@ -34,7 +34,10 @@ export class UsersService {
     try {
       return await this.usersRepository.save(createUserDto);
     } catch {
-      throw new HttpException('Usernmame already exists', HttpStatus.NOT_ACCEPTABLE);
+      throw new HttpException(
+        'Usernmame already exists',
+        HttpStatus.NOT_ACCEPTABLE,
+      );
     }
   }
 
@@ -50,7 +53,7 @@ export class UsersService {
       select: selectedColumns,
       where: {
         id: id,
-      }
+      },
     });
   }
 
@@ -61,8 +64,8 @@ export class UsersService {
         id: Not(id),
       },
       order: {
-        username: "ASC",
-      }
+        username: 'ASC',
+      },
     });
   }
 
