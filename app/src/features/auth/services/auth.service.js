@@ -1,8 +1,10 @@
 import { api } from "../../../services/api";
 
+const BASE = "/auth";
+
 export async function login({ username, password }) {
     try {
-        const res = await api("/auth/login", {
+        const res = await api(`${BASE}/login`, {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
@@ -21,7 +23,7 @@ export async function login({ username, password }) {
 
 export async function register({ username, email, password }) {
     try {
-        const res = await api("/auth/register", {
+        const res = await api(`${BASE}/register`, {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },

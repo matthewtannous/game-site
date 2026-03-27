@@ -1,16 +1,18 @@
 import { api } from "../../../services/api";
 
+const BASE = "/challenges";
+
 export function getChallenges() {
-    // return api("/challenges");
-    return api("/challenges/detailed");
+    // return api("${BASE}");
+    return api(`${BASE}/detailed`);
 }
 
 export function getChallenge(id) {
-    return api(`/challenges/${id}`);
+    return api(`${BASE}/${id}`);
 }
 
 export function createChallenge(data, id) {
-    return api('/challenges', {
+    return api(`${BASE}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -18,21 +20,21 @@ export function createChallenge(data, id) {
 }
 
 export function deleteChallenge(id) {
-    api(`/challenges/${id}`, {
+    api(`${BASE}/${id}`, {
         method: "DELETE",
     });
 }
 
 export function getSentChallenges(id) {
-    return api(`/challenges/sent/${id}`);
+    return api(`${BASE}/sent/${id}`);
 }
 
 export function getReceivedChallenges(id) {
-    return api(`/challenges/received/${id}`);
+    return api(`${BASE}/received/${id}`);
 }
 
 export function acceptChallenge(id) {
-    api(`/challenges/accept/${id}`, {
+    api(`${BASE}/accept/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
     });

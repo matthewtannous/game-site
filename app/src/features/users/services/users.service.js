@@ -1,19 +1,21 @@
 import { api } from "../../../services/api";
 
+const BASE = "/users";
+
 export function getUsers() {
-    return api("/users");
+    return api(BASE);
 }
 
 export function getUser(id) {
-    return api(`/users/${id}`);
+    return api(`${BASE}/${id}`);
 }
 
 export function getUsersExcept(id) {
-    return api(`/users/all-except/${id}`);
+    return api(`${BASE}/all-except/${id}`);
 }
 
 export function saveUser(data, id) {
-    api(id ? `/users/${id}` : "/users", {
+    api(id ? `${BASE}/${id}` : "${BASE}", {
         method: id ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -21,7 +23,7 @@ export function saveUser(data, id) {
 }
 
 export function deleteUser(id) {
-    api(`/users/${id}`, {
+    api(`${BASE}/${id}`, {
         method: "DELETE",
     });
 }

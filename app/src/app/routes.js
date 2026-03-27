@@ -11,12 +11,16 @@ import LocalConnect4 from '../features/connect_4/pages/Local';
 import ChallengeList from '../features/challenges/pages/ChallengeList';
 import ChallengeForm from '../features/challenges/pages/ChallengeForm';
 
+import OngoingList from '../features/ongoing/pages/OngoingList';
+
 export const loggedInRoutes = [
     { path: "/", element: Home },
     { path: "/about", element: About },
 
     { path: "/challenges", element: ChallengeList },
     { path: "/challenges/new", element: ChallengeForm },
+
+    { path: "/ongoing", element: OngoingList }
 ];
 
 export const authRoutes = [
