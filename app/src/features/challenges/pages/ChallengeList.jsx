@@ -21,18 +21,26 @@ export default function ChallengeList() {
     }
 
     useEffect(() => {
+        if (!user?.id)
+            return;
         loadChallenges();
-    }, []);
+    }, [user?.id]);
 
 
     async function remove(id) {
-        deleteChallenge(id);
-        loadChallenges();
+        setReceivedChallenges(prev => prev.filter(c => c.id !== id));
+        setSentChallenges(prev => prev.filter(c => c.id !== id));
+
+        await deleteChallenge(id);
+        await loadChallenges();
     }
 
     async function accept(id) {
-        acceptChallenge(id);
-        loadChallenges();
+        setReceivedChallenges(prev => prev.filter(c => c.id !== id));
+        setSentChallenges(prev => prev.filter(c => c.id !== id));
+
+        await acceptChallenge(id);
+        await loadChallenges();
     }
     return (
         <Paper>

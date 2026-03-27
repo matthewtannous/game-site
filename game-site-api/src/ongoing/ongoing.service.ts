@@ -12,7 +12,7 @@ export class OngoingService {
   constructor(
     @InjectRepository(Ongoing)
     private ongoingRepository: Repository<Ongoing>,
-  ) { }
+  ) {}
 
   create(basicOngoingDto: BasicOngoingDto) {
     return this.ongoingRepository.save(basicOngoingDto);
@@ -55,7 +55,7 @@ export class OngoingService {
     return result as DetailedOngoingDto[];
   }
 
-  async findAllOneUser(id: number) {
+  async findAllOneUser(id: number): Promise<DetailedOngoingDto[]> {
     const result = await this.ongoingRepository.query(
       `
         SELECT
@@ -85,12 +85,11 @@ export class OngoingService {
     const result = await this.ongoingRepository
       .createQueryBuilder('ongoing')
       .update(Ongoing)
-      .set({ moves: () => "array_append(moves, :move::int)" })
-      .where("id = :id", { id: moveDto.gameId })
+      .set({ moves: () => 'array_append(moves, :move::int)' })
+      .where('id = :id', { id: moveDto.gameId })
       .setParameters({ move: moveDto.move })
       .execute();
 
     return result ? result : null;
   }
-
 }

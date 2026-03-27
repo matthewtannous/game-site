@@ -102,7 +102,7 @@ export default function ChallengeForm() {
             </Stack>
 
             {alert.message &&
-                <Alert severity={alert.type} onClose={() => setError("")}>
+                <Alert severity={alert.type} onClose={() => setAlert({type: "", message: ""})}>
                     {alert.message}
                 </Alert>}
 
