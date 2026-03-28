@@ -6,6 +6,7 @@ import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 import { useAuth } from '../../store/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const links = [
     { to: '/', label: 'Home' },
@@ -17,6 +18,13 @@ const links = [
 
 const NavBar = () => {
     const { user, signOut } = useAuth();
+
+    const navigate = useNavigate();
+
+    function signOutAndRedirect() {
+        signOut();
+        navigate('/');
+    }
 
     return (
         <AppBar position="static" sx={{ mb: 3 }}>
@@ -49,7 +57,7 @@ const NavBar = () => {
                             <Typography variant="body2" sx={{ color: 'inherit', opacity: 0.85 }}>
                                 {user.username}
                             </Typography>
-                            <Button color="inherit" onClick={signOut}>
+                            <Button color="inherit" onClick={signOutAndRedirect}>
                                 Logout
                             </Button>
                         </>

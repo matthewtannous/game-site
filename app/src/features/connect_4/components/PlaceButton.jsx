@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 
-export default function PlaceButton({ onSquareClick }) {
+export default function PlaceButton({ onButtonClick }) {
     return (
         <Button variant='outlined' sx={{
             height: '40px',
@@ -10,7 +10,7 @@ export default function PlaceButton({ onSquareClick }) {
             marginLeft: '8px',
             marginRight: '8px',
         }}
-            onClick={onSquareClick}
+            onClick={onButtonClick}
         >
             Place
         </Button>
