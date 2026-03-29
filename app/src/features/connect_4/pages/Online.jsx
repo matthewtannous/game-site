@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { getOneOngoingDetailed } from '../../ongoing/services/ongoing.service';
 
 export default function OnlineConnect4() {
 

@@ -26,17 +26,22 @@ export class OngoingController {
     return this.ongoingService.findAll();
   }
 
-  @Get('detailed')
+  @Get('detailed/all')
   findAllDetailed() {
     return this.ongoingService.findAllDetailed();
   }
 
   @Get('detailed/:id')
+  findOneDetailed(@Param('id', ParseIntPipe) id: number) {
+    return this.ongoingService.findOneDetailed(id);
+  }
+
+  @Get('user/:id')
   findAllOneUser(@Param('id', ParseIntPipe) id: number) {
     return this.ongoingService.findAllOneUser(id);
   }
 
-  @Get('detailed-no-moves/:id')
+  @Get('user-no-moves/:id')
   findAllOneUserNoMoves(@Param('id', ParseIntPipe) id: number) {
     return this.ongoingService.findAllOneUserNoMoves(id);
   }

@@ -4,7 +4,6 @@ import { formatDistanceToNow } from 'date-fns';
 import { Link } from "react-router-dom";
 
 export default function ChallengesTable({ ongoingGames, username }) {
-    console.log(ongoingGames[1])
     return (
         <>
             <Typography variant="h5" marginBottom={3} marginTop={3} align="center"> Ongoing games</Typography>

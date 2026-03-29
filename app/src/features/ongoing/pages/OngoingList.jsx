@@ -1,6 +1,5 @@
-import { Button, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 import { useAuth } from "../../../store/hooks/useAuth";
 
@@ -13,7 +12,7 @@ export default function ChallengeList() {
     const [ongoing, setOngoing] = useState([]);
 
     async function loadOngoing() {
-        setOngoing(await getOneOngoingDetailedNoMoves(user.id)); // TEMPORARY
+        setOngoing(await getOneOngoingDetailedNoMoves(user.id));
     }
 
     useEffect(() => {
