@@ -97,7 +97,8 @@ export class OngoingService {
         JOIN users s ON s.id = o.player1_id
         JOIN users r ON r.id = o.player2_id
         JOIN games g ON g.id = o.game_type
-        WHERE o.player1_id = $1 OR o.player2_id = $1;
+        WHERE o.player1_id = $1 OR o.player2_id = $1
+        ORDER BY o.last_move_played_at DESC;
       `,
       [id],
     );

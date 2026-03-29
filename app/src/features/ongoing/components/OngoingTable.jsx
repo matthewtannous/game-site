@@ -1,8 +1,10 @@
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { formatDistanceToNow } from 'date-fns';
 
-export default function ChallengesTable({ ongoingGames, username }) {
+import { Link } from "react-router-dom";
 
+export default function ChallengesTable({ ongoingGames, username }) {
+    console.log(ongoingGames[1])
     return (
         <>
             <Typography variant="h5" marginBottom={3} marginTop={3} align="center"> Ongoing games</Typography>
@@ -25,7 +27,13 @@ export default function ChallengesTable({ ongoingGames, username }) {
                             <TableCell align="center">{formatDistanceToNow(game.lastMovePlayedAt, { addSuffix: true, includeSeconds: true })}</TableCell>
 
                             <TableCell align="center">
-                                <Button onClick={() => console.log("TEST")} variant="contained" color="secondary" size="small">
+                                <Button
+                                    color="secondary"
+                                    LinkComponent={Link}
+                                    to={`/ongoing/${game.gameName.replace(' ', '-').toLowerCase()}/${game.id}`}
+                                    variant="contained"
+                                    size="small"
+                                >
                                     GO
                                 </Button>
                             </TableCell>

@@ -13,6 +13,9 @@ import ChallengeForm from '../features/challenges/pages/ChallengeForm';
 
 import OngoingList from '../features/ongoing/pages/OngoingList';
 
+import OnlineConnect4 from '../features/connect_4/pages/Online';
+import OnlineTicTacToe from '../features/tic-tac-toe/pages/Online';
+
 export const loggedInRoutes = [
     { path: "/", element: Home },
     { path: "/about", element: About },
@@ -20,7 +23,9 @@ export const loggedInRoutes = [
     { path: "/challenges", element: ChallengeList },
     { path: "/challenges/new", element: ChallengeForm },
 
-    { path: "/ongoing", element: OngoingList }
+    { path: "/ongoing", element: OngoingList },
+    { path: "/ongoing/tic-tac-toe/:id", element: OnlineTicTacToe },
+    { path: "/ongoing/connect-4/:id", element: OnlineConnect4 },
 ];
 
 export const authRoutes = [
