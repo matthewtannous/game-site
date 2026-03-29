@@ -21,11 +21,19 @@ export function deleteOngoing(id) {
 }
 
 export function addMove(gameId, move) {
-    const result = api(`${BASE}/play`, {
+    api(`${BASE}/play`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ gameId, move }),
     });
 
-    return result ? true : false;
+    // return result ? true : false;
+}
+
+export function updateState(gameId, state) {
+    api(`${BASE}/state`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gameId, state }),
+    })
 }

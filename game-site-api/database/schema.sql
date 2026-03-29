@@ -94,6 +94,11 @@ INSERT INTO public.challenges (id, sender_id, receiver_id, game_type, created_at
 ALTER SEQUENCE challenges_id_seq RESTART WITH 4; -- For TypeORM
 
 -- Create ongoing games tables
+
+-- First create enum for states of the game
+CREATE TYPE game_state AS ENUM
+    ('ongoing', 'tie', 'player1_won', 'player2_won');
+
 -- NOTE: we allow many games of the same type between the same players, but NOT for challenges
 CREATE TABLE public.ongoing
 (
@@ -103,6 +108,7 @@ CREATE TABLE public.ongoing
     game_type integer NOT NULL,
     moves integer[] NOT NULL DEFAULT array[]::integer[],
     last_move_played_at timestamp with time zone NOT NULL DEFAULT NOW(),
+    state game_state DEFAULT 'ongoing',
     PRIMARY KEY (id),
     CONSTRAINT player1 FOREIGN KEY (player1_id)
         REFERENCES public.users (id) MATCH SIMPLE

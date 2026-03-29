@@ -1,3 +1,5 @@
+import { GameState } from "../entities/ongoing.entity";
+
 export class DetailedOngoingDto {
   id: number;
 
@@ -12,4 +14,6 @@ export class DetailedOngoingDto {
 
   moves: number[];
   lastMovePlayedAt: Date;
+
+  state: GameState;
 }

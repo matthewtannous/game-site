@@ -1,5 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+export enum GameState {
+  ongoing = "ongoing",
+  tie = 'tie',
+  player1Won = 'player1_won',
+  player2Won = 'player2_won',
+}
+
 @Entity('ongoing')
 export class Ongoing {
   @PrimaryGeneratedColumn()
@@ -19,4 +26,13 @@ export class Ongoing {
 
   @Column({ name: 'last_move_played_at' })
   lastMovePlayedAt: Date;
+
+  @Column({
+    name: 'state',
+    type: 'enum',
+    enum: GameState,
+    enumName: 'game_state',
+    default: GameState.ongoing,
+  })
+  state: GameState;
 }

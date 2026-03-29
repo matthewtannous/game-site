@@ -8,6 +8,8 @@ import { DetailedOngoingDto } from './dto/detailed-ongoing.dto';
 import { MoveDto } from './dto/move.dto';
 import { DetailedOngoingNoMovesDto } from './dto/detailed-ongoing-no-moves.dto';
 
+import { UpdateStateDto } from './dto/update-state.dto';
+
 @Injectable()
 export class OngoingService {
   constructor(
@@ -46,7 +48,8 @@ export class OngoingService {
           o.game_type               AS "gameType",
           g.name                    AS "gameName",
           o.moves                   AS "moves",
-          o.last_move_played_at    AS "lastMovePlayedAt"
+          o.last_move_played_at     AS "lastMovePlayedAt",
+          o.state                   AS "state"
         FROM ongoing o
         JOIN users s ON s.id = o.player1_id
         JOIN users r ON r.id = o.player2_id
@@ -67,7 +70,8 @@ export class OngoingService {
           o.game_type               AS "gameType",
           g.name                    AS "gameName",
           o.moves                   AS "moves",
-          o.last_move_played_at    AS "lastMovePlayedAt"
+          o.last_move_played_at     AS "lastMovePlayedAt",
+          o.state                   AS "state"
         FROM ongoing o
         JOIN users s ON s.id = o.player1_id
         JOIN users r ON r.id = o.player2_id
@@ -90,7 +94,8 @@ export class OngoingService {
           o.game_type               AS "gameType",
           g.name                    AS "gameName",
           o.moves                   AS "moves",
-          o.last_move_played_at    AS "lastMovePlayedAt"
+          o.last_move_played_at     AS "lastMovePlayedAt",
+          o.state                   AS "state"
         FROM ongoing o
         JOIN users s ON s.id = o.player1_id
         JOIN users r ON r.id = o.player2_id
@@ -114,7 +119,8 @@ export class OngoingService {
           r.username                AS "player2Name",
           o.game_type               AS "gameType",
           g.name                    AS "gameName",
-          o.last_move_played_at    AS "lastMovePlayedAt"
+          o.last_move_played_at     AS "lastMovePlayedAt",
+          o.state                   AS "state"
         FROM ongoing o
         JOIN users s ON s.id = o.player1_id
         JOIN users r ON r.id = o.player2_id
@@ -130,7 +136,6 @@ export class OngoingService {
 
 
   async addMove(moveDto: MoveDto) {
-    // find game with id
     const result = await this.ongoingRepository
       .createQueryBuilder('ongoing')
       .update(Ongoing)
@@ -140,5 +145,9 @@ export class OngoingService {
       .execute();
 
     return result ? result : null;
+  }
+
+  async updateState(updateStateDto: UpdateStateDto) {
+    return this.ongoingRepository.update(updateStateDto.gameId, { state: updateStateDto.state });
   }
 }

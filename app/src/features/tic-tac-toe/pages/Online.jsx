@@ -6,7 +6,7 @@
  */
 
 import { useParams } from 'react-router-dom';
-import { getOneOngoingDetailed, addMove } from '../../ongoing/services/ongoing.service';
+import { getOneOngoingDetailed, addMove, updateState } from '../../ongoing/services/ongoing.service';
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '../../../store/hooks/useAuth';
@@ -14,6 +14,8 @@ import Board from '../components/Board';
 import SurrenderButton from '../../../components/ui/SurrenderButton';
 import { calculateWinner } from '../../../utils/tic-tac-toe';
 import { Typography } from '@mui/material';
+
+import { GameState } from '../../../constants';
 
 export default function OnlineTicTacToe() {
     const { user } = useAuth();
@@ -32,12 +34,12 @@ export default function OnlineTicTacToe() {
 
     async function loadGameInfo() {
         // Load the board information
-        // Get move array (contains integers of moves in order, e.g. [2,5,1,8])
         const { moves, player1Id, player1Name, player2Name } = await getOneOngoingDetailed(id);
-        const data = await getOneOngoingDetailed(id);
-        console.log(data)
-        // Transform it to be displayed (array of O and X at positions,
-        // e.g. [null, 'O', null, 'X', null, null, 'X', 'O', null])
+        /* 
+            Move array contains integers of moves in order, e.g. [2,5,1,8]
+            Transform it to be displayed (array of O and X at positions from moves,
+            e.g. [null, 'O', null, 'X', null, null, 'X', 'O', null])
+        */
         let newSquares = Array(9).fill(null);
         for (let i = 0; i < moves.length; i++) {
             if (i % 2 === 0)
@@ -47,13 +49,26 @@ export default function OnlineTicTacToe() {
         }
         setSquares(newSquares);
 
+        // Determine if player is player1 or player2
+        const isPlayer1 = player1Id === user.id;
+
         // Check if the game is finished
         const winner = calculateWinner(newSquares)
-        if (winner) {
-            setStatus(`Game over, ${winner} won`);
+        if (winner === 'O') {
+            // Player 1 is always O
+            setStatus(`Game over, ${player1Name} won`);
+            updateState(id, GameState.player1Won); // !!!!!! 
             return;
-        } else if (moves.length === 9) {
+        }
+        if (winner === 'X') {
+            // Player 2 is always X
+            setStatus(`Game over, ${player2Name} won`);
+            updateState(id, GameState.player2Won);
+            return;
+        }
+        if (moves.length === 9) {
             setStatus("Tie");
+            updateState(id, GameState.tie);
             return;
         }
 
@@ -61,15 +76,13 @@ export default function OnlineTicTacToe() {
 
         // Determine the turn
         let turnLocal;
-        if (player1Id === user.id) {
-            // user is player 1
+        if (isPlayer1) {
             turnLocal = !evenMoves;
             setOpponentName(player2Name);
         } else {
             // user is player 2
             turnLocal = evenMoves;
             setOpponentName(player1Name);
-
         }
 
         setTurnOfPlayer(turnLocal);
@@ -90,7 +103,6 @@ export default function OnlineTicTacToe() {
     async function handleClick(index) {
         // return early if position already has a value or if the game is over
         if (squares[index] || calculateWinner(squares) || !turnOfPlayer || loadingMove) {
-            console.log("NOOO"); // testing
             return;
         }
 
@@ -105,6 +117,7 @@ export default function OnlineTicTacToe() {
 
 
         // Reload after small delay (prevent fetching old data from database)
+        // CHANGE WITH WEBSOCKETS !!!!!!!!
         setTimeout(function () {
             loadGameInfo();
         }, 250);
