@@ -14,11 +14,7 @@ import { createChallenge } from '../services/challenges.service'
 import { useAuth } from '../../../store/hooks/useAuth';
 import { getUsersExcept } from '../../users/services/users.service';
 
-/*
-Since we only need one function to get all games and we will not use it anywhere else in the app,
-import api directly here to avoid creating a service file that will only be used here
-*/
-import { api } from '../../../services/api';
+import { Game } from '../../../constants';
 
 export default function ChallengeForm() {
     const { user } = useAuth();
@@ -27,12 +23,9 @@ export default function ChallengeForm() {
 
     const [alert, setAlert] = useState({ type: "", message: "" });
 
-    const [games, setGames] = useState([]);
-
     async function loadData() {
         // users itself is never rendered, does not need state
         const users = await getUsersExcept(user.id);
-        setGames(await api('/games'));
 
         // Update users that match search query
         if (!form.username || form.username.length === 0) {
@@ -47,22 +40,22 @@ export default function ChallengeForm() {
         loadData();
     }, [form]);
 
-    async function sendChallenge(id, challenged_username) {
+    async function sendChallenge(challenged_id, challenged_username) {
         if (!form.game) {
             setAlert({ type: "error", message: "Please Choose a game first!" });
             return;
         }
 
         try {
-            await createChallenge({ senderId: user.id, receiverId: id, gameType: form.game })
+            await createChallenge({ senderId: user.id, receiverId: challenged_id, gameType: form.game })
             setAlert({
                 type: "success",
-                message: `Challenged ${challenged_username} to a game of ${games.find(g => g.id === form.game).name}`
+                message: `Challenged ${challenged_username} to a game of ${form.game}`
             });
         } catch (error) {
             setAlert({
                 type: "error",
-                message: `You already have a pending challenge of ${games.find(g => g.id === form.game).name} with ${challenged_username}`
+                message: `You already have a pending challenge of ${form.game} with ${challenged_username}`
             });
         }
     }
@@ -91,9 +84,9 @@ export default function ChallengeForm() {
                         onChange={e => setForm({ ...form, game: e.target.value })}
                     >
                         {
-                            games.map(game => (
-                                <MenuItem key={game.id} value={game.id}>
-                                    {game.name}
+                            Object.entries(Game).map(game => (
+                                <MenuItem key={game[0]} value={game[0]}>
+                                    {game[1]}
                                 </MenuItem>
                             ))
                         }

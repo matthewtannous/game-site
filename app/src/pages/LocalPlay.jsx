@@ -1,6 +1,8 @@
 import { Typography, Button, Stack, ButtonGroup } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import { Game } from '../constants';
+
 export default function LocalPlay() {
 
     return (
@@ -14,19 +16,20 @@ export default function LocalPlay() {
                 <ButtonGroup variant='contained' component={Stack}
                     sx={{
                         gap: '16px'
-                    }}>
-                    <Button
-                        component={Link}
-                        to={'/local/tic-tac-toe'}
-                    >
-                        Play Tic tac toe
-                    </Button>
-                    <Button
-                        component={Link}
-                        to={'/local/connect-4'}
-                    >
-                        Play Connect 4
-                    </Button>
+                    }}
+                >
+                    {
+                        Object.entries(Game).map(game => (
+                            <Button
+                                key={game[0]}
+                                component={Link}
+                                to={`/local/${game[0].replace(' ', '-')}`}
+                            >
+                                Play {game[1]}
+                            </Button>
+
+                        ))
+                    }
                 </ButtonGroup>
             </Stack>
 

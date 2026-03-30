@@ -11,7 +11,7 @@ export function getChallenge(id) {
     return api(`${BASE}/${id}`);
 }
 
-export function createChallenge(data, id) {
+export function createChallenge(data) {
     return api(`${BASE}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
