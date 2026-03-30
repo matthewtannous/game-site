@@ -1,7 +1,7 @@
 import { GameType } from '../../common/enums/game-type.enum';
 
-export class CreateChallengeDto {
-  senderId: number;
-  receiverId: number;
+export class BasicGameDto {
+  player1Id: number;
+  player2Id: number;
   gameType: GameType;
 }

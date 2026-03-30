@@ -12,7 +12,7 @@ const links = [
     { to: '/', label: 'Home' },
     { to: '/local', label: 'Local' },
     { to: '/challenges', label: 'Challenges' },
-    { to: '/ongoing', label: 'Ongoing' },
+    { to: '/games', label: 'Games' },
     { to: '/about', label: 'About' },
 ];
 

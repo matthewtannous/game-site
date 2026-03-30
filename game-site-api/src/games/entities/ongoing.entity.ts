@@ -1,10 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 import { GameState } from '../../common/enums/game-state.enum';
-import { Game } from '../../common/enums/game.enum';
+import { GameType } from '../../common/enums/game-type.enum';
 
-@Entity('ongoing')
-export class Ongoing {
+@Entity('games')
+export class Game {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,10 +17,10 @@ export class Ongoing {
   @Column({
     name: 'game_type',
     type: 'enum',
-    enum: Game,
+    enum: GameType,
     enumName: 'game',
   })
-  gameType: Game;
+  gameType: GameType;
 
   @Column('simple-array')
   moves: number[];

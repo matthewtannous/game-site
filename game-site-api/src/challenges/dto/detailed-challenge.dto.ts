@@ -1,4 +1,4 @@
-import { Game } from "src/common/enums/game.enum";
+import { GameType } from '../../common/enums/game-type.enum';
 
 export class DetailedChallengeDto {
   senderId: number;
@@ -7,7 +7,7 @@ export class DetailedChallengeDto {
   receiverId: number;
   receiverName: string;
 
-  gameType: Game;
+  gameType: GameType;
 
   createdAt: Date;
 }

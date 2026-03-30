@@ -1,8 +1,7 @@
 import { GameState } from '../../common/enums/game-state.enum';
-import { Game } from "src/common/enums/game.enum";
+import { GameType } from '../../common/enums/game-type.enum';
 
-
-export class DetailedOngoingNoMovesDto {
+export class DetailedGameDto {
   id: number;
 
   player1Id: number;
@@ -11,8 +10,9 @@ export class DetailedOngoingNoMovesDto {
   player2Id: number;
   player2Name: string;
 
-  gameType: Game;
+  gameType: GameType;
 
+  moves: number[];
   lastMovePlayedAt: Date;
 
   state: GameState;

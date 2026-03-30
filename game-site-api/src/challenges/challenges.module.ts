@@ -6,10 +6,10 @@ import { ChallengesController } from './challenges.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Challenge } from './entities/challenge.entity';
 
-import { OngoingModule } from '../ongoing/ongoing.module';
+import { GameModule } from '../games/games.module';
 
 @Module({
-  imports: [OngoingModule, TypeOrmModule.forFeature([Challenge])],
+  imports: [TypeOrmModule.forFeature([Challenge]), GameModule],
   controllers: [ChallengesController],
   providers: [ChallengesService],
 })

@@ -78,14 +78,14 @@ INSERT INTO public.challenges (id, sender_id, receiver_id, game_type, created_at
 
 ALTER SEQUENCE challenges_id_seq RESTART WITH 4; -- For TypeORM
 
--- Create ongoing games tables
+-- Create games tables
 
 -- Create enum for states of the game
 CREATE TYPE game_state AS ENUM
     ('ongoing', 'tie', 'player1_won', 'player2_won');
 
 -- NOTE: we allow many games of the same type between the same players, but NOT for challenges
-CREATE TABLE public.ongoing
+CREATE TABLE public.games
 (
     id bigserial NOT NULL,
     player1_id integer NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE public.ongoing
 );
 
 -- Insert data
-INSERT INTO public.ongoing (id, player1_id, player2_id, game_type) VALUES
+INSERT INTO public.games (id, player1_id, player2_id, game_type) VALUES
     (1, 1, 2, 'connect 4'),
     (2, 3, 1, 'tic-tac-toe'),
     (3, 2, 1, 'tic-tac-toe');
@@ -128,9 +128,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_update_last_move
-BEFORE UPDATE ON public.ongoing
+BEFORE UPDATE ON public.games
 FOR EACH ROW
 EXECUTE FUNCTION update_last_move_timestamp();
 
 
-ALTER SEQUENCE ongoing_id_seq RESTART WITH 4; -- For TypeORM
+ALTER SEQUENCE games_id_seq RESTART WITH 4; -- For TypeORM

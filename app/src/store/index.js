@@ -17,6 +17,5 @@ store.subscribe(() => {
         }
     } catch {
         // ignore
-        alert('ERROR IN STORE!!!!!!!');
     }
 });

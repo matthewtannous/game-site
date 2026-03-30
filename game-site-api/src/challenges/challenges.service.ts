@@ -8,15 +8,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Challenge } from './entities/challenge.entity';
 
-import { OngoingService } from '../ongoing/ongoing.service';
+import { GamesService } from '../games/games.service';
 
 @Injectable()
 export class ChallengesService {
   constructor(
     @InjectRepository(Challenge)
     private challengesRepository: Repository<Challenge>,
-    private ongoingService: OngoingService,
-  ) { }
+    private gamesService: GamesService,
+  ) {}
 
   async create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
     try {
@@ -117,7 +117,7 @@ export class ChallengesService {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     // convert challenge to ongoing
-    const ongoing = {
+    const newGame = {
       player1Id: challenge.senderId,
       player2Id: challenge.receiverId,
       gameType: challenge.gameType,
@@ -127,8 +127,8 @@ export class ChallengesService {
     this.challengesRepository.delete(id);
 
     // Add challenge to ongoing games repository
-    this.ongoingService.create(ongoing);
+    this.gamesService.create(newGame);
 
-    return ongoing;
+    return newGame; // not needed ?
   }
 }

@@ -1,20 +1,20 @@
 import { api } from "../../../services/api";
 
-const BASE = "/ongoing";
+const BASE = "/games";
 
-export function getAllOngoing() {
+export function getAllGames() {
     return api(BASE);
 }
 
-export function getOneOngoingDetailedNoMoves(id) {
+export function getAllOneUserDetailedNoMoves(id) {
     return api(`${BASE}/user-no-moves/${id}`);
 }
 
-export function getOneOngoingDetailed(id) {
+export function getOneGameDetailed(id) {
     return api(`${BASE}/detailed/${id}`);
 }
 
-export function deleteOngoing(id) {
+export function deleteGame(id) {
     api(`${BASE}/${id}`, {
         method: "DELETE",
     });

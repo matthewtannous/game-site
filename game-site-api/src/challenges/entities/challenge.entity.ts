@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Game } from '../../common/enums/game.enum';
+import { GameType } from '../../common/enums/game-type.enum';
 
 @Entity('challenges')
 export class Challenge {
@@ -15,10 +15,10 @@ export class Challenge {
   @Column({
     name: 'game_type',
     type: 'enum',
-    enum: Game,
+    enum: GameType,
     enumName: 'game',
   })
-  gameType: Game;
+  gameType: GameType;
 
   @Column({ type: 'time with time zone', name: 'created_at' })
   createdAt: Date;

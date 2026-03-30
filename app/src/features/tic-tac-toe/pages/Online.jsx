@@ -6,7 +6,7 @@
  */
 
 import { useParams } from 'react-router-dom';
-import { getOneOngoingDetailed, addMove, updateState } from '../../ongoing/services/ongoing.service';
+import { getOneGameDetailed, addMove, updateState } from '../../games/services/games.service';
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '../../../store/hooks/useAuth';
@@ -34,7 +34,7 @@ export default function OnlineTicTacToe() {
 
     async function loadGameInfo() {
         // Load the board information
-        const { moves, player1Id, player1Name, player2Name } = await getOneOngoingDetailed(id);
+        const { moves, player1Id, player1Name, player2Name } = await getOneGameDetailed(id);
         /* 
             Move array contains integers of moves in order, e.g. [2,5,1,8]
             Transform it to be displayed (array of O and X at positions from moves,

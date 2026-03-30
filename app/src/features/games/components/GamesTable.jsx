@@ -3,10 +3,10 @@ import { formatDistanceToNow } from 'date-fns';
 
 import { Link } from "react-router-dom";
 
-export default function ChallengesTable({ ongoingGames, username }) {
+export default function GamesTable({ games, username }) {
     return (
         <>
-            <Typography variant="h5" marginBottom={3} marginTop={3} align="center"> Ongoing games</Typography>
+            <Typography variant="h5" marginBottom={3} marginTop={3} align="center">  games</Typography>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -19,7 +19,7 @@ export default function ChallengesTable({ ongoingGames, username }) {
                 </TableHead>
 
                 <TableBody>
-                    {ongoingGames.map((game) => (
+                    {games.map((game) => (
                         <TableRow key={game.id}>
                             <TableCell align="center">{game.player1Name === username ? game.player2Name : game.player1Name}</TableCell>
                             <TableCell align="center">{game.gameType}</TableCell>
@@ -29,7 +29,7 @@ export default function ChallengesTable({ ongoingGames, username }) {
                                 <Button
                                     color="secondary"
                                     LinkComponent={Link}
-                                    to={`/ongoing/${game.gameType.replace(' ', '-').toLowerCase()}/${game.id}`}
+                                    to={`/games/${game.gameType.replace(' ', '-').toLowerCase()}/${game.id}`}
                                     variant="contained"
                                     size="small"
                                 >

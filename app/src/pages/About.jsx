@@ -4,6 +4,12 @@ export default function About() {
     const { user } = useAuth();
     return (
         <>
+            {
+                Object.entries(user).map(info => (
+                    <div>
+                        {info[0]} {info[1]}
+                    </div>))
+            }
             <h3>ABOUT YOUUUU</h3>
             <h3>id: {user.id}</h3>
             <h3>username: {user.username}</h3>
