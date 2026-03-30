@@ -28,7 +28,7 @@ export class OngoingController {
     return this.ongoingService.findAll();
   }
 
-  @Get('detailed/all')
+  @Get('detailed')
   findAllDetailed() {
     return this.ongoingService.findAllDetailed();
   }

@@ -46,14 +46,12 @@ export class OngoingService {
           o.player2_id              AS "player2Id",
           r.username                AS "player2Name",
           o.game_type               AS "gameType",
-          g.name                    AS "gameName",
           o.moves                   AS "moves",
           o.last_move_played_at     AS "lastMovePlayedAt",
           o.state                   AS "state"
         FROM ongoing o
         JOIN users s ON s.id = o.player1_id
-        JOIN users r ON r.id = o.player2_id
-        JOIN games g ON g.id = o.game_type;
+        JOIN users r ON r.id = o.player2_id;
       `);
 
     return result as DetailedOngoingDto[];
@@ -68,14 +66,12 @@ export class OngoingService {
           o.player2_id              AS "player2Id",
           r.username                AS "player2Name",
           o.game_type               AS "gameType",
-          g.name                    AS "gameName",
           o.moves                   AS "moves",
           o.last_move_played_at     AS "lastMovePlayedAt",
           o.state                   AS "state"
         FROM ongoing o
         JOIN users s ON s.id = o.player1_id
         JOIN users r ON r.id = o.player2_id
-        JOIN games g ON g.id = o.game_type
         WHERE o.id = $1;
       `, [id]);
 
@@ -92,14 +88,12 @@ export class OngoingService {
           o.player2_id              AS "player2Id",
           r.username                AS "player2Name",
           o.game_type               AS "gameType",
-          g.name                    AS "gameName",
           o.moves                   AS "moves",
           o.last_move_played_at     AS "lastMovePlayedAt",
           o.state                   AS "state"
         FROM ongoing o
         JOIN users s ON s.id = o.player1_id
         JOIN users r ON r.id = o.player2_id
-        JOIN games g ON g.id = o.game_type
         WHERE o.player1_id = $1 OR o.player2_id = $1;
       `,
       [id],
@@ -118,13 +112,11 @@ export class OngoingService {
           o.player2_id              AS "player2Id",
           r.username                AS "player2Name",
           o.game_type               AS "gameType",
-          g.name                    AS "gameName",
           o.last_move_played_at     AS "lastMovePlayedAt",
           o.state                   AS "state"
         FROM ongoing o
         JOIN users s ON s.id = o.player1_id
         JOIN users r ON r.id = o.player2_id
-        JOIN games g ON g.id = o.game_type
         WHERE o.player1_id = $1 OR o.player2_id = $1
         ORDER BY o.last_move_played_at DESC;
       `,

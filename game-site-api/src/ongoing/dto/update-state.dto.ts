@@ -1,4 +1,4 @@
-import { GameState } from "../entities/ongoing.entity";
+import { GameState } from '../../common/enums/game-state.enum';
 
 export class UpdateStateDto {
     gameId: number;

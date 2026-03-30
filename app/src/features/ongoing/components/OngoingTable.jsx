@@ -22,14 +22,14 @@ export default function ChallengesTable({ ongoingGames, username }) {
                     {ongoingGames.map((game) => (
                         <TableRow key={game.id}>
                             <TableCell align="center">{game.player1Name === username ? game.player2Name : game.player1Name}</TableCell>
-                            <TableCell align="center">{game.gameName}</TableCell>
+                            <TableCell align="center">{game.gameType}</TableCell>
                             <TableCell align="center">{formatDistanceToNow(game.lastMovePlayedAt, { addSuffix: true, includeSeconds: true })}</TableCell>
                             <TableCell align="center">{game.state}</TableCell>
                             <TableCell align="center">
                                 <Button
                                     color="secondary"
                                     LinkComponent={Link}
-                                    to={`/ongoing/${game.gameName.replace(' ', '-').toLowerCase()}/${game.id}`}
+                                    to={`/ongoing/${game.gameType.replace(' ', '-').toLowerCase()}/${game.id}`}
                                     variant="contained"
                                     size="small"
                                 >

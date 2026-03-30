@@ -20,7 +20,7 @@ export default function ChallengesTable({ sent, challenges, onAccept, onDecline 
                     {challenges.map((challenge) => (
                         <TableRow key={challenge.id}>
                             <TableCell align="center">{sent ? challenge.receiverName : challenge.senderName}</TableCell>
-                            <TableCell align="center">{challenge.gameName}</TableCell>
+                            <TableCell align="center">{challenge.gameType}</TableCell>
                             <TableCell align="center">{formatDate(challenge.createdAt, "eeee d MMMM, u 'at' h:mm aaaa")}</TableCell>
                             <TableCell align="center">
                                 {/* <Stack direction="row" spacing={1}>

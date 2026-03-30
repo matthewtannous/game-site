@@ -1,4 +1,6 @@
-import { GameState } from "../entities/ongoing.entity";
+import { GameState } from '../../common/enums/game-state.enum';
+import { Game } from "src/common/enums/game.enum";
+
 
 export class DetailedOngoingNoMovesDto {
   id: number;
@@ -9,8 +11,7 @@ export class DetailedOngoingNoMovesDto {
   player2Id: number;
   player2Name: string;
 
-  gameType: number;
-  gameName: string;
+  gameType: Game;
 
   lastMovePlayedAt: Date;
 

@@ -16,7 +16,7 @@ export class ChallengesService {
     @InjectRepository(Challenge)
     private challengesRepository: Repository<Challenge>,
     private ongoingService: OngoingService,
-  ) {}
+  ) { }
 
   async create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
     try {
@@ -54,12 +54,10 @@ export class ChallengesService {
         c.receiver_id      AS "receiverId",
         r.username         AS "receiverName",
         c.game_type        AS "gameType",
-        g.name             AS "gameName",
         c.created_at       AS "createdAt"
       FROM challenges c
       JOIN users s ON s.id = c.sender_id
       JOIN users r ON r.id = c.receiver_id
-      JOIN games g ON g.id = c.game_type
       ORDER BY c.created_at DESC;
     `);
 
@@ -76,12 +74,10 @@ export class ChallengesService {
         c.receiver_id      AS "receiverId",
         r.username         AS "receiverName",
         c.game_type        AS "gameType",
-        g.name             AS "gameName",
         c.created_at       AS "createdAt"
       FROM challenges c
       JOIN users s ON s.id = c.sender_id
       JOIN users r ON r.id = c.receiver_id
-      JOIN games g ON g.id = c.game_type
       WHERE c.receiver_id = $1
       ORDER BY c.created_at DESC;
     `,
@@ -101,12 +97,10 @@ export class ChallengesService {
         c.receiver_id      AS "receiverId",
         r.username         AS "receiverName",
         c.game_type        AS "gameType",
-        g.name             AS "gameName",
         c.created_at       AS "createdAt"
       FROM challenges c
       JOIN users s ON s.id = c.sender_id
       JOIN users r ON r.id = c.receiver_id
-      JOIN games g ON g.id = c.game_type
       WHERE c.sender_id = $1
       ORDER BY c.created_at DESC;
     `,
@@ -135,6 +129,6 @@ export class ChallengesService {
     // Add challenge to ongoing games repository
     this.ongoingService.create(ongoing);
 
-    return ongoing; // ??
+    return ongoing;
   }
 }
