@@ -57,13 +57,11 @@ CREATE TABLE public.challenges
     CONSTRAINT sender FOREIGN KEY (sender_id)
         REFERENCES public.users (id) MATCH SIMPLE
         ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID,
+        ON DELETE CASCADE,        
     CONSTRAINT receiver FOREIGN KEY (receiver_id)
         REFERENCES public.users (id) MATCH SIMPLE
         ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID,
+        ON DELETE CASCADE,
     CHECK (sender_id <> receiver_id)
 );
 
@@ -98,21 +96,19 @@ CREATE TABLE public.games
     CONSTRAINT player1 FOREIGN KEY (player1_id)
         REFERENCES public.users (id) MATCH SIMPLE
         ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID,
+        ON DELETE CASCADE,
     CONSTRAINT player2 FOREIGN KEY (player2_id)
         REFERENCES public.users (id) MATCH SIMPLE
         ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID,
-    CONSTRAINT same_player CHECK (player1_id <> player2_id) NOT VALID
+        ON DELETE CASCADE,
+    CONSTRAINT same_player CHECK (player1_id <> player2_id)
 );
 
 -- Insert data
-INSERT INTO public.games (id, player1_id, player2_id, game_type) VALUES
-    (1, 1, 2, 'connect 4'),
-    (2, 3, 1, 'tic-tac-toe'),
-    (3, 2, 1, 'tic-tac-toe');
+INSERT INTO public.games (id, player1_id, player2_id, game_type, moves) VALUES
+    (1, 1, 2, 'connect 4', '{1,6}'),
+    (2, 3, 1, 'tic-tac-toe', '{1, 2, 7, 5}'),
+    (3, 2, 1, 'tic-tac-toe', '{3, 1, 6, 8, 4}');
 
 
 -- Automatically set last move date to now when a new move happens
@@ -134,3 +130,34 @@ EXECUTE FUNCTION update_last_move_timestamp();
 
 
 ALTER SEQUENCE games_id_seq RESTART WITH 4; -- For TypeORM
+
+-- Create statistics table
+CREATE TABLE public.statistics
+(
+    id bigserial NOT NULL,
+    player1_id integer NOT NULL,
+    player2_id integer NOT NULL,
+    game_type game NOT NULL,
+    player1_wins integer NOT NULL DEFAULT 0,
+    player2_wins integer NOT NULL DEFAULT 0,
+    draws integer NOT NULL DEFAULT 0,
+    PRIMARY KEY (id),
+    UNIQUE (player1_id, player2_id, game_type),
+    CONSTRAINT player1 FOREIGN KEY (player1_id)
+        REFERENCES public.users (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT player2 FOREIGN KEY (player2_id)
+        REFERENCES public.users (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CHECK (player1_id < player2_id)
+);
+
+-- Insert data
+INSERT INTO public.statistics (id, player1_id, player2_id, game_type, player1_wins, player2_wins, draws) VALUES
+    (1, 1, 2, 'connect 4', 2, 4, 3),
+    (2, 2, 3, 'tic-tac-toe', 1, 7, 2),
+    (3, 1, 2, 'tic-tac-toe', 22, 40, 13);
+
+ALTER SEQUENCE statistics_id_seq RESTART WITH 4; -- For TypeORM

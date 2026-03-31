@@ -3,11 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
   ParseIntPipe,
-  Put,
 } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { BasicGameDto } from './dto/basic-game.dto';
@@ -16,7 +15,7 @@ import { UpdateStateDto } from './dto/update-state.dto';
 
 @Controller('games')
 export class GameController {
-  constructor(private readonly gamesService: GamesService) {}
+  constructor(private readonly gamesService: GamesService) { }
 
   @Post()
   create(@Body() basicGameDto: BasicGameDto) {
@@ -53,7 +52,7 @@ export class GameController {
     return this.gamesService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() basicGameDto: BasicGameDto,

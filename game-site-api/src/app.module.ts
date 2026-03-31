@@ -9,6 +9,7 @@ import { User } from './users/entities/user.entity';
 import { Challenge } from './challenges/entities/challenge.entity';
 import { AuthModule } from './auth/auth.module';
 import { GameModule } from './games/games.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 import dotenv from 'dotenv';
 
@@ -30,6 +31,7 @@ dotenv.config();
     ChallengesModule,
     AuthModule,
     GameModule,
+    StatisticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
