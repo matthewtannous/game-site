@@ -5,7 +5,7 @@
  * it is player 2 's turn. Otherwise it is player 1 's turn.
  */
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getOneGameDetailed, addMove, updateState } from '../../games/services/games.service';
 import { useEffect, useState } from 'react';
 
@@ -25,8 +25,10 @@ export default function OnlineTicTacToe() {
     const [status, setStatus] = useState("");
     const [turnOfPlayer, setTurnOfPlayer] = useState(true);
     const [opponentName, setOpponentName] = useState("");
-
+    const [isPlayer1, setIsPlayer1] = useState(true);
     const [loadingMove, setLoadingMove] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         loadGameInfo();
@@ -50,14 +52,14 @@ export default function OnlineTicTacToe() {
         setSquares(newSquares);
 
         // Determine if player is player1 or player2
-        const isPlayer1 = player1Id === user.id;
+        setIsPlayer1(player1Id === user.id);
 
         // Check if the game is finished
         const winner = calculateWinner(newSquares)
         if (winner === 'O') {
             // Player 1 is always O
             setStatus(`Game over, ${player1Name} won`);
-            updateState(id, GameState.player1Won); // !!!!!! 
+            updateState(id, GameState.player1Won);
             return;
         }
         if (winner === 'X') {
@@ -120,14 +122,19 @@ export default function OnlineTicTacToe() {
         // CHANGE WITH WEBSOCKETS !!!!!!!!
         setTimeout(function () {
             loadGameInfo();
-        }, 250);
+        }, 150);
 
         setLoadingMove(false);
     }
 
     function surrender() {
-        // Needs to have stats table in backend to update overall scores
-        console.log("Surrendereddd");
+        // update state of the game (set winner to other player) 
+        updateState(id, (isPlayer1 ? GameState.player2Won : GameState.player1Won));
+
+        // Update overall scores (Needs stats table in backend)
+
+        // go back to games
+        navigate('/games');
     }
 
     return (

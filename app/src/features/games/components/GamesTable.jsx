@@ -2,18 +2,35 @@ import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } 
 import { formatDistanceToNow } from 'date-fns';
 
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../store/hooks/useAuth";
 
-export default function GamesTable({ games, username }) {
+export default function GamesTable({ games, username, finished }) {
+    if (finished) {
+        // Update game state to be displayed instead of 'player1_won' or 'player2_won'
+        const { user } = useAuth();
+        for (let game of games) {
+
+            if (game.state !== 'tie') { // if tie do nothing
+                if ((game.state === 'player1_won' && game.player1Id === user.id)
+                    || (game.state === 'player2_won' && game.player2Id === user.id)) {
+                    game.state = 'Win';
+                } else {
+                    game.state = 'Loss';
+                }
+            }
+        }
+    }
+
     return (
         <>
-            <Typography variant="h5" marginBottom={3} marginTop={3} align="center">  games</Typography>
+            <Typography variant="h5" marginBottom={3} marginTop={4} align="center"> {finished ? 'Finished' : 'Ongoing'} Games</Typography>
             <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell align="center" width={200}>Opponent</TableCell>
                         <TableCell align="center" width={200}>Game Type</TableCell>
-                        <TableCell align="center" width={300}>Time of Last Move</TableCell>
-                        <TableCell align="center" width={300}>Game State</TableCell>
+                        <TableCell align="center" width={300}>{finished ? 'Finished On' : 'Time of Last Move'} </TableCell>
+                        {finished && <TableCell align="center" width={300}>Result</TableCell>}
                         <TableCell align="center" width={200} >Check Game</TableCell>
                     </TableRow>
                 </TableHead>
@@ -24,7 +41,7 @@ export default function GamesTable({ games, username }) {
                             <TableCell align="center">{game.player1Name === username ? game.player2Name : game.player1Name}</TableCell>
                             <TableCell align="center">{game.gameType}</TableCell>
                             <TableCell align="center">{formatDistanceToNow(game.lastMovePlayedAt, { addSuffix: true, includeSeconds: true })}</TableCell>
-                            <TableCell align="center">{game.state}</TableCell>
+                            {finished && <TableCell align="center">{game.state}</TableCell>}
                             <TableCell align="center">
                                 <Button
                                     color="secondary"

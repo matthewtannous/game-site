@@ -24,8 +24,15 @@ export default function GameList() {
     return (
         <Paper>
             <GamesTable
-                games={games}
+                games={games.filter((game) => game.state === 'ongoing')}
                 username={user.username}
+                finished={false}
+            />
+
+            <GamesTable
+                games={games.filter((game) => game.state !== 'ongoing')}
+                username={user.username}
+                finished={true}
             />
         </Paper>
     )

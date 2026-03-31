@@ -31,16 +31,27 @@ export default function ChallengeList() {
         setReceivedChallenges(prev => prev.filter(c => c.id !== id));
         setSentChallenges(prev => prev.filter(c => c.id !== id));
 
-        await deleteChallenge(id);
-        await loadChallenges();
+        deleteChallenge(id);
+
+        // Reload after small delay (prevent fetching old data from database)
+        // CHANGE WITH WEBSOCKETS !!!!!!!!
+        setTimeout(function () {
+            loadChallenges();
+        }, 150);
     }
 
     async function accept(id) {
         setReceivedChallenges(prev => prev.filter(c => c.id !== id));
         setSentChallenges(prev => prev.filter(c => c.id !== id));
 
-        await acceptChallenge(id);
-        await loadChallenges();
+        acceptChallenge(id);
+
+        // Reload after small delay (prevent fetching old data from database)
+        // CHANGE WITH WEBSOCKETS !!!!!!!!
+        setTimeout(function () {
+            loadChallenges();
+        }, 150);
+
     }
     return (
         <Paper>
