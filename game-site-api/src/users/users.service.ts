@@ -24,7 +24,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     createUserDto.password = bcrypt.hashSync(
@@ -32,7 +32,12 @@ export class UsersService {
       SALT_ROUNDS,
     );
     try {
-      return await this.usersRepository.save(createUserDto);
+      const res = await this.usersRepository.save(createUserDto);
+      const user = await this.usersRepository.findOneBy({ id: res.id });
+      if (!user) {
+        throw new HttpException('Unknown error', HttpStatus.INTERNAL_SERVER_ERROR)
+      }
+      return user;
     } catch {
       throw new HttpException(
         'Usernmame already exists',
