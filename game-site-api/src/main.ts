@@ -4,12 +4,27 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
 import { HttpExceptionFilter } from './middlewares/http-exception.filter';
+import { ValidationPipe } from '@nestjs/common';
+import { DatabaseExceptionFilter } from './middlewares/database-exception.filter';
 
 dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(
+    new HttpExceptionFilter(),
+    new DatabaseExceptionFilter(),
+  );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      enableDebugMessages: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      forbidUnknownValues: true,
+      transform: true,
+      stopAtFirstError: true,
+    }),
+  );
   app.use(cookieParser()); // cookies available as req.cookies
   app.enableCors({
     origin: process.env.CORS_ORIGIN,

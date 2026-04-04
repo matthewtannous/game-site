@@ -22,7 +22,27 @@ export class HttpExceptionFilter implements ExceptionFilter {
     //         path: request.url,
     //     });
 
-    console.log(`${status} ERROR: ${exception}`);
-    response.status(status).json(exception.getResponse());
+    const exceptionResponse = exception.getResponse() as {
+      message: string[];
+      error: string;
+      statusCode: number;
+    };
+
+    console.log('\n\n');
+    console.log(exceptionResponse);
+
+    let errorMessage = `Error code: ${status} - `;
+    if (exceptionResponse.message.length === 1) {
+      errorMessage += `Error: ${exceptionResponse.message[0]}`;
+    } else {
+      errorMessage += 'Errors: ';
+      for (let error of exceptionResponse.message) {
+        errorMessage += `\n\t${error}`;
+      }
+    }
+
+    console.log(errorMessage);
+
+    response.status(status).json(exceptionResponse.message);
   }
 }

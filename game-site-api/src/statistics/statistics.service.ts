@@ -6,16 +6,27 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Statistic } from './entities/statistic.entity';
 import { IncrementStatisticDto } from './dto/increment-statistic.dto';
+import { DatabaseException } from 'src/common/exceptions/database.exception';
 
 @Injectable()
 export class StatisticsService {
   constructor(
     @InjectRepository(Statistic)
-    private statisticsRepository: Repository<Statistic>
-  ) { }
+    private statisticsRepository: Repository<Statistic>,
+  ) {}
 
-  create(createStatisticDto: CreateStatisticDto) {
-    return this.statisticsRepository.save(createStatisticDto);
+  async create(createStatisticDto: CreateStatisticDto) {
+    // make sure id1 < id2
+    if (createStatisticDto.player1Id > createStatisticDto.player2Id) {
+      let temp = createStatisticDto.player1Id;
+      createStatisticDto.player1Id = createStatisticDto.player2Id;
+      createStatisticDto.player2Id = temp;
+    }
+    try {
+      return await this.statisticsRepository.save(createStatisticDto);
+    } catch (error) {
+      throw new DatabaseException('statistics.service create ERROR');
+    }
   }
 
   findAll() {
@@ -27,6 +38,12 @@ export class StatisticsService {
   }
 
   update(id: number, updateStatisticDto: UpdateStatisticDto) {
+    // make sure id1 < id2
+    if (updateStatisticDto.player1Id > updateStatisticDto.player2Id) {
+      let temp = updateStatisticDto.player1Id;
+      updateStatisticDto.player1Id = updateStatisticDto.player2Id;
+      updateStatisticDto.player2Id = temp;
+    }
     return this.statisticsRepository.update(id, updateStatisticDto);
   }
 
@@ -39,8 +56,10 @@ export class StatisticsService {
       {
         player1Id: incrementStatisticDto.player1Id,
         player2Id: incrementStatisticDto.player2Id,
-        gameType: incrementStatisticDto.gameType
+        gameType: incrementStatisticDto.gameType,
       },
-      incrementStatisticDto.statistic, 1);
+      incrementStatisticDto.statistic,
+      1,
+    );
   }
 }

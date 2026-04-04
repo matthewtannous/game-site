@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { Challenge } from './entities/challenge.entity';
 
 import { GamesService } from '../games/games.service';
+import { DatabaseException } from 'src/common/exceptions/database.exception';
 
 @Injectable()
 export class ChallengesService {
@@ -22,10 +23,7 @@ export class ChallengesService {
     try {
       return await this.challengesRepository.save(createChallengeDto);
     } catch {
-      throw new HttpException(
-        'Challenge already exists',
-        HttpStatus.NOT_ACCEPTABLE,
-      );
+      throw new DatabaseException('Challenge already exists');
     }
   }
 
@@ -37,8 +35,12 @@ export class ChallengesService {
     return this.challengesRepository.findOneBy({ id: id });
   }
 
-  update(id: number, updateChallengeDto: UpdateChallengeDto) {
-    return this.challengesRepository.update(id, updateChallengeDto);
+  async update(id: number, updateChallengeDto: UpdateChallengeDto) {
+    try {
+      return await this.challengesRepository.update(id, updateChallengeDto);
+    } catch (error) {
+      throw new DatabaseException('Challenge already exists');
+    }
   }
 
   remove(id: number) {
@@ -114,7 +116,7 @@ export class ChallengesService {
     // save challenge
     const challenge = await this.challengesRepository.findOneBy({ id: id });
     if (!challenge) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      throw new DatabaseException('Not found');
     }
     // convert challenge to ongoing
     const newGame = {

@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  ParseIntPipe,
+  Put,
+} from '@nestjs/common';
 import { StatisticsService } from './statistics.service';
 import { CreateStatisticDto } from './dto/create-statistic.dto';
 import { UpdateStatisticDto } from './dto/update-statistic.dto';
@@ -6,7 +15,7 @@ import { IncrementStatisticDto } from './dto/increment-statistic.dto';
 
 @Controller('statistics')
 export class StatisticsController {
-  constructor(private readonly statisticsService: StatisticsService) { }
+  constructor(private readonly statisticsService: StatisticsService) {}
 
   @Post()
   create(@Body() createStatisticDto: CreateStatisticDto) {
@@ -24,12 +33,9 @@ export class StatisticsController {
   }
 
   @Put('increment')
-  increment(
-    @Body() incrementStatisticDto: IncrementStatisticDto,
-  ) {
+  increment(@Body() incrementStatisticDto: IncrementStatisticDto) {
     return this.statisticsService.increment(incrementStatisticDto);
   }
-
 
   @Put(':id')
   update(
@@ -43,5 +49,4 @@ export class StatisticsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.statisticsService.remove(id);
   }
-
 }

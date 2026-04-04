@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 
@@ -10,6 +15,7 @@ import { Response } from 'express';
 import dotenv from 'dotenv';
 
 import bcrypt from 'bcryptjs';
+import { DatabaseException } from 'src/common/exceptions/database.exception';
 
 dotenv.config();
 
@@ -28,16 +34,13 @@ export class AuthService {
     const user = await this.usersService.findOneByUsername(signInDto.username);
 
     if (!user) {
-      throw new Error('User not found');
+      // throw new DatabaseException('User not found');
+      throw new DatabaseException('Invalid Username or Password');
     }
 
-    // change for bcrypt
-    // if (user?.password !== signInDto.password) {
-    //   throw new UnauthorizedException();
-    // }
-
     if (!bcrypt.compareSync(signInDto.password, user.password)) {
-      throw new Error('Invalid Password');
+      // throw new DatabaseException("Invalid Password");
+      throw new DatabaseException('Invalid Username or Password');
     }
 
     // Generate a JWT and return it

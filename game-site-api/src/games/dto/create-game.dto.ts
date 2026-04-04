@@ -1,14 +1,14 @@
 import { IsEnum, IsNotEmpty, IsPositive } from 'class-validator';
 import { GameType } from '../../common/enums/game-type.enum';
 
-export class CreateChallengeDto {
+export class CreateGameDto {
   @IsPositive()
   @IsNotEmpty()
-  senderId: number;
+  player1Id: number;
 
   @IsPositive()
   @IsNotEmpty()
-  receiverId: number;
+  player2Id: number;
 
   @IsEnum(GameType)
   @IsNotEmpty()

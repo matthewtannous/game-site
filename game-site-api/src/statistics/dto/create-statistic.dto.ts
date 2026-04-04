@@ -1,12 +1,34 @@
-import { GameType } from "../../common/enums/game-type.enum";
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsPositive,
+  Min,
+} from 'class-validator';
+import { GameType } from '../../common/enums/game-type.enum';
 
 export class CreateStatisticDto {
-    player1Id: number;
-    player2Id: number;
+  @IsPositive()
+  @IsNotEmpty()
+  player1Id: number;
 
-    gameType: GameType;
+  @IsPositive()
+  @IsNotEmpty()
+  player2Id: number;
 
-    // player1Wins: number;
-    // player2Wins: number;
-    // draws: number;
+  @IsEnum(GameType)
+  @IsNotEmpty()
+  gameType: GameType;
+
+  @Min(0)
+  @IsOptional()
+  player1Wins: number;
+
+  @Min(0)
+  @IsOptional()
+  player2Wins: number;
+
+  @Min(0)
+  @IsOptional()
+  draws: number;
 }

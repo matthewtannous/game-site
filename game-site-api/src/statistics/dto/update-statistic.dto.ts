@@ -5,15 +5,5 @@
 
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateStatisticDto } from './create-statistic.dto';
-import { GameType } from '../../common/enums/game-type.enum';
 
-export class UpdateStatisticDto extends PartialType(CreateStatisticDto) {
-    player1Id: number;
-    player2Id: number;
-
-    gameType: GameType;
-
-    player1Wins: number;
-    player2Wins: number;
-    draws: number;
-}
+export class UpdateStatisticDto extends CreateStatisticDto {}

@@ -9,6 +9,7 @@ import { Not, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 
 import bcrypt from 'bcryptjs';
+import { DatabaseException } from 'src/common/exceptions/database.exception';
 
 const SALT_ROUNDS = 10;
 
@@ -24,26 +25,31 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) { }
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     createUserDto.password = bcrypt.hashSync(
       createUserDto.password,
       SALT_ROUNDS,
     );
-    try {
-      const res = await this.usersRepository.save(createUserDto);
-      const user = await this.usersRepository.findOneBy({ id: res.id });
-      if (!user) {
-        throw new HttpException('Unknown error', HttpStatus.INTERNAL_SERVER_ERROR)
-      }
-      return user;
-    } catch {
+
+    // Check is username already exists in the database
+    const exists = await this.usersRepository.findOneBy({
+      username: createUserDto.username,
+    });
+    if (exists) {
+      throw new DatabaseException('Username already exists');
+    }
+    const res = await this.usersRepository.save(createUserDto);
+    const user = await this.usersRepository.findOneBy({ id: res.id });
+    if (!user) {
+      // Should never happen
       throw new HttpException(
-        'Usernmame already exists',
-        HttpStatus.NOT_ACCEPTABLE,
+        'Unknown error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+    return user;
   }
 
   findAll(): Promise<BasicUserDto[]> {

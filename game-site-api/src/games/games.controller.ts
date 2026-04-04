@@ -9,17 +9,18 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { GamesService } from './games.service';
-import { BasicGameDto } from './dto/basic-game.dto';
+import { CreateGameDto } from './dto/create-game.dto';
 import { MoveDto } from './dto/move.dto';
 import { UpdateStateDto } from './dto/update-state.dto';
+import { UpdateGameDto } from './dto/update-game.dto';
 
 @Controller('games')
 export class GameController {
-  constructor(private readonly gamesService: GamesService) { }
+  constructor(private readonly gamesService: GamesService) {}
 
   @Post()
-  create(@Body() basicGameDto: BasicGameDto) {
-    return this.gamesService.create(basicGameDto);
+  create(@Body() createGameDto: CreateGameDto) {
+    return this.gamesService.create(createGameDto);
   }
 
   @Get()
@@ -52,12 +53,17 @@ export class GameController {
     return this.gamesService.findOne(id);
   }
 
+  @Put('state')
+  updateState(@Body() body: UpdateStateDto) {
+    return this.gamesService.updateState(body);
+  }
+
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() basicGameDto: BasicGameDto,
+    @Body() updateGameDto: UpdateGameDto,
   ) {
-    return this.gamesService.update(id, basicGameDto);
+    return this.gamesService.update(id, updateGameDto);
   }
 
   @Delete(':id')
@@ -68,10 +74,5 @@ export class GameController {
   @Post('play')
   addMove(@Body() moveDto: MoveDto) {
     return this.gamesService.addMove(moveDto);
-  }
-
-  @Put('/state')
-  updateState(@Body() body: UpdateStateDto) {
-    return this.gamesService.updateState(body);
   }
 }

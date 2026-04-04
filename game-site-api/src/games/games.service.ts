@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { BasicGameDto } from './dto/basic-game.dto';
+import { CreateGameDto } from './dto/create-game.dto';
+import { UpdateGameDto } from './dto/update-game.dto';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Game } from './entities/ongoing.entity';
+import { Game } from './entities/game.entity';
 import { DetailedGameDto } from './dto/detailed-game.dto';
 import { MoveDto } from './dto/move.dto';
 import { DetailedGameNoMovesDto } from './dto/detailed-game-no-moves.dto';
@@ -17,8 +18,8 @@ export class GamesService {
     private gamesRepository: Repository<Game>,
   ) {}
 
-  create(basicGameDto: BasicGameDto) {
-    return this.gamesRepository.save(basicGameDto);
+  create(createGameDto: CreateGameDto) {
+    return this.gamesRepository.save(createGameDto);
   }
 
   findAll() {
@@ -29,8 +30,8 @@ export class GamesService {
     return this.gamesRepository.findOneBy({ id: id });
   }
 
-  update(id: number, basicGameDto: BasicGameDto) {
-    return this.gamesRepository.update(id, basicGameDto);
+  update(id: number, updateGameDto: UpdateGameDto) {
+    return this.gamesRepository.update(id, updateGameDto);
   }
 
   remove(id: number) {
