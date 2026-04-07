@@ -26,8 +26,6 @@ export default function Register() {
         if (ok) {
             signIn(data);
         } else {
-            // FIX to say if password is weak or username is already used
-            // How to get message from API ?????????????????
             setError(data || "Registration Error");
         }
     }

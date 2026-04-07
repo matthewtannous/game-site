@@ -4,7 +4,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   username: string;
 
-  @IsEmail()
+  @IsEmail({}, {message: 'Invalid email address'})
   email: string;
 
   @IsStrongPassword()

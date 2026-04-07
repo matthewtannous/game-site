@@ -15,8 +15,7 @@ export async function login({ username, password }) {
     } catch (error) {
         return {
             ok: false,
-            data: (error.message === "Api Error" ?
-                "Authentication Error" : error.message)
+            data: error.message,
         };
     }
 }
@@ -34,8 +33,7 @@ export async function register({ username, email, password }) {
     } catch (error) {
         return {
             ok: false,
-            data: (error.message === "Api Error" ?
-                "Authentication Error" : error.message)
+            data: error.message,
         };
     }
 }

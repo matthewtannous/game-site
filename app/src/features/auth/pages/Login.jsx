@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import { Link as RouterLink } from 'react-router-dom';
 import { Alert, Button, Box, Link, Paper, Stack, TextField, Typography } from '@mui/material';
@@ -26,8 +26,8 @@ export default function Login() {
             // console.log(data.user);
             signIn(data);
         } else {
-            // setError(data || "Incorrect Username or Password");
-            setError("Incorrect Username or Password");
+            setError(data || "Incorrect Username or Password");
+            // setError("Incorrect Username or Password");
         }
     }
 

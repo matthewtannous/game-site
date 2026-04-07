@@ -15,10 +15,8 @@ export class DatabaseExceptionFilter implements ExceptionFilter {
 
     const exceptionResponse = exception;
 
-    console.log('DATABASE EXCEPTION FILTER');
-    console.log(exceptionResponse);
-    console.log('END');
+    console.log(`Database exception: ${exceptionResponse.message}`);
 
-    response.status(HttpStatus.BAD_REQUEST).json(exceptionResponse);
+    response.status(HttpStatus.BAD_REQUEST).json(exceptionResponse.message);
   }
 }

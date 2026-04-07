@@ -4,7 +4,7 @@ export class RegisterDTO {
   @IsNotEmpty()
   username: string;
 
-  @IsEmail()
+  @IsEmail({}, {message: 'Invalid email address'})
   @IsNotEmpty()
   email: string;
 
