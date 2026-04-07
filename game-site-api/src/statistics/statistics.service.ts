@@ -18,13 +18,13 @@ export class StatisticsService {
   async create(createStatisticDto: CreateStatisticDto) {
     // make sure id1 < id2
     if (createStatisticDto.player1Id > createStatisticDto.player2Id) {
-      let temp = createStatisticDto.player1Id;
+      const temp = createStatisticDto.player1Id;
       createStatisticDto.player1Id = createStatisticDto.player2Id;
       createStatisticDto.player2Id = temp;
     }
     try {
       return await this.statisticsRepository.save(createStatisticDto);
-    } catch (error) {
+    } catch {
       throw new DatabaseException('statistics.service create ERROR');
     }
   }
@@ -40,7 +40,7 @@ export class StatisticsService {
   update(id: number, updateStatisticDto: UpdateStatisticDto) {
     // make sure id1 < id2
     if (updateStatisticDto.player1Id > updateStatisticDto.player2Id) {
-      let temp = updateStatisticDto.player1Id;
+      const temp = updateStatisticDto.player1Id;
       updateStatisticDto.player1Id = updateStatisticDto.player2Id;
       updateStatisticDto.player2Id = temp;
     }
@@ -51,7 +51,24 @@ export class StatisticsService {
     return this.statisticsRepository.delete(id);
   }
 
-  increment(incrementStatisticDto: IncrementStatisticDto) {
+  async increment(incrementStatisticDto: IncrementStatisticDto) {
+    // Create row if it does not exist
+    if (incrementStatisticDto.player1Id > incrementStatisticDto.player2Id) {
+      const temp = incrementStatisticDto.player1Id;
+      incrementStatisticDto.player1Id = incrementStatisticDto.player2Id;
+      incrementStatisticDto.player2Id = temp;
+    }
+    if (
+      !(await this.statisticsRepository.findOneBy({
+        player1Id: incrementStatisticDto.player1Id,
+        player2Id: incrementStatisticDto.player2Id,
+        gameType: incrementStatisticDto.gameType,
+      }))
+    ) {
+      await this.statisticsRepository.save(incrementStatisticDto);
+    }
+
+    // update row
     return this.statisticsRepository.increment(
       {
         player1Id: incrementStatisticDto.player1Id,

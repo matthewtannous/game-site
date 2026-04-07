@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { DetailedChallengeDto } from './dto/detailed-challenge.dto';
@@ -38,7 +38,7 @@ export class ChallengesService {
   async update(id: number, updateChallengeDto: UpdateChallengeDto) {
     try {
       return await this.challengesRepository.update(id, updateChallengeDto);
-    } catch (error) {
+    } catch {
       throw new DatabaseException('Challenge already exists');
     }
   }
@@ -126,10 +126,10 @@ export class ChallengesService {
     };
 
     // Remove challenge from challenges repository
-    this.challengesRepository.delete(id);
+    await this.challengesRepository.delete(id);
 
     // Add challenge to ongoing games repository
-    this.gamesService.create(newGame);
+    await this.gamesService.create(newGame);
 
     return newGame; // not needed ?
   }

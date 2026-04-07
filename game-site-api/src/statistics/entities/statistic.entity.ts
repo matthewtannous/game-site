@@ -20,12 +20,12 @@ export class Statistic {
   })
   gameType: GameType;
 
-  @Column({ name: 'player1_wins' })
+  @Column({ name: 'player1_wins', default: 0 })
   player1Wins: number;
 
-  @Column({ name: 'player2_wins' })
+  @Column({ name: 'player2_wins', default: 0 })
   player2Wins: number;
 
-  @Column()
+  @Column({ default: 0 })
   draws: number;
 }

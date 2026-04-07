@@ -1,7 +1,5 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
-
-export class DatabaseException extends HttpException {
+export class DatabaseException extends Error {
   constructor(message: string) {
-    super(message, HttpStatus.NOT_ACCEPTABLE);
+    super(message);
   }
 }

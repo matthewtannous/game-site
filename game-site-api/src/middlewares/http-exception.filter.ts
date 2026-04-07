@@ -28,15 +28,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
       statusCode: number;
     };
 
-    console.log('\n\n');
-    console.log(exceptionResponse);
-
     let errorMessage = `Error code: ${status} - `;
     if (exceptionResponse.message.length === 1) {
       errorMessage += `Error: ${exceptionResponse.message[0]}`;
     } else {
       errorMessage += 'Errors: ';
-      for (let error of exceptionResponse.message) {
+      for (const error of exceptionResponse.message) {
         errorMessage += `\n\t${error}`;
       }
     }

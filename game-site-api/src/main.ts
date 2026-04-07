@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import { HttpExceptionFilter } from './middlewares/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { DatabaseExceptionFilter } from './middlewares/database-exception.filter';
+import { TypeOrmExceptionFilter } from './middlewares/typeorm-exception.filter';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ async function bootstrap() {
   app.useGlobalFilters(
     new HttpExceptionFilter(),
     new DatabaseExceptionFilter(),
+    new TypeOrmExceptionFilter(),
   );
   app.useGlobalPipes(
     new ValidationPipe({

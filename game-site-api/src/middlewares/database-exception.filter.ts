@@ -2,7 +2,7 @@ import {
   ExceptionFilter,
   Catch,
   ArgumentsHost,
-  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { DatabaseException } from 'src/common/exceptions/database.exception';
@@ -12,13 +12,13 @@ export class DatabaseExceptionFilter implements ExceptionFilter {
   catch(exception: DatabaseException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    // const request = ctx.getRequest<Request>();
-    const status = exception.getStatus();
 
-    const exceptionResponse = exception.getResponse();
+    const exceptionResponse = exception;
 
+    console.log('DATABASE EXCEPTION FILTER');
     console.log(exceptionResponse);
+    console.log('END');
 
-    response.status(status).json(exceptionResponse);
+    response.status(HttpStatus.BAD_REQUEST).json(exceptionResponse);
   }
 }
