@@ -1,13 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 
+// Create the store
 export const store = configureStore({
     reducer: {
         auth: authReducer,
     },
 });
 
+/**
+ * Every time auth.user is updated (e.g. through signIn and signOut),
+ * reflect this change in localStorage
+ */
 store.subscribe(() => {
+    // We named the slice 'auth' and the data inside it is 'user', so we access it with state.auth.user
     const user = store.getState().auth.user;
     try {
         if (user) {
