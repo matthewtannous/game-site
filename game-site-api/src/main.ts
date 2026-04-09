@@ -25,6 +25,10 @@ async function bootstrap() {
       forbidUnknownValues: true,
       transform: true,
       stopAtFirstError: true,
+
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     }),
   );
   app.use(cookieParser()); // cookies available as req.cookies

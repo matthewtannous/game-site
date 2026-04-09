@@ -52,7 +52,8 @@ export default function OnlineTicTacToe() {
         setSquares(newSquares);
 
         // Determine if player is player1 or player2
-        setIsPlayer1(player1Id === user.id);
+        const localIsPlayer1 = player1Id === user.id;
+        setIsPlayer1(localIsPlayer1);
 
         // Check if the game is finished
         const winner = calculateWinner(newSquares)
@@ -78,7 +79,7 @@ export default function OnlineTicTacToe() {
 
         // Determine the turn
         let turnLocal;
-        if (isPlayer1) {
+        if (localIsPlayer1) {
             turnLocal = !evenMoves;
             setOpponentName(player2Name);
         } else {
