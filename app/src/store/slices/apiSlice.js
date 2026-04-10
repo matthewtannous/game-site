@@ -21,30 +21,7 @@ export const apiSlice = createApi({
         baseUrl: BASE_URL,
         credentials: "include", // For authentication
     }),
+
+    endpoints: () =>({}),
     tagTypes: ['Game'],
-
-    endpoints: (builder) => ({
-        // Query endpoint
-
-        // GAMES 
-        getAllGames: builder.query({
-            query: () => '/games/detailed',
-            providesTags: ['Game'], // might change move to make it other user's turn
-        }),
-        getAllGamesOneUser: builder.query({
-            query: userId => `/games/user/${userId}`,
-        }),
-        addGameMove: builder.mutation({
-            query: move => ({
-                url: '/games/play',
-                method: 'POST',
-                body: move,
-            }),
-            invalidatesTags: ['Game'],
-        }),
-
-    }),
 });
-
-// export auto-generated hooks
-export const { useGetAllGamesQuery, useGetAllGamesOneUserQuery, useAddGameMoveMutation } = apiSlice;

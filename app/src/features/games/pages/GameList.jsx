@@ -5,7 +5,7 @@ import { useAuth } from "../../../store/hooks/useAuth";
 
 import GamesTable from "../components/GamesTable";
 
-import { useGetAllGamesOneUserQuery } from "../../../store/slices/apiSlice";
+import { useGetAllGamesOneUserQuery } from "../../../store/slices/apiGameSlice";
 
 export default function GameList() {
     const { user } = useAuth();

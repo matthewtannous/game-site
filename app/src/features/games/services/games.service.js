@@ -1,3 +1,6 @@
+// USING RTK QUERY INSTEAD
+
+/*
 import { api } from "../../../services/api";
 
 const BASE = "/games";
@@ -37,3 +40,4 @@ export function updateState(gameId, state) {
         body: JSON.stringify({ gameId, state }),
     })
 }
+*/
