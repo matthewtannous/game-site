@@ -6,7 +6,7 @@
  */
 
 import { useNavigate, useParams } from 'react-router-dom';
-import { getOneGameDetailed, addMove, updateState } from '../../games/services/games.service';
+import { getOneGameDetailed, updateState } from '../../games/services/games.service';
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '../../../store/hooks/useAuth';
@@ -16,6 +16,8 @@ import { calculateWinner } from '../../../utils/tic-tac-toe';
 import { Typography } from '@mui/material';
 
 import { GameState } from '../../../constants';
+
+import { useAddGameMoveMutation } from '../../../store/slices/apiSlice';
 
 export default function OnlineTicTacToe() {
     const { user } = useAuth();
@@ -27,6 +29,9 @@ export default function OnlineTicTacToe() {
     const [opponentName, setOpponentName] = useState("");
     const [isPlayer1, setIsPlayer1] = useState(true);
     const [loadingMove, setLoadingMove] = useState(false);
+
+
+    const [addMove] = useAddGameMoveMutation(); // has second argument but not needed
 
     const navigate = useNavigate();
 
@@ -116,7 +121,7 @@ export default function OnlineTicTacToe() {
         // setSquares(newSquares);
 
         // Update move array in backend
-        await addMove(id, index);
+        await addMove({ gameId: id, move: index });
 
 
         // Reload after small delay (prevent fetching old data from database)

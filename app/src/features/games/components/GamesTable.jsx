@@ -5,21 +5,21 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../../store/hooks/useAuth";
 
 export default function GamesTable({ games, username, finished }) {
-    if (finished) {
-        // Update game state to be displayed instead of 'player1_won' or 'player2_won'
-        const { user } = useAuth();
-        for (let game of games) {
+    const { user } = useAuth();
 
-            if (game.state !== 'tie') { // if tie do nothing
-                if ((game.state === 'player1_won' && game.player1Id === user.id)
-                    || (game.state === 'player2_won' && game.player2Id === user.id)) {
-                    game.state = 'Win';
-                } else {
-                    game.state = 'Loss';
-                }
-            }
-        }
-    }
+    // Update game state to be displayed instead of 'player1_won' or 'player2_won'
+    // Use a copy because we cannot modify part of the state
+    let copy = games.map(game => {
+        if (!finished || game.state === 'tie') return game;
+
+        const isWin = (game.state === 'player1_won' && game.player1Id === user.id)
+            || (game.state === 'player2_won' && game.player2Id === user.id);
+
+        return {
+            ...game,
+            state: isWin ? 'Win' : 'Loss'
+        };
+    });
 
     return (
         <>
@@ -36,7 +36,7 @@ export default function GamesTable({ games, username, finished }) {
                 </TableHead>
 
                 <TableBody>
-                    {games.map((game) => (
+                    {copy.map((game) => (
                         <TableRow key={game.id}>
                             <TableCell align="center">{game.player1Name === username ? game.player2Name : game.player1Name}</TableCell>
                             <TableCell align="center">{game.gameType}</TableCell>

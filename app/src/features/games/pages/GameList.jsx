@@ -1,39 +1,40 @@
 import { Paper } from "@mui/material";
-import { useEffect, useState } from "react";
+import LoadingWheel from "../../../components/ui/LoadingWheel";
 
 import { useAuth } from "../../../store/hooks/useAuth";
 
 import GamesTable from "../components/GamesTable";
-import { getAllOneUserDetailedNoMoves } from "../services/games.service";
+
+import { useGetAllGamesOneUserQuery } from "../../../store/slices/apiSlice";
 
 export default function GameList() {
     const { user } = useAuth();
 
-    const [games, setGames] = useState([]);
+    const { data: games = [], isLoading } = useGetAllGamesOneUserQuery(user.id);
 
-    async function loadGames() {
-        setGames(await getAllOneUserDetailedNoMoves(user.id));
+    let content;
+    if (isLoading) {
+        content = <LoadingWheel />
+    } else {
+        content =
+            <Paper>
+                <GamesTable
+                    games={games.filter((game) => game.state === 'ongoing')}
+                    username={user.username}
+                    finished={false}
+                />
+
+                <GamesTable
+                    games={games.filter((game) => game.state !== 'ongoing')}
+                    username={user.username}
+                    finished={true}
+                />
+            </Paper>
     }
 
-    useEffect(() => {
-        if (!user?.id)
-            return;
-        loadGames();
-    }, [user?.id]);
-
     return (
-        <Paper>
-            <GamesTable
-                games={games.filter((game) => game.state === 'ongoing')}
-                username={user.username}
-                finished={false}
-            />
-
-            <GamesTable
-                games={games.filter((game) => game.state !== 'ongoing')}
-                username={user.username}
-                finished={true}
-            />
-        </Paper>
+        <>
+            {content}
+        </>
     )
 }
