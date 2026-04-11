@@ -26,7 +26,7 @@ export default function OnlineTicTacToe() {
 
 
     const { data: game = {}, isLoading } = useGetOneGameQuery(id);
-    const [addMove, { isLoading: isUpdating }] = useAddGameMoveMutation(); // has second argument but not needed
+    const [addMove, { isLoading: isUpdating }] = useAddGameMoveMutation();
     const [updateState] = useUpdateGameStateMutation();
 
     // Get game information
