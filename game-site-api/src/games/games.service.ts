@@ -10,12 +10,14 @@ import { MoveDto } from './dto/move.dto';
 import { DetailedGameNoMovesDto } from './dto/detailed-game-no-moves.dto';
 
 import { UpdateStateDto } from './dto/update-state.dto';
+import { GamesGateway } from './games.gateway';
 
 @Injectable()
 export class GamesService {
   constructor(
     @InjectRepository(Game)
-    private gamesRepository: Repository<Game>,
+    private readonly gamesRepository: Repository<Game>,
+    private readonly gamesGateway: GamesGateway,
   ) {}
 
   create(createGameDto: CreateGameDto) {
@@ -137,9 +139,12 @@ export class GamesService {
       .set({ moves: () => 'array_append(moves, :move::int)' })
       .where('id = :id', { id: moveDto.gameId })
       .setParameters({ move: moveDto.move })
+      .returning('*')
       .execute();
 
-    return result ? result : null;
+    this.gamesGateway.emitGameUpdate(moveDto.gameId, result.raw[0]);
+
+    return result ? result.raw[0] : null;
   }
 
   async updateState(updateStateDto: UpdateStateDto) {
