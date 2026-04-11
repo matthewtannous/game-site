@@ -1,3 +1,4 @@
+import { getSocket } from "../../services/socket";
 import { apiSlice } from "./apiSlice";
 
 export const apiGameSlice = apiSlice.injectEndpoints({
@@ -17,6 +18,32 @@ export const apiGameSlice = apiSlice.injectEndpoints({
         getOneGame: builder.query({
             query: gameId => `/games/detailed/${gameId}`,
             providesTags: ['Game'],
+
+            async onCacheEntryAdded(
+                gameId,
+                { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+            ) {
+                const socket = getSocket();
+
+                const handler = (data) => {
+                    if (String(data.gameId) !== String(gameId)) return;
+
+                    updateCachedData((draft) => {
+                        Object.assign(draft, data.game);
+                    });
+                }
+                try {
+                    await cacheDataLoaded;
+
+                    socket.on('gameUpdated', handler);
+                } catch (error) {
+                    console.log(error);
+                }
+
+                await cacheEntryRemoved;
+
+                socket.off('gameUpdated', handler);
+            }
         }),
 
         // Make a move in a game
@@ -26,7 +53,7 @@ export const apiGameSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: move,
             }),
-            invalidatesTags: ['Game'],
+            // invalidatesTags: ['Game'],
         }),
 
         // Delete a game
@@ -35,7 +62,7 @@ export const apiGameSlice = apiSlice.injectEndpoints({
                 url: `games/${gameId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ['Game'],
+            // invalidatesTags: ['Game'],
         }),
 
         updateGameState: builder.mutation({
@@ -44,7 +71,7 @@ export const apiGameSlice = apiSlice.injectEndpoints({
                 method: 'PUT',
                 body: game,
             }),
-            invalidatesTags: ['Game'],
+            // invalidatesTags: ['Game'],
         }),
     }),
 });

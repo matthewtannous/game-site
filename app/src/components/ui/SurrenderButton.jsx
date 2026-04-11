@@ -1,11 +1,12 @@
 import { Button } from "@mui/material";
 
-export default function SurrenderButton({ onClick, text }) {
+export default function SurrenderButton({ onClick, text, show }) {
 
     return (
         <Button
             variant="contained"
             color="error"
+            disabled={show}
 
             onClick={onClick}
             sx={{

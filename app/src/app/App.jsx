@@ -5,11 +5,14 @@ import { loggedInRoutes, authRoutes, alwaysAvailableRoutes } from './routes';
 
 import { useAuth } from '../store/hooks/useAuth';
 
+import RealtimeSync from './RealtimeSync';
+
 function App() {
   const { user } = useAuth();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
+      <RealtimeSync />
       <Layout>
         <Routes>
           {

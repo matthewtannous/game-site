@@ -17,6 +17,7 @@ import { GameState } from '../../../constants';
 
 import { useAddGameMoveMutation, useGetOneGameQuery, useUpdateGameStateMutation } from '../../../store/slices/apiGameSlice';
 import LoadingWheel from '../../../components/ui/LoadingWheel';
+import { useEffect } from 'react';
 
 export default function OnlineTicTacToe() {
     const { user } = useAuth();
@@ -46,7 +47,6 @@ export default function OnlineTicTacToe() {
             squares[moves[i]] = 'O';
     }
 
-
     // Check if the game is finished
     const winner = calculateWinner(squares);
     const evenMoves = moves.length % 2 === 0;
@@ -55,24 +55,13 @@ export default function OnlineTicTacToe() {
     let status = "";
     if (winner === 'O') {
         // Player 1 is always O
-        status = `Game over, ${player1Name} won`;
-        updateState({ gameId: id, state: GameState.player1Won });
-        return;
-    }
-    if (winner === 'X') {
+        status = `Game over, ${game.player1Name} won`;
+    } else if (winner === 'X') {
         // Player 2 is always X
-        status = `Game over, ${player2Name} won`;
-        updateState({ gameId: id, state: GameState.player2Won });
-        return;
-    }
-    if (moves.length === 9) {
+        status = `Game over, ${game.player2Name} won`;
+    } else if (moves.length === 9) {
         status = "Tie";
-        updateState({ gameId: id, state: GameState.tie });
-        return;
-    }
-
-
-    if (isMyTurn) {
+    } else if (isMyTurn) {
         if (evenMoves)
             status = "Playing as X - Your turn";
         else
@@ -83,6 +72,22 @@ export default function OnlineTicTacToe() {
         else
             status = "Playing as X - Not your turn";
     }
+
+    useEffect(() => {
+        if (isLoading || game.state !== GameState.ongoing) return;
+
+        const winner = calculateWinner(squares);
+
+        if (winner === 'O') {
+            updateState({ gameId: id, state: GameState.player1Won });
+        } else if (winner === 'X') {
+            // Player 2 is always X
+            updateState({ gameId: id, state: GameState.player2Won });
+        } else if (moves.length === 9) {
+            updateState({ gameId: id, state: GameState.tie });
+        }
+
+    }, [moves.length, game.state]);
 
 
     async function handleClick(index) {
@@ -126,7 +131,11 @@ export default function OnlineTicTacToe() {
                     squares={squares}
                     handleSquareClick={handleClick}
                     status={status}
-                    SideButton={<SurrenderButton onClick={surrender} text="forfeit" />}
+                    SideButton={<SurrenderButton
+                        onClick={surrender}
+                        text="forfeit"
+                        show={game.state !== GameState.ongoing}
+                    />}
                 />
             </>
     }
