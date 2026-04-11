@@ -2,12 +2,9 @@ import { useEffect } from "react";
 import { getSocket } from '../services/socket';
 import { useAuth } from '../store/hooks/useAuth';
 
-import { useGetOneGameQuery } from "../store/slices/apiGameSlice";
-
 export default function RealtimeSync() {
 
     const { user } = useAuth();
-    
 
     useEffect(() => {
         if (!user) {
@@ -26,9 +23,9 @@ export default function RealtimeSync() {
         });
 
 
-        socket.on('gameUpdated', (data) => {
-            console.log('Realtime event:', data);
-        });
+        // socket.on('challengeCreated', (data) => {
+        //     console.log('Realtime event:', data);
+        // });
 
         return () => {
             socket.disconnect();

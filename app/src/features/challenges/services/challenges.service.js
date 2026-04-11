@@ -1,15 +1,16 @@
+/*
 import { api } from "../../../services/api";
 
 const BASE = "/challenges";
 
-export function getChallenges() {
-    // return api("${BASE}");
-    return api(`${BASE}/detailed`);
-}
+// export function getChallenges() {
+//     // return api("${BASE}");
+//     return api(`${BASE}/detailed`);
+// }
 
-export function getChallenge(id) {
-    return api(`${BASE}/${id}`);
-}
+// export function getChallenge(id) {
+//     return api(`${BASE}/${id}`);
+// }
 
 export function createChallenge(data) {
     return api(`${BASE}`, {
@@ -39,3 +40,4 @@ export function acceptChallenge(id) {
         headers: { "Content-Type": "application/json" },
     });
 }
+*/

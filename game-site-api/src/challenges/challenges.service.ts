@@ -11,17 +11,26 @@ import { Challenge } from './entities/challenge.entity';
 import { GamesService } from '../games/games.service';
 import { DatabaseException } from 'src/common/exceptions/database.exception';
 
+import { ChallengeGateway } from './challenges.gateway';
+
 @Injectable()
 export class ChallengesService {
   constructor(
     @InjectRepository(Challenge)
-    private challengesRepository: Repository<Challenge>,
-    private gamesService: GamesService,
-  ) {}
+    private readonly challengesRepository: Repository<Challenge>,
+    private readonly gamesService: GamesService,
+    private readonly challengeGateway: ChallengeGateway,
+  ) { }
 
   async create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
     try {
-      return await this.challengesRepository.save(createChallengeDto);
+      const result = await this.challengesRepository.save(createChallengeDto);
+
+      // Find full challenge to emit
+      const challenge = await this.challengesRepository.findOneBy({ id: result.id });
+      this.challengeGateway.emitChallengeCreated(result.id, challenge);
+
+      return result;
     } catch {
       throw new DatabaseException('Challenge already exists');
     }
@@ -37,13 +46,20 @@ export class ChallengesService {
 
   async update(id: number, updateChallengeDto: UpdateChallengeDto) {
     try {
-      return await this.challengesRepository.update(id, updateChallengeDto);
+      const result = await this.challengesRepository.update(id, updateChallengeDto);
+
+      // Emit
+      this.challengeGateway.emitChallengeUpdated(id,
+        await this.challengesRepository.findOneBy({ id: id }));
+
+      return result;
     } catch {
       throw new DatabaseException('Challenge already exists');
     }
   }
 
   remove(id: number) {
+    this.challengeGateway.emitChallengeDeleted(id);
     return this.challengesRepository.delete(id);
   }
 

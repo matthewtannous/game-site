@@ -1,16 +1,9 @@
-/**
- * IDEA:
- * a dynamic list that shows all users at the start, but as the user enters
- * characters in the search bar, only the names that match remain.
- * When the user clicks on a name, the search bar auto-completes with the name
- * 
- * Also add a selection for game type
- */
-
 import { useEffect, useState } from 'react';
 import { Alert, Box, Button, FormControl, InputLabel, List, ListItem, ListItemText, MenuItem, Select, Stack, Table, TableBody, TableCell, TableRow, TextField, Typography } from '@mui/material';
 
-import { createChallenge } from '../services/challenges.service'
+// import { createChallenge } from '../services/challenges.service';
+import { useCreateChallengeMutation } from '../../../store/slices/apiChallengeSlice';
+
 import { useAuth } from '../../../store/hooks/useAuth';
 import { getUsersExcept } from '../../users/services/users.service';
 
@@ -23,6 +16,7 @@ export default function ChallengeForm() {
 
     const [alert, setAlert] = useState({ type: "", message: "" });
 
+    const [createChallenge] = useCreateChallengeMutation();
     async function loadData() {
         // users itself is never rendered, does not need state
         const users = await getUsersExcept(user.id);
@@ -46,16 +40,16 @@ export default function ChallengeForm() {
             return;
         }
 
-        try {
-            await createChallenge({ senderId: user.id, receiverId: challenged_id, gameType: form.game })
-            setAlert({
-                type: "success",
-                message: `Challenged ${challenged_username} to a game of ${form.game}`
-            });
-        } catch (error) {
+        const res = await createChallenge({ senderId: user.id, receiverId: challenged_id, gameType: form.game });
+        if (res.error) {
             setAlert({
                 type: "error",
                 message: `You already have a pending challenge of ${form.game} with ${challenged_username}`
+            });
+        } else {
+            setAlert({
+                type: "success",
+                message: `Challenged ${challenged_username} to a game of ${form.game}`
             });
         }
     }
@@ -95,7 +89,7 @@ export default function ChallengeForm() {
             </Stack>
 
             {alert.message &&
-                <Alert severity={alert.type} onClose={() => setAlert({type: "", message: ""})}>
+                <Alert severity={alert.type} onClose={() => setAlert({ type: "", message: "" })}>
                     {alert.message}
                 </Alert>}
 
