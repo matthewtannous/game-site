@@ -7,7 +7,7 @@ export class BasicUserDto {
   @IsNotEmpty()
   username: string;
 
-  @IsEmail({}, {message: 'Invalid email address'})
+  @IsEmail({}, { message: 'Invalid email address' })
   email: string;
 
   @IsDate()

@@ -20,14 +20,16 @@ export class ChallengesService {
     private readonly challengesRepository: Repository<Challenge>,
     private readonly gamesService: GamesService,
     private readonly challengeGateway: ChallengeGateway,
-  ) { }
+  ) {}
 
   async create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
     try {
       const result = await this.challengesRepository.save(createChallengeDto);
 
       // Find full challenge to emit
-      const challenge = await this.challengesRepository.findOneBy({ id: result.id });
+      const challenge = await this.challengesRepository.findOneBy({
+        id: result.id,
+      });
       this.challengeGateway.emitChallengeUpdate(result.id, challenge);
 
       return result;
@@ -46,11 +48,16 @@ export class ChallengesService {
 
   async update(id: number, updateChallengeDto: UpdateChallengeDto) {
     try {
-      const result = await this.challengesRepository.update(id, updateChallengeDto);
+      const result = await this.challengesRepository.update(
+        id,
+        updateChallengeDto,
+      );
 
       // Emit
-      this.challengeGateway.emitChallengeUpdate(id,
-        await this.challengesRepository.findOneBy({ id: id }));
+      this.challengeGateway.emitChallengeUpdate(
+        id,
+        await this.challengesRepository.findOneBy({ id: id }),
+      );
 
       return result;
     } catch {
@@ -64,7 +71,8 @@ export class ChallengesService {
   }
 
   async findAllDetailed() {
-    const result = await this.challengesRepository.query(`
+    const result: DetailedChallengeDto[] = await this.challengesRepository
+      .query(`
       SELECT
         c.id               AS "id",
         c.sender_id        AS "senderId",
@@ -79,12 +87,13 @@ export class ChallengesService {
       ORDER BY c.created_at DESC;
     `);
 
-    return result as DetailedChallengeDto[];
+    return result;
   }
 
   async findAllReceived(id: number) {
-    const result = await this.challengesRepository.query(
-      `
+    const result: DetailedChallengeDto[] =
+      await this.challengesRepository.query(
+        `
       SELECT
         c.id               AS "id",
         c.sender_id        AS "senderId",
@@ -99,15 +108,16 @@ export class ChallengesService {
       WHERE c.receiver_id = $1
       ORDER BY c.created_at DESC;
     `,
-      [id],
-    );
+        [id],
+      );
 
-    return result as DetailedChallengeDto[];
+    return result;
   }
 
   async findAllSent(id: number) {
-    const result = await this.challengesRepository.query(
-      `
+    const result: DetailedChallengeDto[] =
+      await this.challengesRepository.query(
+        `
       SELECT
         c.id               AS "id",
         c.sender_id        AS "senderId",
@@ -122,10 +132,10 @@ export class ChallengesService {
       WHERE c.sender_id = $1
       ORDER BY c.created_at DESC;
     `,
-      [id],
-    );
+        [id],
+      );
 
-    return result as DetailedChallengeDto[];
+    return result;
   }
 
   async accept(id: number) {

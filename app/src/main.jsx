@@ -48,12 +48,12 @@ const theme = createTheme({
 });
 
 createRoot(document.getElementById('root')).render(
-    <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BrowserRouter>
-            <Provider store={store}>
-                <App />
-            </Provider>
-        </BrowserRouter>
-    </ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </ThemeProvider>,
 );

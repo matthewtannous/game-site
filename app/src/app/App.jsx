@@ -15,22 +15,20 @@ function App() {
       <RealtimeSync />
       <Layout>
         <Routes>
-          {
-            alwaysAvailableRoutes.map(({ path, element: Page }) => (
-              <Route key={path} path={path} element={<Page />} />
-            ))
-          }
+          {alwaysAvailableRoutes.map(({ path, element: Page }) => (
+            <Route key={path} path={path} element={<Page />} />
+          ))}
 
-          {user ?
-            loggedInRoutes.map(({ path, element: Page }) => (
-              <Route key={path} path={path} element={<Page />} />
-            ))
+          {user
+            ? loggedInRoutes.map(({ path, element: Page }) => (
+                <Route key={path} path={path} element={<Page />} />
+              ))
             : authRoutes.map(({ path, element: Page }) => (
-              <Route key={path} path={path} element={<Page />} />
-            ))}
+                <Route key={path} path={path} element={<Page />} />
+              ))}
 
           <Route
-            path='*' // Regular expression (any route/url)
+            path="*" // Regular expression (any route/url)
             element={<Navigate to={user ? '/' : '/login'} replace />}
           />
         </Routes>

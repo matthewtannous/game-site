@@ -4,12 +4,12 @@ import { apiSlice } from './slices/apiSlice';
 
 // Create the store
 export const store = configureStore({
-    reducer: {
-        auth: authReducer,
-        [apiSlice.reducerPath]: apiSlice.reducer,
-    },
-    middleware: getDefaultMiddleware =>
-        getDefaultMiddleware().concat(apiSlice.middleware),
+  reducer: {
+    auth: authReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 /**
@@ -17,15 +17,15 @@ export const store = configureStore({
  * reflect this change in localStorage
  */
 store.subscribe(() => {
-    // We named the slice 'auth' and the data inside it is 'user', so we access it with state.auth.user
-    const user = store.getState().auth.user;
-    try {
-        if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-        } else {
-            localStorage.removeItem('user');
-        }
-    } catch {
-        // ignore
+  // We named the slice 'auth' and the data inside it is 'user', so we access it with state.auth.user
+  const user = store.getState().auth.user;
+  try {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user');
     }
+  } catch {
+    // ignore
+  }
 });

@@ -7,7 +7,11 @@ import { HttpExceptionFilter } from './middlewares/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { DatabaseExceptionFilter } from './middlewares/database-exception.filter';
 import { TypeOrmExceptionFilter } from './middlewares/typeorm-exception.filter';
-import { DocumentBuilder, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
+import {
+  DocumentBuilder,
+  SwaggerDocumentOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
 
 dotenv.config();
 
@@ -46,12 +50,10 @@ async function bootstrap() {
     .build();
 
   const options: SwaggerDocumentOptions = {
-    operationIdFactory: (
-      controllerKey: string,
-      methodKey: string,
-    ) => methodKey
+    operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
   };
-  const documentFactory = () => SwaggerModule.createDocument(app, config, options);
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, documentFactory);
 
   await app.listen(process.env.SERVER_PORT ?? 3000);

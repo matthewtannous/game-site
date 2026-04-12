@@ -17,24 +17,24 @@ import OnlineConnect4 from '../features/connect_4/pages/Online';
 import OnlineTicTacToe from '../features/tic-tac-toe/pages/Online';
 
 export const loggedInRoutes = [
-    { path: "/", element: Home },
-    { path: "/about", element: About },
+  { path: '/', element: Home },
+  { path: '/about', element: About },
 
-    { path: "/challenges", element: ChallengeList },
-    { path: "/challenges/new", element: ChallengeForm },
+  { path: '/challenges', element: ChallengeList },
+  { path: '/challenges/new', element: ChallengeForm },
 
-    { path: "/games", element: GameList },
-    { path: "/games/tic-tac-toe/:id", element: OnlineTicTacToe },
-    { path: "/games/connect-4/:id", element: OnlineConnect4 },
+  { path: '/games', element: GameList },
+  { path: '/games/tic-tac-toe/:id', element: OnlineTicTacToe },
+  { path: '/games/connect-4/:id', element: OnlineConnect4 },
 ];
 
 export const authRoutes = [
-    { path: "/login", element: Login },
-    { path: "/register", element: Register },
+  { path: '/login', element: Login },
+  { path: '/register', element: Register },
 ];
 
 export const alwaysAvailableRoutes = [
-    { path: "/local", element: LocalPlay },
-    { path: "/local/tic-tac-toe", element: LocalTicTacToe },
-    { path: "/local/connect-4", element: LocalConnect4 },
-]
+  { path: '/local', element: LocalPlay },
+  { path: '/local/tic-tac-toe', element: LocalTicTacToe },
+  { path: '/local/connect-4', element: LocalConnect4 },
+];

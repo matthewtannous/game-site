@@ -3,7 +3,7 @@ import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { Game } from './entities/game.entity';
 import { DetailedGameDto } from './dto/detailed-game.dto';
 import { MoveDto } from './dto/move.dto';
@@ -41,7 +41,7 @@ export class GamesService {
   }
 
   async findAllDetailed() {
-    const result = await this.gamesRepository.query(`
+    const result: DetailedGameDto[] = await this.gamesRepository.query(`
         SELECT
           g.id                      AS "id",
           g.player1_id              AS "player1Id",
@@ -57,11 +57,11 @@ export class GamesService {
         JOIN users r ON r.id = g.player2_id;
       `);
 
-    return result as DetailedGameDto[];
+    return result;
   }
 
   async findOneDetailed(id: number) {
-    const result = await this.gamesRepository.query(
+    const result: DetailedGameDto[] = await this.gamesRepository.query(
       `
         SELECT
           g.id                      AS "id",
@@ -81,11 +81,11 @@ export class GamesService {
       [id],
     );
 
-    return result[0] as DetailedGameDto;
+    return result[0];
   }
 
   async findAllOneUser(id: number): Promise<DetailedGameDto[]> {
-    const result = await this.gamesRepository.query(
+    const result: DetailedGameDto[] = await this.gamesRepository.query(
       `
         SELECT
           g.id                      AS "id",
@@ -105,11 +105,11 @@ export class GamesService {
       [id],
     );
 
-    return result as DetailedGameDto[];
+    return result;
   }
 
   async findAllOneUserNoMoves(id: number): Promise<DetailedGameNoMovesDto[]> {
-    const result = await this.gamesRepository.query(
+    const result: DetailedGameNoMovesDto[] = await this.gamesRepository.query(
       `
         SELECT
           g.id                      AS "id",
@@ -129,11 +129,11 @@ export class GamesService {
       [id],
     );
 
-    return result as DetailedGameNoMovesDto[];
+    return result;
   }
 
   async addMove(moveDto: MoveDto) {
-    const result = await this.gamesRepository
+    const result: UpdateResult = await this.gamesRepository
       .createQueryBuilder('ongoing')
       .update(Game)
       .set({ moves: () => 'array_append(moves, :move::int)' })

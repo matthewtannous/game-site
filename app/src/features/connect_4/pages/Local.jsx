@@ -1,62 +1,53 @@
 import { useEffect, useState } from 'react';
 
 import { calculateWinner } from '../../../utils/connect_4.js';
-import ResetButton from '../../../components/ui/ResetButton.jsx'
+import ResetButton from '../../../components/ui/ResetButton.jsx';
 
 import Board from '../components/Board.jsx';
 
 export default function LocalConnect4() {
-    const [squares, setSquares] = useState(Array(42).fill(null));
+  const [squares, setSquares] = useState(Array(42).fill(null));
 
-    // To determine turns
-    const [blueIsNext, setBlueIsNext] = useState(true);
+  // To determine turns
+  const [blueIsNext, setBlueIsNext] = useState(true);
 
-    const [status, setStatus] = useState("");
+  const [status, setStatus] = useState('');
 
+  useEffect(() => {
+    // Display text about the game status (reruns everytime the component is updated)
+    const winner = calculateWinner(squares);
+    if (winner) setStatus('Winner: ' + winner);
+    else setStatus('Next player: ' + (blueIsNext ? 'Blue' : 'Red'));
+  }, [squares, blueIsNext]);
 
-    useEffect(() => {
-        // Display text about the game status (reruns everytime the component is updated)
-        const winner = calculateWinner(squares);
-        if (winner)
-            setStatus("Winner: " + winner);
-        else
-            setStatus("Next player: " + (blueIsNext ? 'Blue' : 'Red'));
+  function handleButtonClick(index) {
+    // index is column (between 0 and 6)
+    if (calculateWinner(squares)) return;
 
-    });
+    while (squares[index] && index < 42) index += 7;
 
-    function handleButtonClick(index) { // index is column (between 0 and 6)
-        if (calculateWinner(squares))
-            return;
+    if (index >= 42) return;
 
-        while (squares[index] && index < 42)
-            index += 7;
+    const newSquares = squares.slice();
 
-        if (index >= 42)
-            return;
+    if (blueIsNext) newSquares[index] = 'Blue';
+    else newSquares[index] = 'Red';
 
-        const newSquares = squares.slice();
+    setSquares(newSquares);
+    setBlueIsNext(!blueIsNext);
+  }
 
-        if (blueIsNext)
-            newSquares[index] = 'Blue';
-        else
-            newSquares[index] = 'Red';
+  function reset() {
+    setSquares(Array(42).fill(null));
+    setBlueIsNext(true);
+  }
 
-        setSquares(newSquares);
-        setBlueIsNext(!blueIsNext);
-    }
-
-    function reset() {
-        setSquares(Array(42).fill(null));
-        setBlueIsNext(true);
-    }
-
-    return (
-        <Board
-            squares={squares}
-            status={status}
-            onButtonClick={handleButtonClick}
-            SideButton={<ResetButton onClick={reset} text={"Reset"} />}
-        />
-
-    );
+  return (
+    <Board
+      squares={squares}
+      status={status}
+      onButtonClick={handleButtonClick}
+      SideButton={<ResetButton onClick={reset} text={'Reset'} />}
+    />
+  );
 }
