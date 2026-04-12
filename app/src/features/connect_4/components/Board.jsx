@@ -6,7 +6,7 @@ import PlaceButton from './PlaceButton.jsx';
 const rowCount = 6;
 const columnCount = 7;
 
-export default function Board({ squares, status, onButtonClick, SideButton }) {
+export default function Board({ squares, status, onButtonClick, SideButton, showSideButton }) {
 
     const rows = [];
     for (let row = rowCount - 1; row >= 0; row--) {
@@ -63,7 +63,7 @@ export default function Board({ squares, status, onButtonClick, SideButton }) {
                 {rows}
                 {placeButtons}
             </Box>
-            {SideButton}
+            {showSideButton && SideButton}
         </Grid>
 
     );

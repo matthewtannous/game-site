@@ -25,6 +25,7 @@ export const apiGameSlice = apiSlice.injectEndpoints({
             ) {
                 const socket = getSocket();
 
+                // data must be exactly like it is cached in the store
                 const handler = (data) => {
                     if (String(data.gameId) !== String(gameId)) return;
 

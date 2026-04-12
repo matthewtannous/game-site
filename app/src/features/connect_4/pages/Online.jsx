@@ -131,11 +131,12 @@ export default function OnlineConnect4() {
                     squares={squares}
                     onButtonClick={handleClick}
                     status={status}
-                    SideButton={<SurrenderButton
-                        onClick={surrender}
-                        text="forfeit"
-                        show={game.state !== GameState.ongoing}
-                    />}
+                    SideButton={
+                        <SurrenderButton
+                            onClick={surrender}
+                            text="forfeit"
+                        />}
+                    showSideButton={game.state === GameState.ongoing}
                 />
             </>
     }

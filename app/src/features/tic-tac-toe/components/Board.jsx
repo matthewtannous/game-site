@@ -2,7 +2,7 @@ import { Typography, ButtonGroup, Grid, Box } from '@mui/material';
 
 import Square from './Square.jsx';
 
-export default function Board({ squares, handleSquareClick, status, SideButton }) {
+export default function Board({ squares, handleSquareClick, status, SideButton, showSideButton }) {
     // Create board
     const rows = [];
     for (let row = 0; row < 3; row++) {
@@ -49,7 +49,7 @@ export default function Board({ squares, handleSquareClick, status, SideButton }
                 </Typography>
                 {rows}
             </Box>
-            {SideButton}
+            {showSideButton && SideButton}
         </Grid>
     );
 }

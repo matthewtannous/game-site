@@ -28,7 +28,7 @@ export class ChallengesService {
 
       // Find full challenge to emit
       const challenge = await this.challengesRepository.findOneBy({ id: result.id });
-      this.challengeGateway.emitChallengeCreated(result.id, challenge);
+      this.challengeGateway.emitChallengeUpdate(result.id, challenge);
 
       return result;
     } catch {
@@ -49,7 +49,7 @@ export class ChallengesService {
       const result = await this.challengesRepository.update(id, updateChallengeDto);
 
       // Emit
-      this.challengeGateway.emitChallengeUpdated(id,
+      this.challengeGateway.emitChallengeUpdate(id,
         await this.challengesRepository.findOneBy({ id: id }));
 
       return result;
@@ -59,7 +59,7 @@ export class ChallengesService {
   }
 
   remove(id: number) {
-    this.challengeGateway.emitChallengeDeleted(id);
+    this.challengeGateway.emitChallengeUpdate(id, null);
     return this.challengesRepository.delete(id);
   }
 

@@ -131,11 +131,12 @@ export default function OnlineTicTacToe() {
                     squares={squares}
                     handleSquareClick={handleClick}
                     status={status}
-                    SideButton={<SurrenderButton
-                        onClick={surrender}
-                        text="forfeit"
-                        show={game.state !== GameState.ongoing}
-                    />}
+                    SideButton={
+                        <SurrenderButton
+                            onClick={surrender}
+                            text="forfeit"
+                        />}
+                    showSideButton={game.state === GameState.ongoing}
                 />
             </>
     }
