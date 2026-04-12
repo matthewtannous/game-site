@@ -1,0 +1,1645 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/favicon.ico": {
+      "get": {
+        "operationId": "sendEmpty",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "operationId": "create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
+      "get": {
+        "operationId": "findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BasicUserDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/all-except/{id}": {
+      "get": {
+        "operationId": "findAllExcept",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "operationId": "findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
+      "put": {
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
+      "delete": {
+        "operationId": "remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/challenges": {
+      "post": {
+        "operationId": "create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateChallengeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Challenge"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Challenges"
+        ]
+      },
+      "get": {
+        "operationId": "findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Challenge"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Challenges"
+        ]
+      }
+    },
+    "/challenges/detailed": {
+      "get": {
+        "operationId": "findAllDetailed",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DetailedChallengeDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Challenges"
+        ]
+      }
+    },
+    "/challenges/received/{id}": {
+      "get": {
+        "operationId": "findAllReceived",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DetailedChallengeDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Challenges"
+        ]
+      }
+    },
+    "/challenges/sent/{id}": {
+      "get": {
+        "operationId": "findAllSent",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DetailedChallengeDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Challenges"
+        ]
+      }
+    },
+    "/challenges/accept/{id}": {
+      "post": {
+        "operationId": "accept",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Challenges"
+        ]
+      }
+    },
+    "/challenges/{id}": {
+      "get": {
+        "operationId": "findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Challenges"
+        ]
+      },
+      "put": {
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateChallengeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Challenges"
+        ]
+      },
+      "delete": {
+        "operationId": "remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Challenges"
+        ]
+      }
+    },
+    "/games": {
+      "post": {
+        "operationId": "create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGameDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      },
+      "get": {
+        "operationId": "findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Game"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      }
+    },
+    "/games/detailed": {
+      "get": {
+        "operationId": "findAllDetailed",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DetailedGameDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      }
+    },
+    "/games/detailed/{id}": {
+      "get": {
+        "operationId": "findOneDetailed",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedGameDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      }
+    },
+    "/games/user/{id}": {
+      "get": {
+        "operationId": "findAllOneUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DetailedGameDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      }
+    },
+    "/games/user-no-moves/{id}": {
+      "get": {
+        "operationId": "findAllOneUserNoMoves",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DetailedGameNoMovesDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      }
+    },
+    "/games/{id}": {
+      "get": {
+        "operationId": "findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      },
+      "put": {
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGameDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      },
+      "delete": {
+        "operationId": "remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      }
+    },
+    "/games/state": {
+      "put": {
+        "operationId": "updateState",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      }
+    },
+    "/games/play": {
+      "post": {
+        "operationId": "addMove",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Game"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "signIn",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/statistics": {
+      "post": {
+        "operationId": "create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStatisticDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Statistics"
+        ]
+      },
+      "get": {
+        "operationId": "findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Statistic"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Statistics"
+        ]
+      }
+    },
+    "/statistics/{id}": {
+      "get": {
+        "operationId": "findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Statistics"
+        ]
+      },
+      "put": {
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatisticDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Statistics"
+        ]
+      },
+      "delete": {
+        "operationId": "remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Statistics"
+        ]
+      }
+    },
+    "/statistics/increment": {
+      "put": {
+        "operationId": "increment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncrementStatisticDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Statistics"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Game Site",
+    "description": "The game site API descrpiton",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "email",
+          "password",
+          "createdAt"
+        ]
+      },
+      "BasicUserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "email",
+          "createdAt"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateChallengeDto": {
+        "type": "object",
+        "properties": {
+          "senderId": {
+            "type": "number",
+            "minimum": 1
+          },
+          "receiverId": {
+            "type": "number",
+            "minimum": 1
+          },
+          "gameType": {
+            "type": "string",
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ]
+          }
+        },
+        "required": [
+          "senderId",
+          "receiverId",
+          "gameType"
+        ]
+      },
+      "Challenge": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "senderId": {
+            "type": "number"
+          },
+          "receiverId": {
+            "type": "number"
+          },
+          "gameType": {
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "senderId",
+          "receiverId",
+          "gameType",
+          "createdAt"
+        ]
+      },
+      "DetailedChallengeDto": {
+        "type": "object",
+        "properties": {
+          "senderId": {
+            "type": "number",
+            "minimum": 1
+          },
+          "senderName": {
+            "type": "string"
+          },
+          "receiverId": {
+            "type": "number",
+            "minimum": 1
+          },
+          "receiverName": {
+            "type": "string"
+          },
+          "gameType": {
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "senderId",
+          "senderName",
+          "receiverId",
+          "receiverName",
+          "gameType",
+          "createdAt"
+        ]
+      },
+      "UpdateChallengeDto": {
+        "type": "object",
+        "properties": {
+          "senderId": {
+            "type": "number",
+            "minimum": 1
+          },
+          "receiverId": {
+            "type": "number",
+            "minimum": 1
+          },
+          "gameType": {
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "senderId",
+          "receiverId",
+          "gameType"
+        ]
+      },
+      "CreateGameDto": {
+        "type": "object",
+        "properties": {
+          "player1Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player2Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "gameType": {
+            "type": "string",
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ]
+          }
+        },
+        "required": [
+          "player1Id",
+          "player2Id",
+          "gameType"
+        ]
+      },
+      "Game": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "player1Id": {
+            "type": "number"
+          },
+          "player2Id": {
+            "type": "number"
+          },
+          "gameType": {
+            "type": "string",
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ]
+          },
+          "moves": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "lastMovePlayedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ongoing",
+              "tie",
+              "player1_won",
+              "player2_won"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "player1Id",
+          "player2Id",
+          "gameType",
+          "moves",
+          "lastMovePlayedAt",
+          "state"
+        ]
+      },
+      "DetailedGameDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player1Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player1Name": {
+            "type": "string"
+          },
+          "player2Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player2Name": {
+            "type": "string"
+          },
+          "gameType": {
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ],
+            "type": "string"
+          },
+          "moves": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "lastMovePlayedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "ongoing",
+              "tie",
+              "player1_won",
+              "player2_won"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "player1Id",
+          "player1Name",
+          "player2Id",
+          "player2Name",
+          "gameType",
+          "moves",
+          "lastMovePlayedAt",
+          "state"
+        ]
+      },
+      "DetailedGameNoMovesDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player1Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player1Name": {
+            "type": "string"
+          },
+          "player2Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player2Name": {
+            "type": "string"
+          },
+          "gameType": {
+            "type": "string",
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ]
+          },
+          "lastMovePlayedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ongoing",
+              "tie",
+              "player1_won",
+              "player2_won"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "player1Id",
+          "player1Name",
+          "player2Id",
+          "player2Name",
+          "gameType",
+          "lastMovePlayedAt",
+          "state"
+        ]
+      },
+      "UpdateStateDto": {
+        "type": "object",
+        "properties": {
+          "gameId": {
+            "type": "number",
+            "minimum": 1
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ongoing",
+              "tie",
+              "player1_won",
+              "player2_won"
+            ]
+          }
+        },
+        "required": [
+          "gameId",
+          "state"
+        ]
+      },
+      "UpdateGameDto": {
+        "type": "object",
+        "properties": {
+          "player1Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player2Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "gameType": {
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "player1Id",
+          "player2Id",
+          "gameType"
+        ]
+      },
+      "MoveDto": {
+        "type": "object",
+        "properties": {
+          "gameId": {
+            "type": "number",
+            "minimum": 1
+          },
+          "move": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 41
+          }
+        },
+        "required": [
+          "gameId",
+          "move"
+        ]
+      },
+      "SignInDTO": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "RegisterDTO": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password"
+        ]
+      },
+      "CreateStatisticDto": {
+        "type": "object",
+        "properties": {
+          "player1Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player2Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "gameType": {
+            "type": "string",
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ]
+          },
+          "player1Wins": {
+            "type": "number",
+            "minimum": 0
+          },
+          "player2Wins": {
+            "type": "number",
+            "minimum": 0
+          },
+          "draws": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "player1Id",
+          "player2Id",
+          "gameType",
+          "player1Wins",
+          "player2Wins",
+          "draws"
+        ]
+      },
+      "Statistic": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "player1Id": {
+            "type": "number"
+          },
+          "player2Id": {
+            "type": "number"
+          },
+          "gameType": {
+            "type": "string",
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ]
+          },
+          "player1Wins": {
+            "type": "number"
+          },
+          "player2Wins": {
+            "type": "number"
+          },
+          "draws": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "player1Id",
+          "player2Id",
+          "gameType",
+          "player1Wins",
+          "player2Wins",
+          "draws"
+        ]
+      },
+      "IncrementStatisticDto": {
+        "type": "object",
+        "properties": {
+          "statistic": {
+            "type": "string",
+            "enum": [
+              "player1Wins",
+              "player2Wins",
+              "draws"
+            ]
+          },
+          "player1Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player2Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "gameType": {
+            "type": "string",
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ]
+          }
+        },
+        "required": [
+          "statistic",
+          "player1Id",
+          "player2Id",
+          "gameType"
+        ]
+      },
+      "UpdateStatisticDto": {
+        "type": "object",
+        "properties": {
+          "player1Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "player2Id": {
+            "type": "number",
+            "minimum": 1
+          },
+          "gameType": {
+            "enum": [
+              "tic-tac-toe",
+              "connect 4"
+            ],
+            "type": "string"
+          },
+          "player1Wins": {
+            "type": "number",
+            "minimum": 0
+          },
+          "player2Wins": {
+            "type": "number",
+            "minimum": 0
+          },
+          "draws": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "player1Id",
+          "player2Id",
+          "gameType",
+          "player1Wins",
+          "player2Wins",
+          "draws"
+        ]
+      }
+    }
+  }
+}

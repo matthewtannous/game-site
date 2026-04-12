@@ -1,4 +1,4 @@
-import { PickType } from '@nestjs/mapped-types';
+import { PickType } from '@nestjs/swagger';
 import { CreateStatisticDto } from './create-statistic.dto';
 
 import { StatisticName } from '../../common/enums/statistic-name.enum';
