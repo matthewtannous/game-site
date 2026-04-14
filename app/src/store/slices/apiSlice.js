@@ -20,6 +20,7 @@ export const apiSlice = createApi({
     baseUrl: BASE_URL,
     credentials: 'include', // For authentication
   }),
+  keepUnusedDataFor: 10, // time to keep cached data
 
   endpoints: () => ({}),
   tagTypes: ['Game', 'Challenge'],

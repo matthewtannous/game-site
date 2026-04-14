@@ -72,7 +72,7 @@ export const apiGameSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: game,
       }),
-      // invalidatesTags: ['Game'],
+      invalidatesTags: ['Game'],
     }),
   }),
 });

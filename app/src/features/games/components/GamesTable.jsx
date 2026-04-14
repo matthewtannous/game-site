@@ -70,9 +70,10 @@ export default function GamesTable({ games, username, finished }) {
               <TableCell align="center">{game.gameType}</TableCell>
               <TableCell align="center">
                 {formatDistanceToNow(game.lastMovePlayedAt, {
-                  addSuffix: true,
+                  // addSuffix: true, // add 'ago' manually instead, because this sometimes prints messages with 'in'
                   includeSeconds: true,
-                })}
+                })}{' '}
+                ago
               </TableCell>
               {finished && <TableCell align="center">{game.state}</TableCell>}
               <TableCell align="center">

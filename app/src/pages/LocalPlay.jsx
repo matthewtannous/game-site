@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 
 import { Game } from '../constants';
 
+import { useAuth } from '../store/hooks/useAuth';
+
 export default function LocalPlay() {
+  const { user } = useAuth();
   return (
     <>
       <Typography variant="h3" sx={{ textAlign: 'center' }}>
@@ -30,9 +33,11 @@ export default function LocalPlay() {
         </ButtonGroup>
       </Stack>
 
-      <Typography sx={{ textAlign: 'center' }}>
-        Local games do not affect your stats
-      </Typography>
+      {user && (
+        <Typography sx={{ textAlign: 'center' }}>
+          Local games do not affect your stats
+        </Typography>
+      )}
     </>
   );
 }

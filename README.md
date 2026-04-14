@@ -36,7 +36,7 @@ The project's API endpoints, along with instructions on how to use them, can be 
 
 This documentation was automatically generated using NestJS's built-in support for [swagger](https://swagger.io/).
 
-The most recent version of this documentation can be recreated locally by running the backend and following the link to the API in the terminal.
+The most recent version of this documentation can be recreated locally by running the backend (step 4 of [setup](#installation-and-setup)) and following the link to the API in the terminal.
 
 
 ## Database Schema
@@ -57,7 +57,7 @@ The most recent version of this documentation can be recreated locally by runnin
 ### Tools
 This project uses [PostgreSQL](https://www.postgresql.org) for the database.
 
-It was written with javascript and typescript, using [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) for package management.
+It was written with javascript and typescript using [Node.js](https://nodejs.org/), with [npm](https://www.npmjs.com/) for package management.
 
 ### Libraries
 All dependencies are npm libraries, notably:

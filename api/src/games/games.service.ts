@@ -54,7 +54,8 @@ export class GamesService {
           g.state                   AS "state"
         FROM games g
         JOIN users s ON s.id = g.player1_id
-        JOIN users r ON r.id = g.player2_id;
+        JOIN users r ON r.id = g.player2_id
+        ORDER BY g.last_move_played_at DESC;
       `);
 
     return result;
@@ -100,7 +101,8 @@ export class GamesService {
         FROM games g
         JOIN users s ON s.id = g.player1_id
         JOIN users r ON r.id = g.player2_id
-        WHERE g.player1_id = $1 OR g.player2_id = $1;
+        WHERE g.player1_id = $1 OR g.player2_id = $1
+        ORDER BY g.last_move_played_at ASC;
       `,
       [id],
     );

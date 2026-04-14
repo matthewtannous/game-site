@@ -1,3 +1,4 @@
+// THIS PAGE IS NOT USED YET
 import { useAuth } from '../store/hooks/useAuth';
 
 export default function About() {
