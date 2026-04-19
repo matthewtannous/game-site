@@ -2,6 +2,8 @@
 
 A React web application to play games such as tic-tac-toe and connect 4 in real-time
 
+Video demo: https://youtu.be/3mql5UhwKWQ
+
 ## Table of Contents
 1. [Installation and Setup](#installation-and-setup)
 2. [API Endpoints](#api-endpoints)
