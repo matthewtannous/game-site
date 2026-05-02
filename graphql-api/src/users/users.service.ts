@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import bcrypt from 'bcryptjs';
+import { DatabaseException } from '../common/exceptions/database.exception';
 
 const SALT_ROUNDS = 10;
 
@@ -21,13 +22,30 @@ const selectedColumns = {
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-  ) { }
+  ) {}
 
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+  async create(createUserInput: CreateUserInput) {
+    // Hash the password
+    createUserInput.password = bcrypt.hashSync(
+      createUserInput.password,
+      SALT_ROUNDS,
+    );
+
+    // Check if username already exists in the database
+    const exists = await this.usersRepository.findOneBy({
+      username: createUserInput.username,
+    });
+    if (exists) {
+      throw new DatabaseException('Username already exists');
+    }
+
+    // Add user
+    const res = await this.usersRepository.save(createUserInput);
+
+    return res;
   }
 
-  findAll() {
+  async findAll() {
     return this.usersRepository.find({
       select: selectedColumns,
     });
@@ -43,7 +61,7 @@ export class UsersService {
   }
 
   findAllExcept(id: number) {
-        return this.usersRepository.find({
+    return this.usersRepository.find({
       select: selectedColumns,
       where: {
         id: Not(id),
@@ -52,14 +70,17 @@ export class UsersService {
         username: 'ASC',
       },
     });
-
   }
 
   update(updateUserInput: UpdateUserInput) {
-    return this.usersRepository.update(updateUserInput.id, updateUserInput);
+    this.usersRepository.update(updateUserInput.id, updateUserInput);
+    const res = this.usersRepository.findOneBy({ id: updateUserInput.id });
+    return res;
   }
 
   remove(id: number) {
-    return this.usersRepository.delete(id);
+    const res = this.usersRepository.findOneBy({ id: id });
+    this.usersRepository.delete(id);
+    return res;
   }
 }

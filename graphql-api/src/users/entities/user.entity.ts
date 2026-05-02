@@ -4,7 +4,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('users')
 @ObjectType()
 export class User {
-
   /** Unique integer id */
   @PrimaryGeneratedColumn()
   @Field((type) => ID)

@@ -8,21 +8,23 @@ input CreateUserInput {
   username: String!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  removeUser(id: Int!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  createUser(createUserInput: CreateUserInput!): PublicUserDto!
+  removeUser(id: Int!): PublicUserDto!
+  updateUser(updateUserInput: UpdateUserInput!): PublicUserDto!
+}
+
+type PublicUserDto {
+  createdAt: String!
+  email: String!
+  id: Float!
+  username: String!
 }
 
 type Query {
-  user(id: Int!): User!
-  users: [User!]!
-  usersExcept(id: Int!): [User!]!
+  user(id: Int!): PublicUserDto!
+  users: [PublicUserDto!]!
+  usersExcept(id: Int!): [PublicUserDto!]!
 }
 
 input UpdateUserInput {
@@ -30,14 +32,4 @@ input UpdateUserInput {
   id: Float!
   password: String
   username: String
-}
-
-type User {
-  createdAt: DateTime!
-  email: String!
-
-  """Unique integer id"""
-  id: ID!
-  password: String!
-  username: String!
 }

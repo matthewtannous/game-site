@@ -16,6 +16,30 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       graphiql: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'), // For code first approach
       sortSchema: true, // sort the schema lexicographically
+
+      formatError: (error) => {
+        // DatabaseException
+        if (error.extensions?.code === 'INTERNAL_SERVER_ERROR') {
+          return {
+            message: 'Bad Request Exception',
+            details: [error.message],
+          };
+        }
+
+        // Other (thrown by validators)
+        const res = error.extensions?.originalError as {
+          message: string[];
+          error: string;
+          statusCode: number;
+        };
+
+        return {
+          message: error.message,
+          details: res.message,
+          // httpError: res.error,
+          // statusCode: res.statusCode,
+        };
+      },
     }),
     // For .env
     ConfigModule.forRoot({

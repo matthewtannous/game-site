@@ -1,5 +1,7 @@
-export class DatabaseException extends Error {
+import { HttpException, HttpStatus } from '@nestjs/common';
+
+export class DatabaseException extends HttpException {
   constructor(message: string) {
-    super(message);
+    super(message, HttpStatus.BAD_REQUEST);
   }
 }

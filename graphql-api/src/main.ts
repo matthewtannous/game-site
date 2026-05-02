@@ -44,6 +44,5 @@ async function bootstrap() {
   console.log(
     `Application is running on: http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`,
   );
-
 }
 bootstrap();

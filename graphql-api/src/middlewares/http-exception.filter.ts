@@ -1,29 +1,22 @@
+/**
+ * Exception handlers are only used to print messages to the console.
+ * Returning formatted error messages is handled in app.module.ts with GraphQLModule.forRoot
+ */
+
 import {
   ExceptionFilter,
   Catch,
   ArgumentsHost,
   HttpException,
 } from '@nestjs/common';
-import { Response } from 'express';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response = ctx.getResponse<Response>();
-    // const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
 
-    // response
-    //     .status(status)
-    //     .json({
-    //         statusCode: status,
-    //         timestamp: new Date().toISOString(),
-    //         path: request.url,
-    //     });
-
     const exceptionResponse = exception.getResponse() as {
-      message: string[];
+      message: string[] | string;
       error: string;
       statusCode: number;
     };
@@ -45,7 +38,5 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     console.log(errorMessage);
-
-    response.status(status).json(exceptionResponse.message);
   }
 }
