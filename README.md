@@ -14,7 +14,7 @@ Video demo: https://youtu.be/3mql5UhwKWQ
 ## Installation and Setup
 To try this project:
 1. Clone this repository
-2. Reproduce the [database](/api/database/schema.sql) on your machine
+2. Reproduce the [database](/database/schema.sql) on your machine
 3. Create `.env` files following the format of .env.example in the [app](/app/.env.example) and [api](/api/.env.example) folders
 4. In a terminal session, run:
 ```shell
@@ -42,7 +42,7 @@ The most recent version of this documentation can be recreated locally by runnin
 
 
 ## Database Schema
-![database schema](/api/database/erd.png)
+![database schema](/database/erd.png)
 
 ### What each table is used for:
 - **users**: Stores user data to identify users and provide authentication
