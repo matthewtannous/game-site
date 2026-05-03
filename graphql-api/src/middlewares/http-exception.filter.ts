@@ -9,6 +9,7 @@ import {
   ArgumentsHost,
   HttpException,
 } from '@nestjs/common';
+import { Response } from 'express';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -38,5 +39,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     console.log(errorMessage);
+
+    // If a REST request is made, return a response
+    if (exception) {
+      console.log("HERE")
+      const ctx = host.switchToHttp();
+      const response = ctx.getResponse<Response>();
+      response.status(status).json(exceptionResponse.message)
+    }
   }
 }

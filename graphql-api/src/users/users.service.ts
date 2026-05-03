@@ -83,4 +83,9 @@ export class UsersService {
     this.usersRepository.delete(id);
     return res;
   }
+
+  // Other operations (for auth, must return all data)
+  findOneByUsername(username: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ username: username });
+  }
 }

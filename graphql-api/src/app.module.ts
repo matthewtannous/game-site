@@ -7,6 +7,9 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+
+import { Request, Response } from 'express';
 
 @Module({
   imports: [
@@ -14,6 +17,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       graphiql: true,
+      context: ({ req, res }: { req: Request; res: Response }) => ({ req, res }),
+
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'), // For code first approach
       sortSchema: true, // sort the schema lexicographically
 
@@ -57,8 +62,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     // Entities
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
