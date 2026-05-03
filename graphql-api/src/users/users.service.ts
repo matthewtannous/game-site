@@ -41,7 +41,7 @@ export class UsersService {
 
     // Add user
     const res = await this.usersRepository.save(createUserInput);
-
+    console.log(res);
     return res;
   }
 
@@ -72,15 +72,15 @@ export class UsersService {
     });
   }
 
-  update(updateUserInput: UpdateUserInput) {
-    this.usersRepository.update(updateUserInput.id, updateUserInput);
+  async update(updateUserInput: UpdateUserInput) {
+    await this.usersRepository.update(updateUserInput.id, updateUserInput);
     const res = this.usersRepository.findOneBy({ id: updateUserInput.id });
     return res;
   }
 
-  remove(id: number) {
-    const res = this.usersRepository.findOneBy({ id: id });
-    this.usersRepository.delete(id);
+  async remove(id: number) {
+    const res = await this.usersRepository.findOneBy({ id: id });
+    await this.usersRepository.delete(id);
     return res;
   }
 

@@ -42,10 +42,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     // If a REST request is made, return a response
     if (exception) {
-      console.log("HERE")
       const ctx = host.switchToHttp();
       const response = ctx.getResponse<Response>();
-      response.status(status).json(exceptionResponse.message)
+      response.status(status).json(exceptionResponse.message);
     }
   }
 }

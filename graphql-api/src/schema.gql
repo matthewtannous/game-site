@@ -2,15 +2,100 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Challenge {
+  createdAt: DateTime!
+  gameType: GameType!
+  id: ID!
+  receiverId: Int!
+  senderId: Int!
+}
+
+input CreateChallengeInput {
+  gameType: GameType!
+  receiverId: Int!
+  senderId: Int!
+}
+
+input CreateGameInput {
+  gameType: GameType!
+  player1Id: Int!
+  player2Id: Int!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
   username: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type DetailedChallengeDto {
+  createdAt: DateTime!
+  gameType: GameType!
+  id: ID!
+  receiverId: Int!
+  receiverName: String!
+  senderId: Int!
+  senderName: String!
+}
+
+type DetailedGameDto {
+  gameType: GameType!
+  id: ID!
+  lastMovePlayedAt: DateTime!
+  moves: [Int!]!
+  player1Id: Int!
+  player1Name: String!
+  player2Id: Int!
+  player2Name: String!
+  state: GameState!
+}
+
+type Game {
+  gameType: GameType!
+  id: Int!
+  lastMovePlayedAt: DateTime!
+  moves: [Int!]!
+  player1Id: Int!
+  player2Id: Int!
+  state: GameState!
+}
+
+"""Possible states of a game"""
+enum GameState {
+  ongoing
+  player1Won
+  player2Won
+  tie
+}
+
+"""All game types"""
+enum GameType {
+  connect4
+  ticTacToe
+}
+
+input MoveDto {
+  gameId: Int!
+  move: Int!
+}
+
 type Mutation {
+  acceptChallenge(id: Int!): Game!
+  addMove(moveDto: MoveDto!): Game!
+  createChallenge(createChallengeInput: CreateChallengeInput!): Challenge!
+  createGame(createGameInput: CreateGameInput!): Game!
   createUser(createUserInput: CreateUserInput!): PublicUserDto!
+  removeChallenge(id: Int!): Challenge!
+  removeGame(id: Int!): Game!
   removeUser(id: Int!): PublicUserDto!
+  updateChallenge(updateChallengeInput: UpdateChallengeInput!): Challenge!
+  updateGame(updateGameInput: UpdateGameInput!): Game!
+  updateGameState(updateStateDto: UpdateStateDto!): Game!
   updateUser(updateUserInput: UpdateUserInput!): PublicUserDto!
 }
 
@@ -22,9 +107,35 @@ type PublicUserDto {
 }
 
 type Query {
+  challenge(id: Int!): Challenge!
+  challenges: [Challenge!]!
+  detailedChallenges(playerId: Int!, sent: Boolean!): [DetailedChallengeDto!]!
+  detailedGame(id: Int!): DetailedGameDto!
+  detailedGamesForPlayer(playerId: Int!): [DetailedGameDto!]!
+  game(id: Int!): Game!
+  games: [Game!]!
   user(id: Int!): PublicUserDto!
   users: [PublicUserDto!]!
   usersExcept(id: Int!): [PublicUserDto!]!
+}
+
+input UpdateChallengeInput {
+  gameType: GameType
+  id: ID!
+  receiverId: Int
+  senderId: Int
+}
+
+input UpdateGameInput {
+  gameType: GameType
+  id: Int!
+  player1Id: Int
+  player2Id: Int
+}
+
+input UpdateStateDto {
+  gameId: Int!
+  state: GameState!
 }
 
 input UpdateUserInput {
