@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../../store/hooks/useAuth';
 
 import ChallengesTable from '../components/ChallengesTable';
+import ErrorMessage from '../../../components/ui/ErrorMessage';
 
 // import { getReceivedChallenges, getSentChallenges, deleteChallenge, acceptChallenge } from "../services/challenges.service";
 import {
@@ -17,43 +18,20 @@ import LoadingWheel from '../../../components/ui/LoadingWheel';
 export default function ChallengeList() {
   const { user } = useAuth();
 
-  const { data: receivedChallenges, isLoading: receivedLoading } =
+  const { data: receivedChallenges, isLoading: receivedLoading, isError: receivedError, isSuccess: receivedIsSucces } =
     useGetReceivedChallengesQuery(user.id);
-  const { data: sentChallenges, isLoading: sentLoading } =
+  const { data: sentChallenges, isLoading: sentLoading, isError: sentError, isSuccess: sentIsSuccess } =
     useGetSentChallengesQuery(user.id);
   const [deleteChallenge] = useDeleteChallengeMutation();
   const [acceptChallenge] = useAcceptChallengeMutation();
 
-  // async function loadChallenges() {
-  //     // setReceivedChallenges(await getChallenges());
-  //     setReceivedChallenges(await getReceivedChallenges(user.id));
-  //     setSentChallenges(await getSentChallenges(user.id));
-  // }
 
-  // useEffect(() => {
-  //     if (!user?.id)
-  //         return;
-  //     loadChallenges();
-  // }, [user?.id]);
-
-  async function remove(id) {
-    // // UI updates
-    // setReceivedChallenges(prev => prev.filter(c => c.id !== id));
-    // setSentChallenges(prev => prev.filter(c => c.id !== id));
-
-    deleteChallenge(id);
-  }
-
-  async function accept(id) {
-    // setReceivedChallenges(prev => prev.filter(c => c.id !== id));
-    // setSentChallenges(prev => prev.filter(c => c.id !== id));
-
-    acceptChallenge(id);
-  }
   let content;
   if (receivedLoading || sentLoading) {
     content = <LoadingWheel />;
-  } else {
+  } else if (receivedError || sentError) {
+    content = <ErrorMessage />
+  } else if (receivedIsSucces && sentIsSuccess) {
     content = (
       <Paper>
         <Button component={Link} to="/challenges/new" variant="contained">
@@ -63,15 +41,14 @@ export default function ChallengeList() {
         <ChallengesTable
           sent={false}
           challenges={receivedChallenges}
-          onAccept={accept}
-          onDecline={remove}
+          onAccept={acceptChallenge}
+          onDecline={deleteChallenge}
         />
 
         <ChallengesTable
           sent={true}
           challenges={sentChallenges}
-          onAccept={accept}
-          onDecline={remove}
+          onDecline={deleteChallenge}
         />
       </Paper>
     );

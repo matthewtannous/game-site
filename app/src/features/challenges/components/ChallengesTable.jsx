@@ -53,24 +53,6 @@ export default function ChallengesTable({
                 )}
               </TableCell>
               <TableCell align="center">
-                {/* <Stack direction="row" spacing={1}>
-                                    {sent ?
-                                        <>
-                                            <Button onClick={() => onDecline(challenge.id)} variant="contained" color="error" size="small">
-                                                Remove
-                                            </Button>
-                                        </>
-                                        :
-                                        <>
-                                            <Button onClick={() => onAccept(challenge.id)} variant="outlined" size="small">
-                                                Accept
-                                            </Button>
-                                            <Button onClick={() => onDecline(challenge.id)} variant="contained" color="error" size="small">
-                                                Decline
-                                            </Button>
-                                        </>
-                                    }
-                                </Stack> */}
                 {sent ? (
                   <Button
                     onClick={() => onDecline(challenge.id)}
