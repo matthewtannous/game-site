@@ -10,13 +10,18 @@ import { useGetAllGamesOneUserQuery } from '../../../store/slices/apiGameSlice';
 export default function GameList() {
   const { user } = useAuth();
 
-  const { data: games = [], isLoading, isError, isSuccess } = useGetAllGamesOneUserQuery(user.id);
-
+  // 'data' is an object with many fields, extract 'detailedGamesForPlayer' and name it 'games'
+  const {
+    data: { detailedGamesForPlayer: games } = [],
+    isLoading,
+    isError,
+    isSuccess,
+  } = useGetAllGamesOneUserQuery(user.id);
   let content;
   if (isLoading) {
     content = <LoadingWheel />;
   } else if (isError) {
-    content = <ErrorMessage />
+    content = <ErrorMessage />;
   } else if (isSuccess) {
     content = (
       <Paper>

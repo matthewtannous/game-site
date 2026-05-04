@@ -1,7 +1,7 @@
 export default function ErrorMessage() {
-    return (
-        <>
-            <h1>ERRORRRRRRRRRRRRRRR</h1>
-        </>
-    )
+  return (
+    <>
+      <h1>ERRORRRRRRRRRRRRRRR</h1>
+    </>
+  );
 }

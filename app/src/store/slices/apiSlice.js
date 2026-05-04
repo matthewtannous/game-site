@@ -10,8 +10,11 @@
  */
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
+
+/* REST API Slice
 
 export const apiSlice = createApi({
   reducerPath: 'api', // default (not needed)
@@ -21,6 +24,24 @@ export const apiSlice = createApi({
     credentials: 'include', // For authentication
   }),
   keepUnusedDataFor: 10, // time to keep cached data
+
+  endpoints: () => ({}),
+  tagTypes: ['Game', 'Challenge'],
+});
+*/
+
+// GraphQL API Slice (https://github.com/reduxjs/redux-toolkit/blob/master/examples/query/react/graphql/src/app/services/posts.ts)
+export const apiSlice = createApi({
+  baseQuery: graphqlRequestBaseQuery({
+    url: BASE_URL + '/graphql',
+    // To pass cookies
+    // fetchFn: (input, init) =>
+    //   fetch(input, {
+    //     ...init,
+    //     credentials: 'include',
+    //   }),
+  }),
+  keepUnusedDataFor: 10,
 
   endpoints: () => ({}),
   tagTypes: ['Game', 'Challenge'],

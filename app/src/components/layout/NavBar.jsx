@@ -13,7 +13,7 @@ const links = [
   { to: '/local', label: 'Local' },
   { to: '/challenges', label: 'Challenges' },
   { to: '/games', label: 'Games' },
-  // { to: '/about', label: 'About' },
+  { to: '/about', label: 'About' },
 ];
 
 const NavBar = () => {

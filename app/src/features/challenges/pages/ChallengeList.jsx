@@ -18,19 +18,26 @@ import LoadingWheel from '../../../components/ui/LoadingWheel';
 export default function ChallengeList() {
   const { user } = useAuth();
 
-  const { data: receivedChallenges, isLoading: receivedLoading, isError: receivedError, isSuccess: receivedIsSucces } =
-    useGetReceivedChallengesQuery(user.id);
-  const { data: sentChallenges, isLoading: sentLoading, isError: sentError, isSuccess: sentIsSuccess } =
-    useGetSentChallengesQuery(user.id);
+  const {
+    data: receivedChallenges,
+    isLoading: receivedLoading,
+    isError: receivedError,
+    isSuccess: receivedIsSucces,
+  } = useGetReceivedChallengesQuery(user.id);
+  const {
+    data: sentChallenges,
+    isLoading: sentLoading,
+    isError: sentError,
+    isSuccess: sentIsSuccess,
+  } = useGetSentChallengesQuery(user.id);
   const [deleteChallenge] = useDeleteChallengeMutation();
   const [acceptChallenge] = useAcceptChallengeMutation();
-
 
   let content;
   if (receivedLoading || sentLoading) {
     content = <LoadingWheel />;
   } else if (receivedError || sentError) {
-    content = <ErrorMessage />
+    content = <ErrorMessage />;
   } else if (receivedIsSucces && sentIsSuccess) {
     content = (
       <Paper>
