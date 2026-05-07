@@ -1,7 +1,9 @@
+import { Typography } from "@mui/material";
+
 export default function ErrorMessage() {
   return (
     <>
-      <h1>ERRORRRRRRRRRRRRRRR</h1>
+      <Typography variant="h3" align="center">An error has occurred</Typography>
     </>
   );
 }

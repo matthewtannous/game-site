@@ -8,8 +8,9 @@ import ErrorMessage from '../../../components/ui/ErrorMessage';
 
 // import { getReceivedChallenges, getSentChallenges, deleteChallenge, acceptChallenge } from "../services/challenges.service";
 import {
-  useGetReceivedChallengesQuery,
-  useGetSentChallengesQuery,
+  // useGetReceivedChallengesQuery,
+  // useGetSentChallengesQuery,
+  useGetChallengesQuery,
   useDeleteChallengeMutation,
   useAcceptChallengeMutation,
 } from '../../../store/slices/apiChallengeSlice';
@@ -18,27 +19,36 @@ import LoadingWheel from '../../../components/ui/LoadingWheel';
 export default function ChallengeList() {
   const { user } = useAuth();
 
+  // const {
+  //   data: receivedChallenges,
+  //   isLoading: receivedLoading,
+  //   isError: receivedError,
+  //   isSuccess: receivedIsSucces,
+  // } = useGetReceivedChallengesQuery(user.id);
+  // const {
+  //   data: sentChallenges,
+  //   isLoading: sentLoading,
+  //   isError: sentError,
+  //   isSuccess: sentIsSuccess,
+  // } = useGetSentChallengesQuery(user.id);
+
   const {
-    data: receivedChallenges,
-    isLoading: receivedLoading,
-    isError: receivedError,
-    isSuccess: receivedIsSucces,
-  } = useGetReceivedChallengesQuery(user.id);
-  const {
-    data: sentChallenges,
-    isLoading: sentLoading,
-    isError: sentError,
-    isSuccess: sentIsSuccess,
-  } = useGetSentChallengesQuery(user.id);
+    data: { sentChallenges, receivedChallenges } = {},
+    isLoading,
+    isError,
+    isSuccess,
+  } = useGetChallengesQuery(user.id);
+
   const [deleteChallenge] = useDeleteChallengeMutation();
   const [acceptChallenge] = useAcceptChallengeMutation();
 
+
   let content;
-  if (receivedLoading || sentLoading) {
+  if (isLoading) {
     content = <LoadingWheel />;
-  } else if (receivedError || sentError) {
+  } else if (isError) {
     content = <ErrorMessage />;
-  } else if (receivedIsSucces && sentIsSuccess) {
+  } else if (isSuccess) {
     content = (
       <Paper>
         <Button component={Link} to="/challenges/new" variant="contained">

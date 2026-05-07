@@ -13,17 +13,17 @@ export default function RealtimeSync() {
 
     socket.connect();
 
-    // socket.on('connect', () => {
-    //     console.log('Connected', socket.id);
-    // });
+    socket.on('connect', () => {
+        console.log('Connected', socket.id);
+    });
 
-    // socket.on('disconnect', () => {
-    //     console.log('Disconnected');
-    // });
+    socket.on('disconnect', () => {
+        console.log('Disconnected');
+    });
 
-    // socket.on('challengeCreated', (data) => {
-    //     console.log('Realtime event:', data);
-    // });
+    socket.on('challengeCreated', (data) => {
+        console.log('Realtime event:', data);
+    });
 
     return () => {
       socket.disconnect();

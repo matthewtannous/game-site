@@ -35,11 +35,17 @@ export const apiSlice = createApi({
   baseQuery: graphqlRequestBaseQuery({
     url: BASE_URL + '/graphql',
     // To pass cookies
-    // fetchFn: (input, init) =>
-    //   fetch(input, {
-    //     ...init,
-    //     credentials: 'include',
-    //   }),
+    fetchFn: async (input, init = {}) => {
+      // Ensure credentials are included
+      const response = await fetch(input, {
+        ...init,
+        credentials: 'include',
+        headers: {
+          ...(init.headers || {}),
+        },
+      });
+      return response;
+    },
   }),
   keepUnusedDataFor: 10,
 
