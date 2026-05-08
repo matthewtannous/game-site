@@ -24,8 +24,8 @@ export const loggedInRoutes = [
   { path: '/challenges/new', element: ChallengeForm },
 
   { path: '/games', element: GameList },
-  { path: '/games/tic-tac-toe/:id', element: OnlineTicTacToe },
-  { path: '/games/connect-4/:id', element: OnlineConnect4 },
+  { path: '/games/tictactoe/:id', element: OnlineTicTacToe },
+  { path: '/games/connect4/:id', element: OnlineConnect4 },
 ];
 
 export const authRoutes = [

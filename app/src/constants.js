@@ -1,8 +1,8 @@
 export const GameState = Object.freeze({
   ongoing: 'ongoing',
   tie: 'tie',
-  player1Won: 'player1_won',
-  player2Won: 'player2_won',
+  player1Won: 'player1Won',
+  player2Won: 'player2Won',
 });
 
 // Elements of form: {'database name' : 'Display Name'}

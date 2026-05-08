@@ -9,8 +9,7 @@
  * If we need to pass multiple data fields to the query, use an object
  */
 
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -30,25 +29,31 @@ export const apiSlice = createApi({
 });
 */
 
-// GraphQL API Slice (https://github.com/reduxjs/redux-toolkit/blob/master/examples/query/react/graphql/src/app/services/posts.ts)
 export const apiSlice = createApi({
-  baseQuery: graphqlRequestBaseQuery({
-    url: BASE_URL + '/graphql',
-    // To pass cookies
-    fetchFn: async (input, init = {}) => {
-      // Ensure credentials are included
-      const response = await fetch(input, {
-        ...init,
+  baseQuery: async ({ document, variables }) => {
+    try {
+      const res = await fetch(`${BASE_URL}/graphql`, {
+        method: 'POST',
         credentials: 'include',
         headers: {
-          ...(init.headers || {}),
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ query: document, variables }),
       });
-      return response;
-    },
-  }),
+
+      const data = await res.json();
+
+      if (!res.ok || data.errors) {
+        return { error: { status: res.status, data: data.errors ?? result, } };
+      }
+
+      return { data: data.data };
+    } catch (err) {
+      return { error: { status: 'FETCH_ERROR', data: String(err) } };
+    }
+  },
   keepUnusedDataFor: 10,
 
-  endpoints: () => ({}),
+  endpoints: (builder) => ({}),
   tagTypes: ['Game', 'Challenge'],
 });

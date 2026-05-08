@@ -8,13 +8,14 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from './decorators/public.decorator';
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
-  ) {}
+  ) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -25,7 +26,17 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest();
+    const ctxType = context.getType<'http' | 'graphql'>();
+    let request;
+    if (ctxType === 'http') {
+      request = context.switchToHttp().getRequest();
+    } else if (ctxType === 'graphql') {
+      const gqlCtx = GqlExecutionContext.create(context);
+      request = gqlCtx.getContext().req;
+    } else {
+      throw new UnauthorizedException();
+    }
+
     const token = this.extractTokenFromHeader(request);
     if (!token) {
       throw new UnauthorizedException();

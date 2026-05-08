@@ -19,7 +19,6 @@ export default function GamesTable({ games, username, finished }) {
   // Use a copy because we cannot modify part of the state
   let copy = games.map((game) => {
     if (!finished || game.state === 'tie') return game;
-
     const isWin =
       (game.state === 'player1_won' && game.player1Id === user.id) ||
       (game.state === 'player2_won' && game.player2Id === user.id);

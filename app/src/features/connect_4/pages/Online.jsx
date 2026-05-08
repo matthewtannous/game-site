@@ -21,7 +21,7 @@ export default function OnlineConnect4() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: game = {}, isLoading } = useGetOneGameQuery(id);
+  const { data: { detailedGame: game = {} } = {}, isLoading, isSuccess } = useGetOneGameQuery(id);
   const [addMove, { isLoading: isUpdating }] = useAddGameMoveMutation();
   const [updateState] = useUpdateGameStateMutation();
 
@@ -69,12 +69,12 @@ export default function OnlineConnect4() {
     const winner = calculateWinner(squares);
 
     if (winner === 'red') {
-      updateState({ gameId: id, state: GameState.player1Won });
+      updateState({ gameId: Number(id), state: GameState.player1Won });
     } else if (winner === 'blue') {
       // Player 2 is always blue
-      updateState({ gameId: id, state: GameState.player2Won });
+      updateState({ gameId: Number(id), state: GameState.player2Won });
     } else if (moves.length === 9) {
-      updateState({ gameId: id, state: GameState.tie });
+      updateState({ gameId: Number(id), state: GameState.tie });
     }
   }, [moves.length, game.state]);
 
@@ -90,7 +90,7 @@ export default function OnlineConnect4() {
     if (index >= 42) return;
 
     // Update move array in backend (will automatically re-render)
-    await addMove({ gameId: id, move: index });
+    await addMove({ gameId: Number(id), move: index });
   }
 
   function surrender() {
@@ -109,7 +109,7 @@ export default function OnlineConnect4() {
   let content;
   if (isLoading) {
     content = <LoadingWheel />;
-  } else {
+  } else if (isSuccess) {
     content = (
       <>
         <Typography

@@ -90,6 +90,7 @@ export const apiChallengeSlice = apiSlice.injectEndpoints({
           data,
         }
       }),
+      invalidatesTags: ['Challenge'],
     }),
 
     deleteChallenge: builder.mutation({
@@ -101,9 +102,10 @@ export const apiChallengeSlice = apiSlice.injectEndpoints({
           }
         }`,
         variables: {
-          challengeId,
+          challengeId: Number(challengeId),
         }
       }),
+      invalidatesTags: ['Challenge'],
     }),
 
     acceptChallenge: builder.mutation({
@@ -115,12 +117,11 @@ export const apiChallengeSlice = apiSlice.injectEndpoints({
           }
         }`,
         variables: {
-          challengeId,
+          challengeId: Number(challengeId),
         }
       }),
+      invalidatesTags: ['Challenge'],
     }),
-
-
   }),
 });
 

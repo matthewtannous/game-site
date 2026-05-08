@@ -28,7 +28,8 @@ export default function OnlineTicTacToe() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: game = {}, isLoading } = useGetOneGameQuery(id);
+
+  const { data: { detailedGame: game = {} } = {}, isLoading, isSuccess } = useGetOneGameQuery(id);
   const [addMove, { isLoading: isUpdating }] = useAddGameMoveMutation();
   const [updateState] = useUpdateGameStateMutation();
 
@@ -38,10 +39,10 @@ export default function OnlineTicTacToe() {
   const opponentName = isPlayer1 ? game.player2Name : game.player1Name;
 
   /* 
-        Move array contains integers of moves in order, e.g. [2,5,1,8]
-        Transform it to be displayed (array of O and X at positions from moves,
-        e.g. [null, 'O', null, 'X', null, null, 'X', 'O', null])
-    */
+    Move array contains integers of moves in order, e.g. [2,5,1,8]
+    Transform it to be displayed (array of O and X at positions from moves,
+    e.g. [null, 'O', null, 'X', null, null, 'X', 'O', null])
+  */
   const squares = Array(9).fill(null);
   for (let i = 0; i < moves.length; i++) {
     if (i % 2 === 0) squares[moves[i]] = 'X';
@@ -76,12 +77,12 @@ export default function OnlineTicTacToe() {
     const winner = calculateWinner(squares);
 
     if (winner === 'O') {
-      updateState({ gameId: id, state: GameState.player1Won });
+      updateState({ gameId: Number(id), state: GameState.player1Won });
     } else if (winner === 'X') {
       // Player 2 is always X
-      updateState({ gameId: id, state: GameState.player2Won });
+      updateState({ gameId: Number(id), state: GameState.player2Won });
     } else if (moves.length === 9) {
-      updateState({ gameId: id, state: GameState.tie });
+      updateState({ gameId: Number(id), state: GameState.tie });
     }
   }, [moves.length, game.state]);
 
@@ -92,7 +93,7 @@ export default function OnlineTicTacToe() {
     }
 
     // Update move array in backend (will automatically re-render)
-    await addMove({ gameId: id, move: index });
+    await addMove({ gameId: Number(id), move: index });
   }
 
   function surrender() {
@@ -111,7 +112,7 @@ export default function OnlineTicTacToe() {
   let content;
   if (isLoading) {
     content = <LoadingWheel />;
-  } else {
+  } else if (isSuccess) {
     content = (
       <>
         <Typography

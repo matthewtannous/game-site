@@ -29,26 +29,34 @@ import { GamesModule } from './games/games.module';
       sortSchema: true, // sort the schema lexicographically
 
       formatError: (error) => {
-        // DatabaseException
-        if (error.extensions?.code === 'INTERNAL_SERVER_ERROR') {
-          return {
-            message: 'Bad Request Exception',
-            details: [error.message],
-          };
-        }
+        // // DatabaseException
+        // if (error.extensions?.code === 'INTERNAL_SERVER_ERROR') {
+        //   return {
+        //     message: 'Bad Request Exception',
+        //     details: [error.message],
+        //   };
+        // }
 
-        // Other (thrown by validators)
-        const res = error.extensions?.originalError as {
-          message: string[];
-          error: string;
-          statusCode: number;
-        };
+        // // Other (thrown by validators)
+        // const res = error.extensions?.originalError as {
+        //   message: string[];
+        //   error: string;
+        //   statusCode: number;
+        // };
+
+        // return {
+        //   message: error.message,
+        //   details: res.message,
+        //   // httpError: res.error,
+        //   // statusCode: res.statusCode,
+        // };
+        const originalError = error.extensions?.originalError as any;
 
         return {
           message: error.message,
-          details: res.message,
-          // httpError: res.error,
-          // statusCode: res.statusCode,
+          details:
+            originalError?.message ||
+            error.message,
         };
       },
     }),
@@ -70,9 +78,9 @@ import { GamesModule } from './games/games.module';
     UsersModule,
     ChallengesModule,
     GamesModule,
-    // AuthModule, // UNCOMMENT LATER !!!!!!!!!!!!!!!!!!!!!
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

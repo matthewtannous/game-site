@@ -99,7 +99,7 @@ export const apiGameSlice = apiSlice.injectEndpoints({
         }
           `,
         variables: {
-          userId,
+          userId: Number(userId),
         },
       }),
       providesTags: ['Game'],
@@ -111,7 +111,7 @@ export const apiGameSlice = apiSlice.injectEndpoints({
         document: `
         query GetGame($gameId: Int!) {
           detailedGame(id: $gameId) {
-          id
+            id
             player1Id
             player1Name
             player2Id
@@ -124,10 +124,91 @@ export const apiGameSlice = apiSlice.injectEndpoints({
         }
         `,
         variables: {
-          gameId,
+          gameId: Number(gameId),
         },
       }),
       providesTags: ['Game'],
+
+      async onCacheEntryAdded(
+        gameId,
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
+      ) {
+        const socket = getSocket();
+
+        // data must be exactly like it is cached in the store
+        const handler = (data) => {
+          if (String(data.gameId) !== String(gameId)) return;
+
+          updateCachedData((draft) => {
+            Object.assign(draft, data.game);
+          });
+        };
+        try {
+          await cacheDataLoaded;
+
+          socket.on('gameUpdated', handler);
+        } catch (error) {
+          console.log(error);
+        }
+
+        await cacheEntryRemoved;
+
+        socket.off('gameUpdated', handler);
+      },
+    }),
+
+    // Make a move in a game
+    addGameMove: builder.mutation({
+      query: (move) => ({
+        document: `
+        mutation AddGameMove($moveDto: MoveDto!) {
+        addMove(moveDto: $moveDto) {
+            id
+            moves
+          }
+        }
+        `,
+        variables: {
+          moveDto: move,
+        }
+      }),
+
+      invalidatesTags: ['Game'],
+    }),
+
+    // Delete a game
+    deleteGame: builder.mutation({
+      query: (gameId) => ({
+        document: `
+        mutation DeleteGame($gameId: Int!) {
+        removeGame(id: $gameId) {
+            id
+          }
+        }
+        `,
+        variables: {
+          gameId: Number(gameId),
+        }
+      }),
+      invalidatesTags: ['Game'],
+    }),
+
+    updateGameState: builder.mutation({
+      query: (game) => ({
+        document: `
+        mutation UpdateGameState($gameState: UpdateStateDto!) {
+        updateGameState(updateStateDto: $gameState) {
+            id
+            moves
+            state
+          }
+        }
+        `,
+        variables: {
+          gameState: game,
+        }
+      }),
+      invalidatesTags: ['Game'],
     }),
   }),
 });
