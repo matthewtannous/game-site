@@ -7,6 +7,6 @@ export const GameState = Object.freeze({
 
 // Elements of form: {'database name' : 'Display Name'}
 export const Game = Object.freeze({
-  'tic-tac-toe': 'Tic-Tac-Toe',
-  'connect 4': 'Connect 4',
+  'ticTacToe': 'Tic-Tac-Toe',
+  'connect4': 'Connect 4',
 });

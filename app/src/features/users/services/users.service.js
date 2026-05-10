@@ -1,14 +1,15 @@
+/*
 import { api } from '../../../services/api';
 
 const BASE = '/users';
 
-export function getUsers() {
-  return api(BASE);
-}
+// export function getUsers() {
+//   return api(BASE);
+// }
 
-export function getUser(id) {
-  return api(`${BASE}/${id}`);
-}
+// export function getUser(id) {
+//   return api(`${BASE}/${id}`);
+// }
 
 export function getUsersExcept(id) {
   return api(`${BASE}/all-except/${id}`);
@@ -27,3 +28,4 @@ export function deleteUser(id) {
     method: 'DELETE',
   });
 }
+*/

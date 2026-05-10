@@ -18,9 +18,13 @@ import {
 import { useCreateChallengeMutation } from '../../../store/slices/apiChallengeSlice';
 
 import { useAuth } from '../../../store/hooks/useAuth';
-import { getUsersExcept } from '../../users/services/users.service';
+// import { getUsersExcept } from '../../users/services/users.service';
+import { useGetAllUsersExceptQuery } from '../../../store/slices/apiUserSlice';
 
 import { Game } from '../../../constants';
+
+import LoadingWheel from '../../../components/ui/LoadingWheel';
+import ErrorMessage from '../../../components/ui/ErrorMessage';
 
 export default function ChallengeForm() {
   const { user } = useAuth();
@@ -30,24 +34,20 @@ export default function ChallengeForm() {
   const [alert, setAlert] = useState({ type: '', message: '' });
 
   const [createChallenge] = useCreateChallengeMutation();
-  async function loadData() {
-    // users itself is never rendered, does not need state
-    const users = await getUsersExcept(user.id);
-
-    // Update users that match search query
-    if (!form.username || form.username.length === 0) {
-      setFilteredUsers(users);
-    } else {
-      const filtered = users.filter((user) =>
-        user.username.includes(form.username),
-      );
-      setFilteredUsers(filtered);
-    }
-  }
+  const { data: { usersExcept: users } = [], isLoading, isError, isSuccess } = useGetAllUsersExceptQuery(user.id);
 
   useEffect(() => {
-    loadData();
-  }, [form]);
+    if (!isLoading)
+      // Update users that match search query
+      if (!form.username || form.username.length === 0) {
+        setFilteredUsers(users);
+      } else {
+        const filtered = users.filter((user) =>
+          user.username.includes(form.username),
+        );
+        setFilteredUsers(filtered);
+      }
+  }, [form, isLoading]);
 
   async function sendChallenge(challenged_id, challenged_username) {
     if (!form.game) {
@@ -63,18 +63,24 @@ export default function ChallengeForm() {
     if (res.error) {
       setAlert({
         type: 'error',
-        message: `You already have a pending challenge of ${form.game} with ${challenged_username}`,
+        message: `You already have a pending challenge of ${Game[form.game]} with ${challenged_username}`,
       });
     } else {
       setAlert({
         type: 'success',
-        message: `Challenged ${challenged_username} to a game of ${form.game}`,
+        message: `Challenged ${challenged_username} to a game of ${Game[form.game]}`,
       });
     }
   }
 
-  return (
-    <>
+
+  let content;
+  if (isLoading) {
+    content = <LoadingWheel />
+  } else if (isError) {
+    content = <ErrorMessage />
+  } else if (isSuccess) {
+    content = <>
       <Stack
         direction="row"
         spacing={3}
@@ -144,5 +150,7 @@ export default function ChallengeForm() {
         </List>
       </Box>
     </>
-  );
+  }
+
+  return content;
 }

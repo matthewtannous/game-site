@@ -55,5 +55,5 @@ export const apiSlice = createApi({
   keepUnusedDataFor: 10,
 
   endpoints: (builder) => ({}),
-  tagTypes: ['Game', 'Challenge'],
+  tagTypes: ['Game', 'Challenge', 'User'],
 });
