@@ -103,8 +103,6 @@ export default function OnlineTicTacToe() {
       state: isPlayer1 ? GameState.player2Won : GameState.player1Won,
     });
 
-    // Update overall scores (Needs stats table in backend)
-
     // go back to games
     navigate('/games');
   }

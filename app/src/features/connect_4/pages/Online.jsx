@@ -31,10 +31,10 @@ export default function OnlineConnect4() {
   const opponentName = isPlayer1 ? game.player2Name : game.player1Name;
 
   /* 
-        Move array contains integers of moves in order, e.g. [2,5,1,8]
-        Transform it to be displayed (array of red and blue at positions from moves,
-        e.g. [null, 'red', null, 'blue', null, null, 'blue', 'red', null])
-    */
+    Move array contains integers of moves in order, e.g. [2,5,1,8]
+    Transform it to be displayed (array of red and blue at positions from moves,
+    e.g. [null, 'red', null, 'blue', null, null, 'blue', 'red', null])
+  */
   const squares = Array(42).fill(null);
   for (let i = 0; i < moves.length; i++) {
     if (i % 2 === 0) squares[moves[i]] = 'blue';
@@ -67,13 +67,14 @@ export default function OnlineConnect4() {
     if (isLoading || game.state !== GameState.ongoing) return;
 
     const winner = calculateWinner(squares);
+    console.log(winner); ////////////////////////////////////
 
     if (winner === 'red') {
       updateState({ gameId: Number(id), state: GameState.player1Won });
     } else if (winner === 'blue') {
       // Player 2 is always blue
       updateState({ gameId: Number(id), state: GameState.player2Won });
-    } else if (moves.length === 9) {
+    } else if (moves.length === 42) {
       updateState({ gameId: Number(id), state: GameState.tie });
     }
   }, [moves.length, game.state]);
@@ -99,8 +100,6 @@ export default function OnlineConnect4() {
       gameId: id,
       state: isPlayer1 ? GameState.player2Won : GameState.player1Won,
     });
-
-    // Update overall scores (Needs stats table in backend)
 
     // go back to games
     navigate('/games');
