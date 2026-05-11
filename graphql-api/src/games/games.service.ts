@@ -8,6 +8,7 @@ import { DetailedGameDto } from './dto/detailed-game.dto';
 import { MoveDto } from './dto/move.input';
 import { UpdateStateDto } from './dto/update-state.input';
 import { GamesGateway } from './games.gateway';
+import { DatabaseException } from 'src/common/exceptions/database.exception';
 
 @Injectable()
 export class GamesService {
@@ -100,9 +101,12 @@ export class GamesService {
       .returning('*')
       .execute();
 
-    const res = this.gamesRepository.findOneBy({ id: moveDto.gameId });
+    const res = await this.gamesRepository.findOneBy({ id: moveDto.gameId });
 
-    this.gamesGateway.emitGameUpdate(moveDto.gameId, res);
+    if (res)
+      this.gamesGateway.emitGameUpdate(moveDto.gameId, res);
+    else // nevers happens
+      throw new DatabaseException("Could not add move");
 
     return res;
   }

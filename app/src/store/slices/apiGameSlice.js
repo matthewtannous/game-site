@@ -140,7 +140,8 @@ export const apiGameSlice = apiSlice.injectEndpoints({
           if (String(data.gameId) !== String(gameId)) return;
 
           updateCachedData((draft) => {
-            Object.assign(draft, data.game);
+            if (draft.detailedGame)
+              Object.assign(draft.detailedGame, data.game);
           });
         };
         try {
