@@ -5,9 +5,9 @@ import { IsNotEmpty } from 'class-validator';
 
 export class SignInDTO extends PartialType(RegisterDTO) {
   @IsNotEmpty()
-  username: string;
+  username!: string;
 
   // Do not enforce strong password on login (because of sample data in database)
   @IsNotEmpty()
-  password: string;
+  password!: string;
 }

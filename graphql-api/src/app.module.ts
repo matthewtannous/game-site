@@ -54,9 +54,7 @@ import { GamesModule } from './games/games.module';
 
         return {
           message: error.message,
-          details:
-            originalError?.message ||
-            error.message,
+          details: originalError?.message || error.message,
         };
       },
     }),
@@ -83,4 +81,4 @@ import { GamesModule } from './games/games.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

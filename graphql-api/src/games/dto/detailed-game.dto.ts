@@ -7,32 +7,32 @@ import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 export class DetailedGameDto {
   @Field((type) => ID)
   @IsPositive()
-  id: number;
+  id!: number;
 
   @Field((type) => Int)
   @IsPositive()
-  player1Id: number;
+  player1Id!: number;
 
   @IsString()
-  player1Name: string;
+  player1Name!: string;
 
   @Field((type) => Int)
   @IsPositive()
-  player2Id: number;
+  player2Id!: number;
 
   @IsString()
-  player2Name: string;
+  player2Name!: string;
 
   @IsEnum(GameType)
-  gameType: GameType;
+  gameType!: GameType;
 
   @Field((type) => [Int])
   @IsArray()
-  moves: number[];
+  moves!: number[];
 
   @IsDate()
-  lastMovePlayedAt: Date;
+  lastMovePlayedAt!: Date;
 
   @IsEnum(GameState)
-  state: GameState;
+  state!: GameState;
 }

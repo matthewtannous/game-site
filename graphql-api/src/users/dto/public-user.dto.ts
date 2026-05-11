@@ -4,14 +4,14 @@ import { IsDate, IsEmail, IsNotEmpty, IsPositive } from 'class-validator';
 @ObjectType()
 export class PublicUserDto {
   @IsPositive()
-  id: number;
+  id!: number;
 
   @IsNotEmpty()
-  username: string;
+  username!: string;
 
   @IsEmail({}, { message: 'Invalid email address' })
-  email: string;
+  email!: string;
 
   @IsDate()
-  createdAt: string; // Does not work with type 'Date'
+  createdAt!: string; // Does not work with type 'Date'
 }

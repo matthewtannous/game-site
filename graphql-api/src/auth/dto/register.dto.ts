@@ -2,13 +2,13 @@ import { IsEmail, IsNotEmpty, IsStrongPassword } from 'class-validator';
 
 export class RegisterDTO {
   @IsNotEmpty()
-  username: string;
+  username!: string;
 
   @IsEmail({}, { message: 'Invalid email address' })
   @IsNotEmpty()
-  email: string;
+  email!: string;
 
   @IsStrongPassword()
   @IsNotEmpty()
-  password: string;
+  password!: string;
 }

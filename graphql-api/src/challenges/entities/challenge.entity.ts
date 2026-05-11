@@ -7,15 +7,15 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Challenge {
   @PrimaryGeneratedColumn()
   @Field((type) => ID)
-  id: number;
+  id!: number;
 
   @Field((type) => Int)
   @Column({ name: 'sender_id' })
-  senderId: number;
+  senderId!: number;
 
   @Field((type) => Int)
   @Column({ name: 'receiver_id' })
-  receiverId: number;
+  receiverId!: number;
 
   @Column({
     name: 'game_type',
@@ -23,8 +23,8 @@ export class Challenge {
     enum: GameType,
     enumName: 'game',
   })
-  gameType: GameType;
+  gameType!: GameType;
 
   @Column({ type: 'time with time zone', name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 }

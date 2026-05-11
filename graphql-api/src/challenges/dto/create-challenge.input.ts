@@ -7,14 +7,14 @@ export class CreateChallengeInput {
   @Field(() => Int)
   @IsPositive()
   @IsNotEmpty()
-  senderId: number;
+  senderId!: number;
 
   @Field(() => Int)
   @IsPositive()
   @IsNotEmpty()
-  receiverId: number;
+  receiverId!: number;
 
   @IsEnum(GameType)
   @IsNotEmpty()
-  gameType: GameType;
+  gameType!: GameType;
 }

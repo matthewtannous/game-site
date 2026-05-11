@@ -8,15 +8,15 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Game {
   @Field((type) => Int)
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Field((type) => Int)
   @Column({ name: 'player1_id' })
-  player1Id: number;
+  player1Id!: number;
 
   @Field((type) => Int)
   @Column({ name: 'player2_id' })
-  player2Id: number;
+  player2Id!: number;
 
   @Column({
     name: 'game_type',
@@ -24,14 +24,14 @@ export class Game {
     enum: GameType,
     enumName: 'game',
   })
-  gameType: GameType;
+  gameType!: GameType;
 
   @Field((type) => [Int])
   @Column('simple-array')
-  moves: number[];
+  moves!: number[];
 
   @Column({ name: 'last_move_played_at' })
-  lastMovePlayedAt: Date;
+  lastMovePlayedAt!: Date;
 
   @Column({
     name: 'state',
@@ -40,5 +40,5 @@ export class Game {
     enumName: 'game_state',
     default: GameState.ongoing,
   })
-  state: GameState;
+  state!: GameState;
 }

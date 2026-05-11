@@ -7,9 +7,9 @@ export class UpdateStateDto {
   @Field((type) => Int)
   @IsPositive()
   @IsNotEmpty()
-  gameId: number;
+  gameId!: number;
 
   @IsEnum(GameState)
   @IsNotEmpty()
-  state: GameState;
+  state!: GameState;
 }

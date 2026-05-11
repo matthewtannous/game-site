@@ -7,17 +7,17 @@ export class User {
   /** Unique integer id */
   @PrimaryGeneratedColumn()
   @Field((type) => ID)
-  id: number;
+  id!: number;
 
   @Column({ unique: true })
-  username: string;
+  username!: string;
 
   @Column()
-  email: string;
+  email!: string;
 
   @Column()
-  password: string;
+  password!: string;
 
   @Column({ type: 'date', name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 }

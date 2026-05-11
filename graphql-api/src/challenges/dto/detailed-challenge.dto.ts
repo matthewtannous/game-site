@@ -6,25 +6,25 @@ import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 export class DetailedChallengeDto {
   @Field((type) => ID)
   @IsPositive()
-  id: number;
+  id!: number;
 
   @Field((type) => Int)
   @IsPositive()
-  senderId: number;
+  senderId!: number;
 
   @IsString()
-  senderName: string;
+  senderName!: string;
 
   @Field((type) => Int)
   @IsPositive()
-  receiverId: number;
+  receiverId!: number;
 
   @IsString()
-  receiverName: string;
+  receiverName!: string;
 
   @IsEnum(GameType)
-  gameType: GameType;
+  gameType!: GameType;
 
   @IsDate()
-  createdAt: Date;
+  createdAt!: Date;
 }

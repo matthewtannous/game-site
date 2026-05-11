@@ -6,5 +6,5 @@ import { Field, ID, InputType, PartialType } from '@nestjs/graphql';
 export class UpdateChallengeInput extends PartialType(CreateChallengeInput) {
   @Field((type) => ID)
   @IsPositive()
-  id: number;
+  id!: number;
 }

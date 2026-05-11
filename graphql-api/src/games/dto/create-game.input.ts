@@ -7,14 +7,14 @@ export class CreateGameInput {
   @Field((type) => Int)
   @IsPositive()
   @IsNotEmpty()
-  player1Id: number;
+  player1Id!: number;
 
   @Field((type) => Int)
   @IsPositive()
   @IsNotEmpty()
-  player2Id: number;
+  player2Id!: number;
 
   @IsEnum(GameType)
   @IsNotEmpty()
-  gameType: GameType;
+  gameType!: GameType;
 }

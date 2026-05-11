@@ -7,12 +7,14 @@ import { Repository } from 'typeorm';
 import { DetailedGameDto } from './dto/detailed-game.dto';
 import { MoveDto } from './dto/move.input';
 import { UpdateStateDto } from './dto/update-state.input';
+import { GamesGateway } from './games.gateway';
 
 @Injectable()
 export class GamesService {
   constructor(
     @InjectRepository(Game)
     private readonly gamesRepository: Repository<Game>,
+    private readonly gamesGateway: GamesGateway,
   ) {}
 
   async create(createGameInput: CreateGameInput) {
@@ -98,9 +100,11 @@ export class GamesService {
       .returning('*')
       .execute();
 
-    // this.gamesGateway.emitGameUpdate(moveDto.gameId, result.raw[0]);
+    const res = this.gamesRepository.findOneBy({ id: moveDto.gameId });
 
-    return this.gamesRepository.findOneBy({ id: moveDto.gameId });
+    this.gamesGateway.emitGameUpdate(moveDto.gameId, res);
+
+    return res;
   }
 
   async updateState(updateStateDto: UpdateStateDto) {

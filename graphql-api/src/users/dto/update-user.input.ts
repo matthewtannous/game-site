@@ -5,5 +5,5 @@ import { InputType, PartialType } from '@nestjs/graphql';
 @InputType()
 export class UpdateUserInput extends PartialType(CreateUserInput) {
   @IsPositive()
-  id: number;
+  id!: number;
 }

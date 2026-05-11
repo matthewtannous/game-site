@@ -6,11 +6,11 @@ export class MoveDto {
   @Field((type) => Int)
   @IsPositive()
   @IsNotEmpty()
-  gameId: number;
+  gameId!: number;
 
   @Field((type) => Int)
   @Min(0)
   @Max(41)
   @IsNotEmpty()
-  move: number; // move is a number between 0 and 8 or between 0 and 41
+  move!: number; // move is a number between 0 and 8 or between 0 and 41
 }
