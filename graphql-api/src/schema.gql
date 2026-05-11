@@ -2,29 +2,57 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""A challenge sent from one user to another for a specific game"""
 type Challenge {
+  """Time of challenge creation"""
   createdAt: DateTime!
+
+  """Type of game"""
   gameType: GameType!
+
+  """Unique integer ID"""
   id: ID!
+
+  """Receiver's unique ID"""
   receiverId: Int!
+
+  """Sender's unique ID"""
   senderId: Int!
 }
 
+"""Information to be passed when creating a Challenge"""
 input CreateChallengeInput {
+  """Type of game"""
   gameType: GameType!
+
+  """Receiver's unique ID"""
   receiverId: Int!
+
+  """Sender's unique ID"""
   senderId: Int!
 }
 
+"""Information needed to create a Game"""
 input CreateGameInput {
+  """Type of Game"""
   gameType: GameType!
+
+  """Player 1's unique ID"""
   player1Id: Int!
+
+  """Player 2's unique ID"""
   player2Id: Int!
 }
 
+"""Information needed to create a User"""
 input CreateUserInput {
+  """Unique email address"""
   email: String!
+
+  """Strong password (encrypted)"""
   password: String!
+
+  """Unique username"""
   username: String!
 }
 
@@ -33,35 +61,85 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+"""Detailed information about a Challenge"""
 type DetailedChallengeDto {
+  """Time of challenge creation"""
   createdAt: DateTime!
+
+  """Type of game"""
   gameType: GameType!
+
+  """Unique integer ID"""
   id: ID!
+
+  """Receiver's unique ID"""
   receiverId: Int!
+
+  """Receiver's name (also unique)"""
   receiverName: String!
+
+  """Sender's unique ID"""
   senderId: Int!
+
+  """Sender's username (also unique)"""
   senderName: String!
 }
 
+"""Detailed information about a Game"""
 type DetailedGameDto {
+  """Type of Game"""
   gameType: GameType!
+
+  """Unique integer ID"""
   id: ID!
+
+  """Time of last move being played"""
   lastMovePlayedAt: DateTime!
+
+  """All moves that happened until now"""
   moves: [Int!]!
+
+  """Player 1's unique ID"""
   player1Id: Int!
+
+  """Player 1's username (also unique)"""
   player1Name: String!
+
+  """Player 2's unique ID"""
   player2Id: Int!
+
+  """Player 2's username (also unique)"""
   player2Name: String!
+
+  """Current state of the game"""
   state: GameState!
 }
 
+"""A game being played or finished"""
 type Game {
+  """Type of game being played"""
   gameType: GameType!
+
+  """Unique integer ID"""
   id: Int!
+
+  """Time of last move being played"""
   lastMovePlayedAt: DateTime!
+
+  """
+  All moves that happened until now
+  Moves are stored as integers in order of time played
+  so player1 makes the move at moves[0], player2 at moves[1]...
+  """
   moves: [Int!]!
+
+  """Player 1's unique integer ID"""
   player1Id: Int!
+
+  """Player 2's unique integer ID"""
   player2Id: Int!
+
+  """Current state of the game"""
   state: GameState!
 }
 
@@ -79,8 +157,15 @@ enum GameType {
   ticTacToe
 }
 
+"""Information needed to make a move in a Game"""
 input MoveDto {
+  """Unique integer ID for the game to which a move is being added"""
   gameId: Int!
+
+  """
+  The move being made
+  Integer between 0 and 8 for tic-tac-toe, and between 0 and 41 for connect 4
+  """
   move: Int!
 }
 
@@ -99,10 +184,18 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): PublicUserDto!
 }
 
+"""Returned information when accessing a User"""
 type PublicUserDto {
+  """Time of account creation"""
   createdAt: String!
+
+  """Email address"""
   email: String!
+
+  """Unique integer ID"""
   id: Float!
+
+  """Unique username"""
   username: String!
 }
 
@@ -119,28 +212,56 @@ type Query {
   usersExcept(id: Int!): [PublicUserDto!]!
 }
 
+"""Information needed to update a challenge"""
 input UpdateChallengeInput {
+  """Type of game"""
   gameType: GameType
+
+  """Unique integer ID"""
   id: ID!
+
+  """Receiver's unique ID"""
   receiverId: Int
+
+  """Sender's unique ID"""
   senderId: Int
 }
 
+"""Information needed to update a Game"""
 input UpdateGameInput {
+  """Type of Game"""
   gameType: GameType
+
+  """Unique integer ID"""
   id: Int!
+
+  """Player 1's unique ID"""
   player1Id: Int
+
+  """Player 2's unique ID"""
   player2Id: Int
 }
 
+"""Information needed to update only a Game's state"""
 input UpdateStateDto {
+  """Unique integer ID for the Game"""
   gameId: Int!
+
+  """New state of the game"""
   state: GameState!
 }
 
+"""Information needed to update a User"""
 input UpdateUserInput {
+  """Unique email address"""
   email: String
+
+  """Unique integer ID"""
   id: Float!
+
+  """Strong password (encrypted)"""
   password: String
+
+  """Unique username"""
   username: String
 }

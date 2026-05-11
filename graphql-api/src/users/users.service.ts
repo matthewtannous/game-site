@@ -41,7 +41,6 @@ export class UsersService {
 
     // Add user
     const res = await this.usersRepository.save(createUserInput);
-    console.log(res);
     return res;
   }
 

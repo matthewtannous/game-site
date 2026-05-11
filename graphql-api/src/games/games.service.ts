@@ -104,9 +104,8 @@ export class GamesService {
     const res = await this.gamesRepository.findOneBy({ id: moveDto.gameId });
 
     if (res)
-      this.gamesGateway.emitGameUpdate(moveDto.gameId, res);
-    else // nevers happens
-      throw new DatabaseException("Could not add move");
+      this.gamesGateway.emitGameUpdate(moveDto.gameId, res); // nevers happens
+    else throw new DatabaseException('Could not add move');
 
     return res;
   }
